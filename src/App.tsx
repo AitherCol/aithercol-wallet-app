@@ -1,34 +1,37 @@
-import { ChakraProvider, Heading, extendTheme } from "@chakra-ui/react";
-import {
-	useExpand,
-	useInitData,
-	useThemeParams,
-} from "@vkruglikov/react-telegram-web-app";
+import { Stack, useColorMode } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import Wallet from "./pages/Wallet";
+import AuthProvider from "./providers/AuthProvider";
 import { getTelegram } from "./utils";
 
 function App() {
-	const [colorScheme, themeParams] = useThemeParams();
-	const [isExpanded, expand] = useExpand();
-	const data = useInitData();
+	const { setColorMode } = useColorMode();
 	useEffect(() => {
-		console.log(isExpanded);
+		if (getTelegram().initData === "") {
+			window.location.href = "https://t.me/AitherColWalletBot";
+		}
+		setColorMode("light");
 	}, []);
+	if (getTelegram().initData === "") {
+		return <></>;
+	}
+
 	return (
-		<ChakraProvider
-			theme={extendTheme({
-				styles: {
-					global: {
-						body: {
-							color: getTelegram().themeParams.text_color,
-							backgroundColor: getTelegram().themeParams.bg_color,
-						},
-					},
-				},
-			})}
-		>
-			<Heading>{JSON.stringify(getTelegram())}</Heading>
-		</ChakraProvider>
+		<Stack direction={"column"} minH="100vh" justifyContent={"space-between"}>
+			<Stack direction={"column"} spacing={0}>
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<AuthProvider>
+								<Wallet />
+							</AuthProvider>
+						}
+					/>
+				</Routes>
+			</Stack>
+		</Stack>
 	);
 }
 
