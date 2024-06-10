@@ -26,7 +26,8 @@ function App() {
 				},
 			})}
 		>
-			<Heading>h1</Heading>
+			<Heading>{JSON.stringify(themeParams)}</Heading>
+			<Heading>{JSON.stringify(data)}</Heading>
 		</ChakraProvider>
 	);
 }
