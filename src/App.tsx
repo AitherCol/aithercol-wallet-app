@@ -5,6 +5,7 @@ import {
 	useThemeParams,
 } from "@vkruglikov/react-telegram-web-app";
 import { useEffect } from "react";
+import { getTelegram } from "./utils";
 
 function App() {
 	const [colorScheme, themeParams] = useThemeParams();
@@ -19,15 +20,14 @@ function App() {
 				styles: {
 					global: {
 						body: {
-							color: themeParams.text_color,
-							backgroundColor: themeParams.bg_color,
+							color: getTelegram().themeParams.text_color,
+							backgroundColor: getTelegram().themeParams.bg_color,
 						},
 					},
 				},
 			})}
 		>
-			<Heading>{JSON.stringify(themeParams)}</Heading>
-			<Heading>{JSON.stringify(data)}</Heading>
+			<Heading>{JSON.stringify(getTelegram())}</Heading>
 		</ChakraProvider>
 	);
 }
