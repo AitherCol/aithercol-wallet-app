@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ChakraProvider, Heading, extendTheme } from "@chakra-ui/react";
+import {
+	useExpand,
+	useInitData,
+	useThemeParams,
+} from "@vkruglikov/react-telegram-web-app";
+import { useEffect } from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [colorScheme, themeParams] = useThemeParams();
+	const [isExpanded, expand] = useExpand();
+	const data = useInitData();
+	useEffect(() => {
+		console.log(isExpanded);
+	}, []);
+	return (
+		<ChakraProvider
+			theme={extendTheme({
+				styles: {
+					global: {
+						body: {
+							color: themeParams.text_color,
+							backgroundColor: themeParams.bg_color,
+						},
+					},
+				},
+			})}
+		>
+			<Heading>h1</Heading>
+		</ChakraProvider>
+	);
 }
 
 export default App;
