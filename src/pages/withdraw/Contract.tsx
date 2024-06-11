@@ -106,7 +106,7 @@ function WithdrawContract() {
 					{
 						balance_id: balance.id,
 						amount: withoutDecimals(amount, balance.decimals).toString(),
-						address,
+						address: address.trim(),
 					},
 					context.props.auth?.token || ""
 				);
@@ -145,7 +145,7 @@ function WithdrawContract() {
 	};
 
 	useEffect(() => {
-		if (amount !== 0 && address !== "") {
+		if (amount !== 0 && address.trim() !== "") {
 			getTelegram().MainButton.enable();
 		} else {
 			getTelegram().MainButton.disable();
