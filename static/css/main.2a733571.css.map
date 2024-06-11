@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.2a733571.css","mappings":"AAAA,qBAEC,yBACD,CAEA,KACC,wBAAiB,CAAjB,gBACD","sources":["css/global.css"],"sourcesContent":["a:focus,\nbutton:focus {\n\tbox-shadow: none !important;\n}\n\nbody {\n\tuser-select: none;\n}\n"],"names":[],"sourceRoot":""}
