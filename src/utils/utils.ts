@@ -9,8 +9,6 @@ export default function errorHandler(err: any, toast: any) {
 				title: "Error",
 				description: error.message,
 				status: "error",
-				duration: 3000,
-				isClosable: true,
 			});
 		}
 	} else {
@@ -18,8 +16,6 @@ export default function errorHandler(err: any, toast: any) {
 			title: "Unknown error",
 			description: `${err}`,
 			status: "error",
-			duration: 3000,
-			isClosable: true,
 		});
 	}
 }
@@ -47,4 +43,10 @@ export function formatBigint(input: string, decimals: number): string {
 	} else {
 		return result.toString();
 	}
+}
+
+export function withoutDecimals(amount: number, decimals: number): BigInt {
+	const factor = 10 ** decimals;
+	const result = amount * factor;
+	return BigInt(Math.round(result));
 }

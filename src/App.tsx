@@ -2,6 +2,8 @@ import { Stack, useColorMode } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Wallet from "./pages/Wallet";
+import WithdrawToken from "./pages/withdraw";
+import WithdrawContract from "./pages/withdraw/Contract";
 import AuthProvider from "./providers/AuthProvider";
 import { getTelegram } from "./utils";
 
@@ -26,6 +28,23 @@ function App() {
 						element={
 							<AuthProvider>
 								<Wallet />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path="/withdraw"
+						element={
+							<AuthProvider>
+								<WithdrawToken />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path="/withdraw/:contract"
+						element={
+							<AuthProvider>
+								<WithdrawContract />
 							</AuthProvider>
 						}
 					/>

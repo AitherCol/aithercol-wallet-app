@@ -4,7 +4,7 @@ import { getTelegram } from "../utils";
 function Loader() {
 	return (
 		<Center h="80vh">
-			<Spinner size="xl" color={getTelegram().themeParams.text_color} />
+			<Spinner size="xl" color={getTelegram().themeParams.accent_text_color} />
 		</Center>
 	);
 }

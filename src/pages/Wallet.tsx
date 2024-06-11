@@ -1,40 +1,44 @@
 import {
 	Box,
 	Center,
-	Divider,
 	Heading,
 	IconButton,
 	Image,
 	Stack,
-	Text,
 	useDisclosure,
 	useToast,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
+import { FaArrowDown, FaArrowUp, FaMoneyBillTransfer } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 import Balance from "../api/types/Balance";
+import Rate from "../api/types/Rate";
 import WalletType from "../api/types/Wallet";
+import Cell from "../components/Cell";
 import DepositModal from "../components/modals/DepositModal";
 import { AppContext } from "../providers/AppProvider";
 import { getTelegram } from "../utils";
-import { getCacheItemJSON } from "../utils/cache";
+import { getCacheItemJSON, setCacheItem } from "../utils/cache";
 import errorHandler, { formatBigint } from "../utils/utils";
 
 function Wallet() {
 	const context = useContext(AppContext);
 	const toast = useToast();
+	const navigate = useNavigate();
 
 	const [wallet, setWallet] = useState<WalletType>(getCacheItemJSON("wallet"));
 	const [balances, setBalances] = useState<Balance[]>(
 		getCacheItemJSON("balances") || []
 	);
+	const [rates, setRates] = useState<Rate[]>(getCacheItemJSON("rates") || []);
 
 	useEffect(() => {
 		const getBalances = async () => {
 			try {
 				const data = await api.wallet.get(context.props.auth?.token || "");
 				setWallet(data.wallet);
+				setCacheItem("wallet", JSON.stringify(data.wallet));
 			} catch (error) {
 				errorHandler(error, toast);
 			}
@@ -43,6 +47,17 @@ function Wallet() {
 					context.props.auth?.token || ""
 				);
 				setBalances(data.balances);
+				setCacheItem("balances", JSON.stringify(data.balances));
+				try {
+					const rates = await api.wallet.getRates(
+						data.balances.map(e => e.contract),
+						context.props.auth?.token || ""
+					);
+					setRates(rates.rates);
+					setCacheItem("rates", JSON.stringify(rates.rates));
+				} catch (error) {
+					errorHandler(error, toast);
+				}
 			} catch (error) {
 				errorHandler(error, toast);
 			}
@@ -51,13 +66,39 @@ function Wallet() {
 		getBalances();
 	}, []);
 
+	const getRate = (contract: string): Rate => {
+		const rate = rates.find(e => e.contract === contract);
+		if (rate) {
+			return rate;
+		} else {
+			return {
+				contract,
+				price: 0,
+				diff_24h: "0.00%",
+				diff_30d: "0.00%",
+				diff_7d: "0.00%",
+			};
+		}
+	};
+
+	const getTotalBalance = (): number => {
+		let total = 0;
+		for (const balance of balances) {
+			total +=
+				getRate(balance.contract).price *
+				Number(formatBigint(balance.amount, balance.decimals));
+		}
+
+		return total;
+	};
+
 	const depositModal = useDisclosure();
 
 	return (
 		<>
 			<Center h="20vh">
 				<Stack direction={"column"} spacing={6} alignItems={"center"}>
-					<Heading size={"2xl"}>0.00$</Heading>
+					<Heading size={"2xl"}>${getTotalBalance().toFixed(2)}</Heading>
 					<Stack direction={"row"} spacing={6}>
 						<Stack
 							onClick={depositModal.onToggle}
@@ -77,7 +118,12 @@ function Wallet() {
 								Deposit
 							</Heading>
 						</Stack>
-						<Stack alignItems={"center"} direction={"column"} spacing={2}>
+						<Stack
+							onClick={() => navigate("/withdraw")}
+							alignItems={"center"}
+							direction={"column"}
+							spacing={2}
+						>
 							<Box>
 								<IconButton
 									aria-label="withdraw"
@@ -94,51 +140,46 @@ function Wallet() {
 				</Stack>
 			</Center>
 
-			<Stack direction={"column"} spacing={0} mt={4}>
+			<Stack direction={"column"} spacing={2} mt={4}>
 				{balances.map((e, key) => (
-					<>
-						{key !== 0 && (
-							<Divider borderColor={getTelegram().themeParams.hint_color} />
-						)}
-						<Stack
-							p={3}
-							direction={"row"}
-							justifyContent={"space-between"}
-							alignItems={"center"}
-							borderRadius={"lg"}
-						>
-							<Stack alignItems={"center"} direction={"row"} spacing={3}>
-								<Image
-									borderRadius={"999px"}
-									width={"40px"}
-									height={"40px"}
-									src={e.image}
-								/>
-								<Stack direction={"column"} spacing={0}>
-									<Heading size={"sm"}>{e.name}</Heading>
-									<Text
-										fontSize={"sm"}
-										color={getTelegram().themeParams.subtitle_text_color}
-									>
-										$0
-									</Text>
-								</Stack>
-							</Stack>
-							<Stack alignItems={"end"} direction={"column"} spacing={0}>
-								<Heading size={"sm"}>
-									{formatBigint(e.amount, e.decimals)} {e.symbol}
-								</Heading>
-								<Text
-									fontSize={"sm"}
-									color={getTelegram().themeParams.subtitle_text_color}
-								>
-									$0
-								</Text>
-							</Stack>
-						</Stack>
-					</>
+					<Cell
+						icon={
+							<Image
+								borderRadius={"999px"}
+								width={"40px"}
+								height={"40px"}
+								src={e.image}
+							/>
+						}
+						title={e.name}
+						subTitle={`$${getRate(e.contract).price}`}
+						additional={{
+							title: `${formatBigint(e.amount, e.decimals)} ${e.symbol}`,
+							subTitle: `$${(
+								getRate(e.contract).price *
+								Number(formatBigint(e.amount, e.decimals))
+							).toFixed(2)}`,
+						}}
+					/>
 				))}
 			</Stack>
+
+			<Box mt={4}>
+				<Cell
+					icon={
+						<Center
+							w={"40px"}
+							h="40px"
+							borderRadius={"999px"}
+							overflow={"hidden"}
+							bgColor={getTelegram().themeParams.accent_text_color}
+						>
+							<FaMoneyBillTransfer size={"24px"} />
+						</Center>
+					}
+					title={"History"}
+				/>
+			</Box>
 
 			{wallet && (
 				<DepositModal

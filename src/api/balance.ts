@@ -13,5 +13,20 @@ async function list(
 	return data;
 }
 
-const balance = { list };
+async function withdraw(
+	body: { balance_id: number; address: string; amount: string },
+	token: string
+): Promise<BasicResponse & { balances: Balance[] }> {
+	const { data } = await axios.post(
+		`${config.apiUrl}/wallet/balances/withdraw`,
+		body,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		}
+	);
+
+	return data;
+}
+
+const balance = { list, withdraw };
 export default balance;

@@ -30,7 +30,7 @@ function DepositModal({
 	return (
 		<Drawer placement="bottom" onClose={onClose} isOpen={isOpen} size={"full"}>
 			<DrawerOverlay />
-			<DrawerContent bgColor={getTelegram().themeParams.bg_color}>
+			<DrawerContent bgColor={getTelegram().themeParams.secondary_bg_color}>
 				<DrawerCloseButton />
 				<DrawerHeader>Deposit</DrawerHeader>
 				<DrawerBody>

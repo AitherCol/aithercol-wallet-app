@@ -1,4 +1,5 @@
 import { defineStyleConfig, extendTheme } from "@chakra-ui/react";
+import "./css/global.css";
 import { getColorMap, getTelegram } from "./utils";
 
 const Button = defineStyleConfig({
@@ -22,7 +23,7 @@ export default extendTheme({
 		global: {
 			body: {
 				color: getTelegram().themeParams.text_color,
-				backgroundColor: getTelegram().themeParams.bg_color,
+				backgroundColor: getTelegram().themeParams.secondary_bg_color,
 			},
 		},
 	},
