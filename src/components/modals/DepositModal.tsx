@@ -57,7 +57,9 @@ function DepositModal({
 							</Center>
 						</Stack>
 
-						<Text textAlign={"center"}>{wallet.address}</Text>
+						<Text fontSize={"md"} textAlign={"center"}>
+							{wallet.address}
+						</Text>
 
 						<Center>
 							<Button
