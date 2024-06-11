@@ -9,7 +9,7 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { BackButton, MainButton } from "@vkruglikov/react-telegram-web-app";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
 import Balance from "../../api/types/Balance";
@@ -17,6 +17,7 @@ import Commission from "../../api/types/Commission";
 import Rate from "../../api/types/Rate";
 import Cell from "../../components/Cell";
 import Loader from "../../components/Loader";
+import useInterval from "../../hooks/useInterval";
 import { AppContext } from "../../providers/AppProvider";
 import { getTelegram } from "../../utils";
 import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
@@ -40,7 +41,7 @@ function WithdrawContract() {
 		getCacheItemJSON(`commission:${params?.contract}`) || null
 	);
 
-	useEffect(() => {
+	useInterval(() => {
 		const getBalances = async () => {
 			try {
 				const data = await api.wallet.balances.list(
@@ -77,7 +78,7 @@ function WithdrawContract() {
 		};
 
 		getBalances();
-	}, []);
+	}, 10000);
 
 	const send = async () => {
 		try {

@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
 	<WebAppProvider options={{ smoothButtonsTransition: true }}>
 		<ChakraProvider
-			toastOptions={{ defaultOptions: { position: "top" } }}
+			toastOptions={{ defaultOptions: { position: "top", duration: 3000 } }}
 			theme={theme}
 		>
 			<AppProvider>

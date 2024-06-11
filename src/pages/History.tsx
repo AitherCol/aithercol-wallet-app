@@ -15,7 +15,7 @@ import { getTelegram } from "../utils";
 import { getCacheItemJSON, setCacheItem } from "../utils/cache";
 import errorHandler, { formatBigint } from "../utils/utils";
 
-function History() {
+function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const context = useContext(AppContext);
 	const toast = useToast();
 	const navigate = useNavigate();
@@ -91,15 +91,13 @@ function History() {
 
 	return (
 		<Stack direction={"column"} spacing={2}>
-			<BackButton
-				onClick={() => {
-					if (params.balance !== "all") {
-						navigate(`/balance/${params.balance}`);
-					} else {
+			{hideBackButton && (
+				<BackButton
+					onClick={() => {
 						navigate(`/`);
-					}
-				}}
-			/>
+					}}
+				/>
+			)}
 			<Heading
 				size={"sm"}
 				color={getTelegram().themeParams.hint_color}

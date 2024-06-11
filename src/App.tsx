@@ -1,6 +1,7 @@
 import { Stack, useColorMode } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import Balance from "./pages/Balance";
 import History from "./pages/History";
 import Wallet from "./pages/Wallet";
 import WithdrawToken from "./pages/withdraw";
@@ -29,6 +30,14 @@ function App() {
 						element={
 							<AuthProvider>
 								<Wallet />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path="/balance/:balance"
+						element={
+							<AuthProvider>
+								<Balance />
 							</AuthProvider>
 						}
 					/>
