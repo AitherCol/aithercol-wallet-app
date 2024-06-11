@@ -12,7 +12,7 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { FaCopy } from "react-icons/fa6";
-import QRCode from "react-qr-code";
+import { QRCode } from "react-qrcode-logo";
 import Wallet from "../../api/types/Wallet";
 import { getTelegram } from "../../utils";
 
@@ -34,10 +34,28 @@ function DepositModal({
 				<DrawerCloseButton />
 				<DrawerHeader>Deposit</DrawerHeader>
 				<DrawerBody>
-					<Stack direction={"column"} spacing={4}>
-						<Center>
-							<QRCode value={wallet.address} />
-						</Center>
+					<Stack direction={"column"} alignItems={"center"} spacing={4}>
+						<Stack
+							bgColor={"white"}
+							p={1}
+							alignItems={"center"}
+							direction={"column"}
+							borderRadius={"2xl"}
+						>
+							<Center>
+								<QRCode
+									logoImage="https://assets.aithercol.com/logos/circle_logo.png"
+									logoWidth={56}
+									logoHeight={56}
+									logoPadding={2}
+									logoPaddingStyle="circle"
+									size={220}
+									eyeRadius={16}
+									value={wallet.address}
+									removeQrCodeBehindLogo
+								/>
+							</Center>
+						</Stack>
 
 						<Text textAlign={"center"}>{wallet.address}</Text>
 
