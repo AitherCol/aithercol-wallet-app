@@ -1,5 +1,8 @@
 import { Heading, Image, Stack, useToast } from "@chakra-ui/react";
-import { BackButton } from "@vkruglikov/react-telegram-web-app";
+import {
+	BackButton,
+	useHapticFeedback,
+} from "@vkruglikov/react-telegram-web-app";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
@@ -14,6 +17,8 @@ function WithdrawToken() {
 	const context = useContext(AppContext);
 	const toast = useToast();
 	const navigate = useNavigate();
+	const [impactOccurred, notificationOccurred, selectionChanged] =
+		useHapticFeedback();
 
 	const [balances, setBalances] = useState<Balance[]>(
 		getCacheItemJSON("balances") || []
@@ -29,6 +34,7 @@ function WithdrawToken() {
 				setCacheItem("balances", JSON.stringify(data.balances));
 			} catch (error) {
 				errorHandler(error, toast);
+				notificationOccurred("error");
 			}
 		};
 
@@ -43,7 +49,7 @@ function WithdrawToken() {
 				color={getTelegram().themeParams.hint_color}
 				textTransform={"uppercase"}
 			>
-				Withdraw Asset
+				Choose Token
 			</Heading>
 
 			{balances.map((e, key) => (

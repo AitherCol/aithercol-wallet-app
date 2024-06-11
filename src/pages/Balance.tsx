@@ -9,13 +9,17 @@ import {
 	useDisclosure,
 	useToast,
 } from "@chakra-ui/react";
-import { BackButton } from "@vkruglikov/react-telegram-web-app";
+import {
+	BackButton,
+	useHapticFeedback,
+} from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/api";
 import BalanceType from "../api/types/Balance";
 import Rate from "../api/types/Rate";
+import Wallet from "../api/types/Wallet";
 import Loader from "../components/Loader";
 import DepositModal from "../components/modals/DepositModal";
 import useInterval from "../hooks/useInterval";
@@ -30,7 +34,12 @@ function Balance() {
 	const toast = useToast();
 	const navigate = useNavigate();
 	const params = useParams();
+	const [impactOccurred, notificationOccurred, selectionChanged] =
+		useHapticFeedback();
 
+	const [wallet, setWallet] = useState<Wallet>(
+		getCacheItemJSON("wallet") || undefined
+	);
 	const [balances, setBalances] = useState<BalanceType[]>(
 		getCacheItemJSON("balances") || []
 	);
@@ -38,6 +47,14 @@ function Balance() {
 
 	useInterval(() => {
 		const getBalances = async () => {
+			try {
+				const data = await api.wallet.get(context.props.auth?.token || "");
+				setWallet(data.wallet);
+				setCacheItem("wallet", JSON.stringify(data.wallet));
+			} catch (error) {
+				errorHandler(error, toast);
+				notificationOccurred("error");
+			}
 			try {
 				const data = await api.wallet.balances.list(
 					context.props.auth?.token || ""
@@ -53,9 +70,11 @@ function Balance() {
 					setCacheItem("rates", JSON.stringify(rates.rates));
 				} catch (error) {
 					errorHandler(error, toast);
+					notificationOccurred("error");
 				}
 			} catch (error) {
 				errorHandler(error, toast);
+				notificationOccurred("error");
 			}
 		};
 
@@ -116,7 +135,7 @@ function Balance() {
 					</Stack>
 					<Stack direction={"row"} spacing={6}>
 						<Stack
-							onClick={depositModal.onToggle}
+							onClick={() => navigate(`/withdraw/${getBalance()?.contract}`)}
 							alignItems={"center"}
 							direction={"column"}
 							spacing={2}
@@ -131,11 +150,11 @@ function Balance() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Deposit
+								Send
 							</Heading>
 						</Stack>
 						<Stack
-							onClick={() => navigate(`/withdraw/${getBalance()?.contract}`)}
+							onClick={depositModal.onToggle}
 							alignItems={"center"}
 							direction={"column"}
 							spacing={2}
@@ -150,7 +169,7 @@ function Balance() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Withdraw
+								Recieve
 							</Heading>
 						</Stack>
 					</Stack>
@@ -159,11 +178,13 @@ function Balance() {
 
 			<History hideBackButton />
 
-			<DepositModal
-				isOpen={depositModal.isOpen}
-				onClose={depositModal.onClose}
-				wallet={getBalance() as any}
-			/>
+			{wallet && (
+				<DepositModal
+					isOpen={depositModal.isOpen}
+					onClose={depositModal.onClose}
+					wallet={wallet}
+				/>
+			)}
 		</>
 	);
 }

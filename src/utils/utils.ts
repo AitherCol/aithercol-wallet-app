@@ -1,3 +1,5 @@
+import { AppContextType } from "../providers/AppProvider";
+
 export default function errorHandler(err: any, toast: any) {
 	if (err?.response && err.response?.data && err.response.data?.errors) {
 		for (const error of err.response.data.errors) {
@@ -18,6 +20,18 @@ export default function errorHandler(err: any, toast: any) {
 			status: "error",
 		});
 	}
+}
+
+export function reduceString(text: string, to: number): string {
+	if (text.length <= to) {
+		return text;
+	}
+
+	const partLength = Math.floor((to - 3) / 2);
+	const start = text.substring(0, partLength);
+	const end = text.substring(text.length - partLength);
+
+	return `${start}...${end}`;
 }
 
 export function formatBigint(input: string, decimals: number): string {
@@ -49,4 +63,10 @@ export function withoutDecimals(amount: number, decimals: number): BigInt {
 	const factor = 10 ** decimals;
 	const result = amount * factor;
 	return BigInt(Math.round(result));
+}
+
+export function getTonViewer(context: AppContextType) {
+	return context.props.network === "testnet"
+		? "https://testnet.tonviewer.com"
+		: "https://tonviewer.com";
 }

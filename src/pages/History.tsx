@@ -7,7 +7,10 @@ import {
 	useBoolean,
 	useToast,
 } from "@chakra-ui/react";
-import { BackButton } from "@vkruglikov/react-telegram-web-app";
+import {
+	BackButton,
+	useHapticFeedback,
+} from "@vkruglikov/react-telegram-web-app";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
@@ -29,6 +32,8 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const navigate = useNavigate();
 	const params = useParams();
 	const [loading, setLoading] = useBoolean();
+	const [impactOccurred, notificationOccurred, selectionChanged] =
+		useHapticFeedback();
 
 	const [balances, setBalances] = useState<Balance[]>(
 		getCacheItemJSON("balances") || []
@@ -56,6 +61,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 					setCacheItem("rates", JSON.stringify(rates.rates));
 				} catch (error) {
 					errorHandler(error, toast);
+					notificationOccurred("error");
 				}
 				try {
 					const transactions = await api.wallet.getTransactions(
@@ -75,9 +81,11 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 					);
 				} catch (error) {
 					errorHandler(error, toast);
+					notificationOccurred("error");
 				}
 			} catch (error) {
 				errorHandler(error, toast);
+				notificationOccurred("error");
 			}
 		};
 
@@ -130,18 +138,16 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 							}
 						>
 							{e.type === "increase" ? (
-								<FaArrowUp size={"20px"} />
-							) : (
 								<FaArrowDown size={"20px"} />
+							) : (
+								<FaArrowUp size={"20px"} />
 							)}
 						</Center>
 					}
-					title={
-						e.description || e.type === "increase" ? "Deposit" : "Withdrawal"
-					}
+					title={e.description || e.type === "increase" ? "Received" : "Sent"}
 					subTitle={moment(e.created_at).format("DD MMMM HH:mm")}
 					additional={{
-						title: `${formatBigint(
+						title: `${e.type === "increase" ? "+" : "–"}${formatBigint(
 							e.amount,
 							getBalance(e.balance_id)?.decimals || 1
 						)} ${getBalance(e.balance_id)?.symbol}`,
@@ -152,6 +158,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 							)
 						).toFixed(2)}`,
 					}}
+					onClick={() => navigate(`/transaction/${e.id}`)}
 				/>
 			))}
 
@@ -194,6 +201,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 									setMeta(data.transactions.meta);
 								} catch (error) {
 									errorHandler(error, toast);
+									notificationOccurred("error");
 								} finally {
 									setLoading.off();
 								}

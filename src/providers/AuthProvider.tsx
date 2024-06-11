@@ -25,7 +25,11 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 							navigate("/login");
 						} else {
 							context.setProps({
-								auth: { token: login.token, profile: profile },
+								auth: {
+									token: login.token,
+									profile: profile,
+								},
+								network: (await api.wallet.getNetwork()).network,
 							});
 						}
 					} else {

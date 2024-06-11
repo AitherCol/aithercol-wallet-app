@@ -17,17 +17,20 @@ export type PropsType = {
 		token: string;
 		profile: User;
 	} | null;
+	network: "mainnet" | "testnet";
 };
 
 const AppContext = createContext<AppContextType>({
 	props: {
 		auth: null,
+		network: "mainnet",
 	},
 });
 
 export default function AppProvider({ children }: { children: ReactNode }) {
 	const [props, setProps] = useState<PropsType>({
 		auth: null,
+		network: "mainnet",
 	});
 
 	return (

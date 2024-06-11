@@ -8,6 +8,7 @@ import {
 	useDisclosure,
 	useToast,
 } from "@chakra-ui/react";
+import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaMoneyBillTransfer } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
@@ -33,6 +34,7 @@ function Wallet() {
 		getCacheItemJSON("balances") || []
 	);
 	const [rates, setRates] = useState<Rate[]>(getCacheItemJSON("rates") || []);
+	const [impactOccurred, notificationOccurred] = useHapticFeedback();
 
 	useInterval(() => {
 		const getBalances = async () => {
@@ -42,6 +44,7 @@ function Wallet() {
 				setCacheItem("wallet", JSON.stringify(data.wallet));
 			} catch (error) {
 				errorHandler(error, toast);
+				notificationOccurred("error");
 			}
 			try {
 				const data = await api.wallet.balances.list(
@@ -58,9 +61,11 @@ function Wallet() {
 					setCacheItem("rates", JSON.stringify(rates.rates));
 				} catch (error) {
 					errorHandler(error, toast);
+					notificationOccurred("error");
 				}
 			} catch (error) {
 				errorHandler(error, toast);
+				notificationOccurred("error");
 			}
 		};
 
@@ -102,7 +107,7 @@ function Wallet() {
 					<Heading size={"2xl"}>${getTotalBalance().toFixed(2)}</Heading>
 					<Stack direction={"row"} spacing={6}>
 						<Stack
-							onClick={depositModal.onToggle}
+							onClick={() => navigate("/withdraw")}
 							alignItems={"center"}
 							direction={"column"}
 							spacing={2}
@@ -117,15 +122,15 @@ function Wallet() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Deposit
+								Send
 							</Heading>
 						</Stack>
 						<Stack
-							onClick={() => navigate("/withdraw")}
 							alignItems={"center"}
 							direction={"column"}
 							spacing={2}
 							cursor={"pointer"}
+							onClick={depositModal.onOpen}
 						>
 							<Box>
 								<IconButton
@@ -136,7 +141,7 @@ function Wallet() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Withdraw
+								Recieve
 							</Heading>
 						</Stack>
 					</Stack>
@@ -179,7 +184,7 @@ function Wallet() {
 							bgColor={getTelegram().themeParams.accent_text_color}
 							color={getTelegram().themeParams.button_text_color}
 						>
-							<FaMoneyBillTransfer size={"24px"} />
+							<FaMoneyBillTransfer size={"20px"} />
 						</Center>
 					}
 					title={"History"}

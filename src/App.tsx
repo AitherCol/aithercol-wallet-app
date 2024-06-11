@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Balance from "./pages/Balance";
 import History from "./pages/History";
+import Transaction from "./pages/Transaction";
 import Wallet from "./pages/Wallet";
 import WithdrawToken from "./pages/withdraw";
 import WithdrawContract from "./pages/withdraw/Contract";
@@ -63,6 +64,14 @@ function App() {
 						element={
 							<AuthProvider>
 								<History />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path="/transaction/:id"
+						element={
+							<AuthProvider>
+								<Transaction />
 							</AuthProvider>
 						}
 					/>

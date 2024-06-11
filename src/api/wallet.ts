@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../config";
 import balance from "./balance";
+import Balance from "./types/Balance";
 import { BasicResponse, PaginationMeta } from "./types/BasicResponse";
 import Commission from "./types/Commission";
 import Rate from "./types/Rate";
@@ -11,6 +12,14 @@ async function get(token: string): Promise<BasicResponse & { wallet: Wallet }> {
 	const { data } = await axios.get(`${config.apiUrl}/wallet`, {
 		headers: { Authorization: `Bearer ${token}` },
 	});
+
+	return data;
+}
+
+async function getNetwork(): Promise<
+	BasicResponse & { network: "mainnet" | "testnet" }
+> {
+	const { data } = await axios.get(`${config.apiUrl}/wallet/network`);
 
 	return data;
 }
@@ -60,12 +69,32 @@ async function getTransactions(
 	return data;
 }
 
+async function getTransaction(
+	id: number,
+	token: string
+): Promise<
+	BasicResponse & {
+		transaction: Transaction;
+		balance: Balance;
+		rate: Rate;
+	}
+> {
+	const { data } = await axios.get(`${config.apiUrl}/wallet/transactions/get`, {
+		headers: { Authorization: `Bearer ${token}` },
+		params: { id },
+	});
+
+	return data;
+}
+
 const wallet = {
 	get,
 	balances: balance,
 	getRates,
+	getNetwork,
 	getCommission,
 	getTransactions,
+	getTransaction,
 };
 
 export default wallet;

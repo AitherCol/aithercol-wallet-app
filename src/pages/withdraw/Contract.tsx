@@ -1,4 +1,5 @@
 import {
+	Button,
 	FormControl,
 	FormHelperText,
 	FormLabel,
@@ -8,7 +9,11 @@ import {
 	Stack,
 	useToast,
 } from "@chakra-ui/react";
-import { BackButton, MainButton } from "@vkruglikov/react-telegram-web-app";
+import {
+	BackButton,
+	MainButton,
+	useHapticFeedback,
+} from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
@@ -30,8 +35,9 @@ function WithdrawContract() {
 	const params = useParams();
 
 	const [address, setAddress] = useState<string>("");
-	const [amount, setAmount] = useState<number>(0);
 	const [amountString, setAmountString] = useState<string>("");
+	const [impactOccurred, notificationOccurred, selectionChanged] =
+		useHapticFeedback();
 
 	const [balances, setBalances] = useState<Balance[]>(
 		getCacheItemJSON("balances") || []
@@ -61,6 +67,7 @@ function WithdrawContract() {
 					);
 				} catch (error) {
 					errorHandler(error, toast);
+					notificationOccurred("error");
 				}
 				try {
 					const rates = await api.wallet.getRates(
@@ -71,9 +78,11 @@ function WithdrawContract() {
 					setCacheItem("rates", JSON.stringify(rates.rates));
 				} catch (error) {
 					errorHandler(error, toast);
+					notificationOccurred("error");
 				}
 			} catch (error) {
 				errorHandler(error, toast);
+				notificationOccurred("error");
 			}
 		};
 
@@ -88,18 +97,23 @@ function WithdrawContract() {
 				await api.wallet.balances.withdraw(
 					{
 						balance_id: balance.id,
-						amount: withoutDecimals(amount, balance.decimals).toString(),
+						amount: withoutDecimals(
+							parseFloat(amountString),
+							balance.decimals
+						).toString(),
 						address: address.trim(),
 					},
 					context.props.auth?.token || ""
 				);
 
 				toast({ title: "Success", description: "Transaction in progress" });
+				notificationOccurred("success");
 			}
 
 			navigate("/");
 		} catch (error) {
 			errorHandler(error, toast);
+			notificationOccurred("error");
 		} finally {
 			getTelegram().MainButton.hideProgress();
 		}
@@ -127,7 +141,10 @@ function WithdrawContract() {
 		return amount.toString();
 	};
 
-	const isOk = amount !== 0 && address.trim() !== "";
+	const isOk =
+		amountString.trim() !== "" &&
+		parseFloat(amountString) > 0 &&
+		address.trim() !== "";
 
 	return getBalance() !== null ? (
 		<>
@@ -139,7 +156,7 @@ function WithdrawContract() {
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					Withdraw
+					Send {getBalance()?.symbol}
 				</Heading>
 
 				<Cell
@@ -193,16 +210,23 @@ function WithdrawContract() {
 						type="number"
 						inputMode="decimal"
 						onChange={e => {
-							let newValue = e.currentTarget.value;
-							if (newValue.endsWith(",") || newValue.endsWith(".")) {
-								newValue.replaceAll(",", "").replaceAll(".", "");
+							let value = e.currentTarget.value;
+							if (value.includes(",")) {
+								value = value.replaceAll(",", ".");
 							}
-							try {
-								const value = parseFloat(newValue);
-								console.log(value);
-								setAmount(value);
-								setAmountString(e.currentTarget.value);
-							} catch (error) {}
+							if (value.startsWith(".")) {
+								return;
+							}
+							if (value.endsWith(".")) {
+								if (
+									!new RegExp(/^[1-9]\d*(\.\d+)?$/gm).test(
+										value.replace(".", "")
+									)
+								) {
+									return;
+								}
+							}
+							setAmountString(e.currentTarget.value);
 						}}
 					></Input>
 					{commission && (
@@ -216,6 +240,8 @@ function WithdrawContract() {
 						</FormHelperText>
 					)}
 				</FormControl>
+
+				{isOk && <Button onClick={send}>Send</Button>}
 			</Stack>
 		</>
 	) : (

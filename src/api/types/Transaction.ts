@@ -3,6 +3,7 @@ export default interface Transaction {
 	type: "decrease" | "increase";
 	balance_id: number;
 	amount: string;
+	original_amount: string | null;
 	description: string | null;
 	from: string | null;
 	to: string | null;
