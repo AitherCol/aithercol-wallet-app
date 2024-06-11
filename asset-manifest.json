@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/aithercol-wallet-app/static/css/main.e5c012d0.css",
-    "main.js": "/aithercol-wallet-app/static/js/main.141750bc.js",
+    "main.js": "/aithercol-wallet-app/static/js/main.1bb50feb.js",
     "static/js/453.a6a97343.chunk.js": "/aithercol-wallet-app/static/js/453.a6a97343.chunk.js",
     "index.html": "/aithercol-wallet-app/index.html",
     "main.e5c012d0.css.map": "/aithercol-wallet-app/static/css/main.e5c012d0.css.map",
-    "main.141750bc.js.map": "/aithercol-wallet-app/static/js/main.141750bc.js.map",
+    "main.1bb50feb.js.map": "/aithercol-wallet-app/static/js/main.1bb50feb.js.map",
     "453.a6a97343.chunk.js.map": "/aithercol-wallet-app/static/js/453.a6a97343.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e5c012d0.css",
-    "static/js/main.141750bc.js"
+    "static/js/main.1bb50feb.js"
   ]
 }
