@@ -205,7 +205,10 @@ function WithdrawContract() {
 						value={amountString}
 						inputMode="decimal"
 						onChange={e => {
-							let value = e.currentTarget.value;
+							let value = e.currentTarget.value.trim();
+							if (value === "") {
+								setAmountString("");
+							}
 							if (value.includes(",")) {
 								value = value.replaceAll(",", ".");
 							}
@@ -225,7 +228,7 @@ function WithdrawContract() {
 									return;
 								}
 							}
-							setAmountString(e.currentTarget.value);
+							setAmountString(e.currentTarget.value.trim());
 						}}
 					></Input>
 					{commission && (
