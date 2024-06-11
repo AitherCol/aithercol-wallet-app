@@ -140,10 +140,7 @@ function WithdrawContract() {
 		return amount.toString();
 	};
 
-	const isOk =
-		amountString.trim() !== "" &&
-		Number(amountString) > 0 &&
-		address.trim() !== "";
+	const isOk = amountString.trim() !== "" && address.trim() !== "";
 
 	return getBalance() !== null ? (
 		<>
