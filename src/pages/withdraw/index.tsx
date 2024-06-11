@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import Balance from "../../api/types/Balance";
-import Rate from "../../api/types/Rate";
 import Cell from "../../components/Cell";
 import { AppContext } from "../../providers/AppProvider";
 import { getTelegram } from "../../utils";
@@ -19,7 +18,6 @@ function WithdrawToken() {
 	const [balances, setBalances] = useState<Balance[]>(
 		getCacheItemJSON("balances") || []
 	);
-	const [rates, setRates] = useState<Rate[]>(getCacheItemJSON("rates") || []);
 
 	useEffect(() => {
 		const getBalances = async () => {
@@ -29,16 +27,6 @@ function WithdrawToken() {
 				);
 				setBalances(data.balances);
 				setCacheItem("balances", JSON.stringify(data.balances));
-				try {
-					const rates = await api.wallet.getRates(
-						data.balances.map(e => e.contract),
-						context.props.auth?.token || ""
-					);
-					setRates(rates.rates);
-					setCacheItem("rates", JSON.stringify(rates.rates));
-				} catch (error) {
-					errorHandler(error, toast);
-				}
 			} catch (error) {
 				errorHandler(error, toast);
 			}

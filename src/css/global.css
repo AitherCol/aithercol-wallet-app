@@ -3,6 +3,6 @@ button:focus {
 	box-shadow: none !important;
 }
 
-* {
+body {
 	user-select: none;
 }

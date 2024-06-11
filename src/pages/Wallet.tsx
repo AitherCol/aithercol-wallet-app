@@ -178,6 +178,7 @@ function Wallet() {
 						</Center>
 					}
 					title={"History"}
+					onClick={() => navigate("/history/all")}
 				/>
 			</Box>
 
