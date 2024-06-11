@@ -97,7 +97,7 @@ function WithdrawContract() {
 					{
 						balance_id: balance.id,
 						amount: withoutDecimals(
-							parseFloat(amountString),
+							Number(amountString),
 							balance.decimals
 						).toString(),
 						address: address.trim(),
@@ -142,7 +142,7 @@ function WithdrawContract() {
 
 	const isOk =
 		amountString.trim() !== "" &&
-		parseFloat(amountString) > 0 &&
+		Number(amountString) > 0 &&
 		address.trim() !== "";
 
 	return getBalance() !== null ? (
