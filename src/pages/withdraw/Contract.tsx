@@ -29,7 +29,7 @@ function WithdrawContract() {
 	const params = useParams();
 
 	const [address, setAddress] = useState<string>("");
-	const [amount, setAmount] = useState<number>(0);
+	const [amount, setAmount] = useState<number>();
 
 	const [balances, setBalances] = useState<Balance[]>(
 		getCacheItemJSON("balances") || []
@@ -86,7 +86,7 @@ function WithdrawContract() {
 				await api.wallet.balances.withdraw(
 					{
 						balance_id: balance.id,
-						amount: withoutDecimals(amount, balance.decimals).toString(),
+						amount: withoutDecimals(amount || 0, balance.decimals).toString(),
 						address: address.trim(),
 					},
 					context.props.auth?.token || ""
@@ -169,6 +169,7 @@ function WithdrawContract() {
 						}}
 						_focus={{
 							borderColor: getTelegram().themeParams.accent_text_color,
+							boxShadow: "none",
 						}}
 						value={address}
 						onChange={e => setAddress(e.currentTarget.value)}
@@ -184,6 +185,7 @@ function WithdrawContract() {
 						}}
 						_focus={{
 							borderColor: getTelegram().themeParams.accent_text_color,
+							boxShadow: "none",
 						}}
 						value={amount}
 						type="number"
