@@ -22,7 +22,7 @@ function App() {
 	}
 
 	return (
-		<Stack direction={"column"} minH="100vh" justifyContent={"space-between"}>
+		<Stack direction={"column"} minH="100svh" justifyContent={"space-between"}>
 			<Stack direction={"column"} spacing={0}>
 				<Routes>
 					<Route

@@ -3,7 +3,7 @@ import { getTelegram } from "../utils";
 
 function Loader() {
 	return (
-		<Center h="80vh">
+		<Center h="80svh">
 			<Spinner size="xl" color={getTelegram().themeParams.accent_text_color} />
 		</Center>
 	);
