@@ -203,7 +203,6 @@ function WithdrawContract() {
 							boxShadow: "none",
 						}}
 						value={amountString}
-						type="number"
 						inputMode="decimal"
 						onChange={e => {
 							let value = e.currentTarget.value;
@@ -219,6 +218,10 @@ function WithdrawContract() {
 										value.replace(".", "")
 									)
 								) {
+									return;
+								}
+							} else {
+								if (!new RegExp(/^[1-9]\d*(\.\d+)?$/gm).test(value)) {
 									return;
 								}
 							}
