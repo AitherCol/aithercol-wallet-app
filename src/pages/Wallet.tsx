@@ -96,7 +96,7 @@ function Wallet() {
 
 	return (
 		<>
-			<Center h="20vh">
+			<Center mt="36px" mb="36px">
 				<Stack direction={"column"} spacing={6} alignItems={"center"}>
 					<Heading size={"2xl"}>${getTotalBalance().toFixed(2)}</Heading>
 					<Stack direction={"row"} spacing={6}>
@@ -140,7 +140,7 @@ function Wallet() {
 				</Stack>
 			</Center>
 
-			<Stack direction={"column"} spacing={2} mt={4}>
+			<Stack direction={"column"} spacing={2}>
 				{balances.map((e, key) => (
 					<Cell
 						icon={
