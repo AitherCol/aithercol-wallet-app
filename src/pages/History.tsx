@@ -1,4 +1,11 @@
-import { Center, Heading, Stack, useToast } from "@chakra-ui/react";
+import {
+	Button,
+	Center,
+	Heading,
+	Stack,
+	useBoolean,
+	useToast,
+} from "@chakra-ui/react";
 import { BackButton } from "@vkruglikov/react-telegram-web-app";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
@@ -20,6 +27,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const toast = useToast();
 	const navigate = useNavigate();
 	const params = useParams();
+	const [loading, setLoading] = useBoolean();
 
 	const [balances, setBalances] = useState<Balance[]>(
 		getCacheItemJSON("balances") || []
@@ -28,12 +36,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const [transactions, setTransactions] = useState<Transaction[]>(
 		getCacheItemJSON(`transactions:${params.balance}`) || []
 	);
-	const [meta, setMeta] = useState<PaginationMeta>({
-		total: 0,
-		per_page: 50,
-		current_page: 1,
-		last_page: null,
-	});
+	const [meta, setMeta] = useState<PaginationMeta>();
 
 	useEffect(() => {
 		const getBalances = async () => {
@@ -59,7 +62,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 							balance_id:
 								params?.balance !== "all" ? Number(params.balance) : undefined,
 							page: 1,
-							limit: 50,
+							limit: 25,
 						},
 						context.props.auth?.token || ""
 					);
@@ -119,6 +122,11 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 									? getTelegram().themeParams.accent_text_color
 									: getTelegram().themeParams.secondary_bg_color
 							}
+							color={
+								e.type === "increase"
+									? getTelegram().themeParams.button_text_color
+									: getTelegram().themeParams.text_color
+							}
 						>
 							{e.type === "increase" ? (
 								<FaArrowUp size={"20px"} />
@@ -145,6 +153,42 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 					}}
 				/>
 			))}
+
+			{meta && (
+				<>
+					{meta?.current_page !== meta?.last_page && (
+						<Button
+							isDisabled={loading}
+							onClick={async () => {
+								try {
+									setLoading.on();
+									const data = await api.wallet.getTransactions(
+										{
+											balance_id:
+												params?.balance !== "all"
+													? Number(params.balance)
+													: undefined,
+											page: meta.current_page + 1,
+											limit: 25,
+										},
+										context.props.auth?.token || ""
+									);
+
+									setTransactions([...transactions, ...data.transactions.data]);
+									setMeta(data.transactions.meta);
+								} catch (error) {
+									errorHandler(error, toast);
+								} finally {
+									setLoading.off();
+								}
+							}}
+							colorScheme="button"
+						>
+							Show more
+						</Button>
+					)}
+				</>
+			)}
 		</Stack>
 	);
 }

@@ -177,6 +177,7 @@ function Wallet() {
 							borderRadius={"999px"}
 							overflow={"hidden"}
 							bgColor={getTelegram().themeParams.accent_text_color}
+							color={getTelegram().themeParams.button_text_color}
 						>
 							<FaMoneyBillTransfer size={"24px"} />
 						</Center>
