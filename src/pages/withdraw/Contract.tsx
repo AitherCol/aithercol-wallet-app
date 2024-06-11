@@ -1,5 +1,4 @@
 import {
-	Button,
 	FormControl,
 	FormHelperText,
 	FormLabel,
@@ -240,8 +239,6 @@ function WithdrawContract() {
 						</FormHelperText>
 					)}
 				</FormControl>
-
-				{isOk && <Button onClick={send}>Send</Button>}
 			</Stack>
 		</>
 	) : (
