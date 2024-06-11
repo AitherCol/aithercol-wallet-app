@@ -62,7 +62,7 @@ export function formatBigint(input: string, decimals: number): string {
 export function withoutDecimals(amount: number, decimals: number): BigInt {
 	const factor = 10 ** decimals;
 	const result = amount * factor;
-	return BigInt(Math.round(result));
+	return BigInt(Math.round(result).toFixed(0));
 }
 
 export function getTonViewer(context: AppContextType) {
