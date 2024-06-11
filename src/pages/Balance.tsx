@@ -17,6 +17,7 @@ import api from "../api/api";
 import BalanceType from "../api/types/Balance";
 import Rate from "../api/types/Rate";
 import Loader from "../components/Loader";
+import DepositModal from "../components/modals/DepositModal";
 import useInterval from "../hooks/useInterval";
 import { AppContext } from "../providers/AppProvider";
 import { getTelegram } from "../utils";
@@ -157,6 +158,12 @@ function Balance() {
 			</Center>
 
 			<History hideBackButton />
+
+			<DepositModal
+				isOpen={depositModal.isOpen}
+				onClose={depositModal.onClose}
+				wallet={getBalance() as any}
+			/>
 		</>
 	);
 }
