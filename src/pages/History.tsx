@@ -65,6 +65,10 @@ function History() {
 					);
 					setMeta(transactions.transactions.meta);
 					setTransactions(transactions.transactions.data);
+					setCacheItem(
+						`transactions:${params.balance}`,
+						JSON.stringify(transactions.transactions.data)
+					);
 				} catch (error) {
 					errorHandler(error, toast);
 				}
