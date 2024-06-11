@@ -3299,6 +3299,11 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
+"@vkruglikov/react-telegram-web-app@^2.1.9":
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/@vkruglikov/react-telegram-web-app/-/react-telegram-web-app-2.1.9.tgz#a116f6a2fd78814f0958da1f8d7c1429d41bb8e3"
+  integrity sha512-m8D5oUuSQN1z8xiG3ufh7tBbWpmp4zLtZv2rNsC2LP0Rp5vJI/hwZNk65h7wLDE740wPlE2R6bOSikm6FdUTtQ==
+
 "@webassemblyjs/ast@1.12.1", "@webassemblyjs/ast@^1.12.1":
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.12.1.tgz#bb16a0e8b1914f979f45864c23819cc3e3f0d4bb"

@@ -1,4 +1,5 @@
 import { Heading, Image, Stack, useToast } from "@chakra-ui/react";
+import { BackButton } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
@@ -44,22 +45,11 @@ function WithdrawToken() {
 		};
 
 		getBalances();
-
-		const onBack = () => {
-			navigate("/");
-		};
-
-		getTelegram().BackButton.onClick(onBack);
-		getTelegram().BackButton.show();
-
-		return () => {
-			getTelegram().BackButton.offClick(onBack);
-			getTelegram().BackButton.hide();
-		};
 	}, []);
 
 	return (
 		<Stack direction={"column"} spacing={2}>
+			<BackButton onClick={() => navigate("/")} />
 			<Heading
 				size={"sm"}
 				color={getTelegram().themeParams.hint_color}

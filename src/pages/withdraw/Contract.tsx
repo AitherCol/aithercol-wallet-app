@@ -8,6 +8,7 @@ import {
 	Stack,
 	useToast,
 } from "@chakra-ui/react";
+import { BackButton, MainButton } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
@@ -75,26 +76,6 @@ function WithdrawContract() {
 		};
 
 		getBalances();
-
-		const onBack = () => {
-			navigate("/");
-		};
-
-		getTelegram().BackButton.onClick(onBack);
-		getTelegram().BackButton.show();
-
-		getTelegram().MainButton.setText("Send");
-		getTelegram().MainButton.onClick(send);
-		getTelegram().MainButton.disable();
-		getTelegram().MainButton.show();
-
-		return () => {
-			getTelegram().BackButton.offClick(onBack);
-			getTelegram().BackButton.hide();
-
-			getTelegram().MainButton.offClick(send);
-			getTelegram().MainButton.hide();
-		};
 	}, []);
 
 	const send = async () => {
@@ -144,16 +125,12 @@ function WithdrawContract() {
 		return amount.toString();
 	};
 
-	useEffect(() => {
-		if (amount !== 0 && address.trim() !== "") {
-			getTelegram().MainButton.enable();
-		} else {
-			getTelegram().MainButton.disable();
-		}
-	}, [amount, address]);
+	const isOk = amount !== 0 && address.trim() !== "";
 
 	return getBalance() !== null ? (
 		<>
+			<BackButton onClick={() => navigate("/")} />
+			{isOk && <MainButton text="Send" onClick={send} />}
 			<Stack direction={"column"} spacing={2}>
 				<Heading
 					size={"sm"}
