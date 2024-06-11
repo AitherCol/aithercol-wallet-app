@@ -2,3 +2,7 @@ a:focus,
 button:focus {
 	box-shadow: none !important;
 }
+
+* {
+	user-select: none;
+}

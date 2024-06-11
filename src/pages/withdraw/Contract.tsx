@@ -188,7 +188,7 @@ function WithdrawContract() {
 						value={amount}
 						type="number"
 						inputMode="decimal"
-						onChange={e => setAmount(e.currentTarget.valueAsNumber)}
+						onChange={e => setAmount(Number(e.currentTarget.value))}
 					></Input>
 					{commission && (
 						<FormHelperText color={getTelegram().themeParams.hint_color}>
