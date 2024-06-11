@@ -217,14 +217,14 @@ function WithdrawContract() {
 							}
 							if (value.endsWith(".")) {
 								if (
-									!new RegExp(/^[1-9]\d*(\.\d+)?$/gm).test(
+									!new RegExp(/^[0-9]\d*(\.\d+)?$/gm).test(
 										value.replace(".", "")
 									)
 								) {
 									return;
 								}
 							} else {
-								if (!new RegExp(/^[1-9]\d*(\.\d+)?$/gm).test(value)) {
+								if (!new RegExp(/^[0-9]\d*(\.\d+)?$/gm).test(value)) {
 									return;
 								}
 							}
