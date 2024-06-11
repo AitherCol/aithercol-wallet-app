@@ -3,6 +3,7 @@ import {
 	Center,
 	Heading,
 	Stack,
+	Text,
 	useBoolean,
 	useToast,
 } from "@chakra-ui/react";
@@ -94,7 +95,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 
 	return (
 		<Stack direction={"column"} spacing={2}>
-			{hideBackButton && (
+			{!hideBackButton && (
 				<BackButton
 					onClick={() => {
 						navigate(`/`);
@@ -156,6 +157,21 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 
 			{meta && (
 				<>
+					{transactions.length === 0 && (
+						<Center>
+							<Stack
+								alignItems={"center"}
+								textAlign={"center"}
+								direction={"column"}
+								spacing={2}
+							>
+								<Heading>No History Yet</Heading>
+								<Text>
+									Once you start making transactions, they will appear here.
+								</Text>
+							</Stack>
+						</Center>
+					)}
 					{meta?.current_page !== meta?.last_page && (
 						<Button
 							isDisabled={loading}
