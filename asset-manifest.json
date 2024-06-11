@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/aithercol-wallet-app/static/css/main.2a733571.css",
-    "main.js": "/aithercol-wallet-app/static/js/main.40e961a1.js",
-    "static/js/453.a6a97343.chunk.js": "/aithercol-wallet-app/static/js/453.a6a97343.chunk.js",
-    "index.html": "/aithercol-wallet-app/index.html",
-    "main.2a733571.css.map": "/aithercol-wallet-app/static/css/main.2a733571.css.map",
-    "main.40e961a1.js.map": "/aithercol-wallet-app/static/js/main.40e961a1.js.map",
-    "453.a6a97343.chunk.js.map": "/aithercol-wallet-app/static/js/453.a6a97343.chunk.js.map"
+    "main.css": "/static/css/main.2a733571.css",
+    "main.js": "/static/js/main.fb239f73.js",
+    "static/js/453.a6a97343.chunk.js": "/static/js/453.a6a97343.chunk.js",
+    "index.html": "/index.html",
+    "main.2a733571.css.map": "/static/css/main.2a733571.css.map",
+    "main.fb239f73.js.map": "/static/js/main.fb239f73.js.map",
+    "453.a6a97343.chunk.js.map": "/static/js/453.a6a97343.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2a733571.css",
-    "static/js/main.40e961a1.js"
+    "static/js/main.fb239f73.js"
   ]
 }
