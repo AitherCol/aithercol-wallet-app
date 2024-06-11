@@ -29,7 +29,8 @@ function WithdrawContract() {
 	const params = useParams();
 
 	const [address, setAddress] = useState<string>("");
-	const [amount, setAmount] = useState<number>();
+	const [amount, setAmount] = useState<number>(0);
+	const [amountString, setAmountString] = useState<string>("");
 
 	const [balances, setBalances] = useState<Balance[]>(
 		getCacheItemJSON("balances") || []
@@ -86,7 +87,7 @@ function WithdrawContract() {
 				await api.wallet.balances.withdraw(
 					{
 						balance_id: balance.id,
-						amount: withoutDecimals(amount || 0, balance.decimals).toString(),
+						amount: withoutDecimals(amount, balance.decimals).toString(),
 						address: address.trim(),
 					},
 					context.props.auth?.token || ""
@@ -187,10 +188,21 @@ function WithdrawContract() {
 							borderColor: getTelegram().themeParams.accent_text_color,
 							boxShadow: "none",
 						}}
-						value={amount}
+						value={amountString}
 						type="number"
 						inputMode="decimal"
-						onChange={e => setAmount(Number(e.currentTarget.value))}
+						onChange={e => {
+							let newValue = e.currentTarget.value;
+							if (newValue.endsWith(",") || newValue.endsWith(".")) {
+								newValue.replaceAll(",", "").replaceAll(".", "");
+							}
+							try {
+								const value = parseFloat(newValue);
+								console.log(value);
+								setAmount(value);
+								setAmountString(e.currentTarget.value);
+							} catch (error) {}
+						}}
 					></Input>
 					{commission && (
 						<FormHelperText color={getTelegram().themeParams.hint_color}>
