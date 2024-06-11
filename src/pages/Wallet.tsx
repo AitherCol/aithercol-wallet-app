@@ -105,6 +105,7 @@ function Wallet() {
 							alignItems={"center"}
 							direction={"column"}
 							spacing={2}
+							cursor={"pointer"}
 						>
 							<Box>
 								<IconButton
@@ -123,6 +124,7 @@ function Wallet() {
 							alignItems={"center"}
 							direction={"column"}
 							spacing={2}
+							cursor={"pointer"}
 						>
 							<Box>
 								<IconButton

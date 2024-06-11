@@ -20,6 +20,7 @@ function Cell({ icon, title, subTitle, additional, onClick }: CellProps) {
 			borderRadius={"lg"}
 			bgColor={getTelegram().themeParams.bg_color}
 			onClick={onClick}
+			cursor={"pointer"}
 		>
 			<Stack alignItems={"center"} direction={"row"} spacing={3}>
 				{icon}
