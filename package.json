@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"version": "0.1.0",
-	"homepage": "https://aithercol.github.io/aithercol-wallet-app",
+	"homepage": "https://wallet.aithercol.com",
 	"private": true,
 	"dependencies": {
 		"@chakra-ui/react": "^2.8.2",
