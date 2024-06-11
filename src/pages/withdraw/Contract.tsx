@@ -228,7 +228,9 @@ function WithdrawContract() {
 									return;
 								}
 							}
-							setAmountString(e.currentTarget.value.trim());
+							setAmountString(
+								e.currentTarget.value.trim().replaceAll(",", ".")
+							);
 						}}
 					></Input>
 					{commission && (
