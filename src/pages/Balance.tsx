@@ -12,7 +12,7 @@ import {
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../api/api";
 import BalanceType from "../api/types/Balance";
 import Rate from "../api/types/Rate";
@@ -22,6 +22,7 @@ import Loader from "../components/Loader";
 import DepositModal from "../components/modals/DepositModal";
 import useInterval from "../hooks/useInterval";
 import { AppContext } from "../providers/AppProvider";
+import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
 import { getCacheItemJSON, setCacheItem } from "../utils/cache";
 import errorHandler, { formatBigint } from "../utils/utils";
@@ -30,7 +31,8 @@ import History from "./History";
 function Balance() {
 	const context = useContext(AppContext);
 	const toast = useToast();
-	const navigate = useNavigate();
+	const router = useContext(HistoryContext);
+	const navigate = router.push;
 	const params = useParams();
 	const [impactOccurred, notificationOccurred, selectionChanged] =
 		useHapticFeedback();

@@ -3,9 +3,9 @@ import { useContext } from "react";
 import { HistoryContext } from "../providers/HistoryProviders";
 
 function CustomBackButton() {
-	const context = useContext(HistoryContext);
+	const router = useContext(HistoryContext);
 
-	return <BackButton onClick={context.back} />;
+	return <BackButton onClick={router.back} />;
 }
 
 export default CustomBackButton;

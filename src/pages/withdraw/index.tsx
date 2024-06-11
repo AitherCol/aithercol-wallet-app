@@ -1,12 +1,12 @@
 import { Heading, Image, Stack, useToast } from "@chakra-ui/react";
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import Balance from "../../api/types/Balance";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import { AppContext } from "../../providers/AppProvider";
+import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
 import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
 import errorHandler from "../../utils/utils";
@@ -14,7 +14,8 @@ import errorHandler from "../../utils/utils";
 function WithdrawToken() {
 	const context = useContext(AppContext);
 	const toast = useToast();
-	const navigate = useNavigate();
+	const router = useContext(HistoryContext);
+	const navigate = router.push;
 	const [impactOccurred, notificationOccurred, selectionChanged] =
 		useHapticFeedback();
 

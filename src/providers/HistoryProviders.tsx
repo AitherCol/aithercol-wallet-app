@@ -1,33 +1,36 @@
-import React, { createContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const HistoryContext = createContext<{
 	history: string[];
 	back: () => void;
-}>({ history: [], back() {} });
+	push: (location: string) => void;
+}>({ history: [], back() {}, push(location) {} });
 
 export function HistoryProvider({
 	children,
 }: {
 	children: React.ReactElement;
 }) {
-	const [history, setHistory] = useState<string[]>([]);
-	const location = useLocation();
+	const [history, setHistory] = useState<string[]>(["/"]);
 	const navigate = useNavigate();
 
-	const push = (location: string) => setHistory([...history, location]);
+	const push = (location: string) => {
+		navigate(location);
+		setHistory([...history, location]);
+	};
 	const back = () => {
-		if (history.length !== 0) {
-			navigate(history[history.length - 1]);
+		if (history.length >= 2) {
+			const prevUrl = history[history.length - 2];
+			let array = history;
+			array.pop();
+			setHistory(array);
+			navigate(prevUrl);
 		}
 	};
 
-	useEffect(() => {
-		push(location.pathname);
-	}, [location]);
-
 	return (
-		<HistoryContext.Provider value={{ history, back }}>
+		<HistoryContext.Provider value={{ history, back, push }}>
 			{children}
 		</HistoryContext.Provider>
 	);

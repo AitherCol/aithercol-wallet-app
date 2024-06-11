@@ -1,16 +1,17 @@
 import { useBoolean } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 import Loader from "../components/Loader";
 import { getTelegram } from "../utils";
 import { AppContext } from "./AppProvider";
 import BaseProvider from "./BaseProvider";
+import { HistoryContext } from "./HistoryProviders";
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [loading, setLoading] = useBoolean(true);
 	const context = useContext(AppContext);
-	const navigate = useNavigate();
+	const router = useContext(HistoryContext);
+	const navigate = router.push;
 
 	useEffect(() => {
 		const getAuth = async () => {

@@ -11,7 +11,7 @@ import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../api/api";
 import Balance from "../api/types/Balance";
 import { PaginationMeta } from "../api/types/BasicResponse";
@@ -20,6 +20,7 @@ import Transaction from "../api/types/Transaction";
 import Cell from "../components/Cell";
 import CustomBackButton from "../components/CustomBackButton";
 import { AppContext } from "../providers/AppProvider";
+import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
 import { getCacheItemJSON, setCacheItem } from "../utils/cache";
 import errorHandler, { formatBigint } from "../utils/utils";
@@ -27,7 +28,8 @@ import errorHandler, { formatBigint } from "../utils/utils";
 function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const context = useContext(AppContext);
 	const toast = useToast();
-	const navigate = useNavigate();
+	const router = useContext(HistoryContext);
+	const navigate = router.push;
 	const params = useParams();
 	const [loading, setLoading] = useBoolean();
 	const [impactOccurred, notificationOccurred, selectionChanged] =
@@ -139,10 +141,9 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 					title={e.description || e.type === "increase" ? "Received" : "Sent"}
 					subTitle={moment(e.created_at).format("DD MMMM HH:mm")}
 					additional={{
-						title: `${e.type === "increase" ? "+" : "–"}${formatBigint(
-							e.amount,
-							getBalance(e.balance_id)?.decimals || 1
-						)} ${getBalance(e.balance_id)?.symbol}`,
+						title: `${e.type === "increase" ? "+" : "–"}${Number(
+							formatBigint(e.amount, getBalance(e.balance_id)?.decimals || 1)
+						).toFixed(2)} ${getBalance(e.balance_id)?.symbol}`,
 						subTitle: `$${(
 							(getBalance(e.balance_id)?.rate?.price || 0) *
 							Number(

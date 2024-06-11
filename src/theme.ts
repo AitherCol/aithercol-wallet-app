@@ -37,5 +37,10 @@ export default extendTheme({
 	config: {
 		initialColorMode: "light",
 		useSystemColorMode: false,
+		cssVarPrefix: "aithercol",
+	},
+	fontSizes: {
+		sm: "13px",
+		md: "15px",
 	},
 });

@@ -11,7 +11,6 @@ import {
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaMoneyBillTransfer } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 import Balance from "../api/types/Balance";
 import Rate from "../api/types/Rate";
@@ -20,6 +19,7 @@ import Cell from "../components/Cell";
 import DepositModal from "../components/modals/DepositModal";
 import useInterval from "../hooks/useInterval";
 import { AppContext } from "../providers/AppProvider";
+import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
 import { getCacheItemJSON, setCacheItem } from "../utils/cache";
 import errorHandler, { formatBigint } from "../utils/utils";
@@ -27,7 +27,8 @@ import errorHandler, { formatBigint } from "../utils/utils";
 function Wallet() {
 	const context = useContext(AppContext);
 	const toast = useToast();
-	const navigate = useNavigate();
+	const router = useContext(HistoryContext);
+	const navigate = router.push;
 
 	const [wallet, setWallet] = useState<WalletType>(getCacheItemJSON("wallet"));
 	const [balances, setBalances] = useState<Balance[]>(
@@ -162,7 +163,9 @@ function Wallet() {
 						title={e.name}
 						subTitle={`$${getRate(e.contract).price}`}
 						additional={{
-							title: `${formatBigint(e.amount, e.decimals)} ${e.symbol}`,
+							title: `${Number(formatBigint(e.amount, e.decimals)).toFixed(
+								2
+							)} ${e.symbol}`,
 							subTitle: `$${(
 								getRate(e.contract).price *
 								Number(formatBigint(e.amount, e.decimals))

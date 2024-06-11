@@ -10,7 +10,7 @@ import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { FaArrowUp, FaCalendar } from "react-icons/fa6";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../api/api";
 import Balance from "../api/types/Balance";
 import { BasicResponse } from "../api/types/BasicResponse";
@@ -21,6 +21,7 @@ import InfoCell from "../components/InfoCell";
 import LinkedItem from "../components/LinkedItem";
 import Loader from "../components/Loader";
 import { AppContext } from "../providers/AppProvider";
+import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
 import errorHandler, {
 	formatBigint,
@@ -31,7 +32,8 @@ import errorHandler, {
 function Transaction() {
 	const params = useParams();
 	const toast = useToast();
-	const navigate = useNavigate();
+	const router = useContext(HistoryContext);
+	const navigate = router.push;
 	const context = useContext(AppContext);
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();
 

@@ -13,7 +13,7 @@ import {
 	useHapticFeedback,
 } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import Balance from "../../api/types/Balance";
 import Commission from "../../api/types/Commission";
@@ -23,6 +23,7 @@ import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
 import useInterval from "../../hooks/useInterval";
 import { AppContext } from "../../providers/AppProvider";
+import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
 import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
 import errorHandler, { formatBigint, withoutDecimals } from "../../utils/utils";
@@ -30,7 +31,8 @@ import errorHandler, { formatBigint, withoutDecimals } from "../../utils/utils";
 function WithdrawContract() {
 	const context = useContext(AppContext);
 	const toast = useToast();
-	const navigate = useNavigate();
+	const router = useContext(HistoryContext);
+	const navigate = router.push;
 	const params = useParams();
 
 	const [address, setAddress] = useState<string>("");
