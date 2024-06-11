@@ -9,7 +9,6 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import {
-	BackButton,
 	MainButton,
 	useHapticFeedback,
 } from "@vkruglikov/react-telegram-web-app";
@@ -20,6 +19,7 @@ import Balance from "../../api/types/Balance";
 import Commission from "../../api/types/Commission";
 import Rate from "../../api/types/Rate";
 import Cell from "../../components/Cell";
+import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
 import useInterval from "../../hooks/useInterval";
 import { AppContext } from "../../providers/AppProvider";
@@ -144,7 +144,7 @@ function WithdrawContract() {
 
 	return getBalance() !== null ? (
 		<>
-			<BackButton onClick={() => navigate("/")} />
+			<CustomBackButton />
 			{isOk && <MainButton text="Send" onClick={send} />}
 			<Stack direction={"column"} spacing={2}>
 				<Heading

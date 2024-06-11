@@ -1,13 +1,11 @@
 import { Heading, Image, Stack, useToast } from "@chakra-ui/react";
-import {
-	BackButton,
-	useHapticFeedback,
-} from "@vkruglikov/react-telegram-web-app";
+import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import Balance from "../../api/types/Balance";
 import Cell from "../../components/Cell";
+import CustomBackButton from "../../components/CustomBackButton";
 import { AppContext } from "../../providers/AppProvider";
 import { getTelegram } from "../../utils";
 import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
@@ -43,7 +41,7 @@ function WithdrawToken() {
 
 	return (
 		<Stack direction={"column"} spacing={2}>
-			<BackButton onClick={() => navigate("/")} />
+			<CustomBackButton />
 			<Heading
 				size={"sm"}
 				color={getTelegram().themeParams.hint_color}

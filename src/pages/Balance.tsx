@@ -9,10 +9,7 @@ import {
 	useDisclosure,
 	useToast,
 } from "@chakra-ui/react";
-import {
-	BackButton,
-	useHapticFeedback,
-} from "@vkruglikov/react-telegram-web-app";
+import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +17,7 @@ import api from "../api/api";
 import BalanceType from "../api/types/Balance";
 import Rate from "../api/types/Rate";
 import Wallet from "../api/types/Wallet";
+import CustomBackButton from "../components/CustomBackButton";
 import Loader from "../components/Loader";
 import DepositModal from "../components/modals/DepositModal";
 import useInterval from "../hooks/useInterval";
@@ -98,7 +96,7 @@ function Balance() {
 		<Loader />
 	) : (
 		<>
-			<BackButton onClick={() => navigate("/")} />
+			<CustomBackButton />
 			<Center mt="36px" mb="36px">
 				<Stack direction={"column"} spacing={6} alignItems={"center"}>
 					<Stack

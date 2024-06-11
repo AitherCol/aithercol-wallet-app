@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import App from "./App";
 import AppProvider from "./providers/AppProvider";
+import { HistoryProvider } from "./providers/HistoryProviders";
 import reportWebVitals from "./reportWebVitals";
 import theme from "./theme";
 
@@ -18,7 +19,9 @@ root.render(
 		>
 			<AppProvider>
 				<MemoryRouter>
-					<App />
+					<HistoryProvider>
+						<App />
+					</HistoryProvider>
 				</MemoryRouter>
 			</AppProvider>
 		</ChakraProvider>

@@ -7,10 +7,7 @@ import {
 	useBoolean,
 	useToast,
 } from "@chakra-ui/react";
-import {
-	BackButton,
-	useHapticFeedback,
-} from "@vkruglikov/react-telegram-web-app";
+import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
@@ -21,6 +18,7 @@ import { PaginationMeta } from "../api/types/BasicResponse";
 import Rate from "../api/types/Rate";
 import Transaction from "../api/types/Transaction";
 import Cell from "../components/Cell";
+import CustomBackButton from "../components/CustomBackButton";
 import { AppContext } from "../providers/AppProvider";
 import { getTelegram } from "../utils";
 import { getCacheItemJSON, setCacheItem } from "../utils/cache";
@@ -103,13 +101,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 
 	return (
 		<Stack direction={"column"} spacing={2}>
-			{!hideBackButton && (
-				<BackButton
-					onClick={() => {
-						navigate(`/`);
-					}}
-				/>
-			)}
+			{!hideBackButton && <CustomBackButton />}
 			<Heading
 				size={"sm"}
 				color={getTelegram().themeParams.hint_color}
