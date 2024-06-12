@@ -57,7 +57,13 @@ function DepositModal({
 							</Center>
 						</Stack>
 
-						<Text fontSize={"md"} textAlign={"center"}>
+						<Text
+							maxW="240px"
+							fontSize={"md"}
+							textAlign={"center"}
+							whiteSpace={"normal"}
+							wordBreak={"break-all"}
+						>
 							{wallet.address}
 						</Text>
 
