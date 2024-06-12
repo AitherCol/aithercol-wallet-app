@@ -15,19 +15,32 @@ export function HistoryProvider({
 	const [query] = useSearchParams();
 	const currentLocation = useLocation();
 
-	const push = (location: string, ignore?: boolean) => {
-		navigate(
-			location +
-				`${!ignore ? `?back=${currentLocation.pathname}` : ""}${
-					window.location.hash
-				}`
-		);
+	const push = (location: string, back?: boolean) => {
+		let queryString = "";
+
+		let history = query.get("history")?.split(".") || [];
+		if (history.length === 0) {
+			history.push(currentLocation.pathname.split("#")[0]);
+		}
+		if (back) {
+			history.pop();
+		} else {
+			history.push(location.split("#")[0]);
+		}
+		queryString = `?history=${history.join(".")}`;
+
+		navigate(location.split("#")[0] + `${queryString}${window.location.hash}`);
 	};
 	const back = () => {
-		const back = query.get("back");
-		if (back) {
-			push(back.split("#")[0], true);
+		const historyString = query.get("history");
+		if (historyString) {
+			const history = historyString.split(".");
+			if (history.length >= 2) {
+				push(history[history.length - 2], true);
+				return;
+			}
 		}
+		navigate("/");
 	};
 
 	return (
