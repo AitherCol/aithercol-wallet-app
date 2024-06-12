@@ -6,9 +6,8 @@ import {
 	IconButton,
 	Stack,
 	useDisclosure,
-	useToast,
 } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import {
 	FaArrowDown,
 	FaArrowRightArrowLeft,
@@ -27,13 +26,8 @@ import { formatBigint } from "../utils/utils";
 
 function Wallet() {
 	const context = useContext(AppContext);
-	const toast = useToast();
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
-
-	useEffect(() => {
-		context.update();
-	}, []);
 
 	const getRate = (contract: string): Rate => {
 		const rate = context.rates.find(e => e.contract === contract);

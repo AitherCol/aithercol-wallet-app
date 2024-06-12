@@ -5,6 +5,7 @@ import {
 	Dispatch,
 	ReactNode,
 	SetStateAction,
+	useEffect,
 	useState,
 } from "react";
 import api from "../api/api";
@@ -13,7 +14,6 @@ import Rate from "../api/types/Rate";
 import User from "../api/types/User";
 import Wallet from "../api/types/Wallet";
 import useInterval from "../hooks/useInterval";
-import { getCacheItemJSON, setCacheItem } from "../utils/cache";
 import errorHandler from "../utils/utils";
 
 export type AppContextType = {
@@ -49,11 +49,9 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 		auth: null,
 		network: "mainnet",
 	});
-	const [wallet, setWallet] = useState<Wallet>(getCacheItemJSON("wallet"));
-	const [balances, setBalances] = useState<Balance[]>(
-		getCacheItemJSON("balances")
-	);
-	const [rates, setRates] = useState<Rate[]>(getCacheItemJSON("rates") || []);
+	const [wallet, setWallet] = useState<Wallet>();
+	const [balances, setBalances] = useState<Balance[]>();
+	const [rates, setRates] = useState<Rate[]>();
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();
 	const toast = useToast();
 
@@ -64,7 +62,6 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 		try {
 			const data = await api.wallet.get(props.auth?.token || "");
 			setWallet(data.wallet);
-			setCacheItem("wallet", JSON.stringify(data.wallet));
 		} catch (error) {
 			errorHandler(error, toast);
 			notificationOccurred("error");
@@ -72,14 +69,13 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 		try {
 			const data = await api.wallet.balances.list(props.auth?.token || "");
 			setBalances(data.balances);
-			setCacheItem("balances", JSON.stringify(data.balances));
+
 			try {
 				const rates = await api.wallet.getRates(
 					data.balances.map(e => e.contract),
 					props.auth?.token || ""
 				);
 				setRates(rates.rates);
-				setCacheItem("rates", JSON.stringify(rates.rates));
 			} catch (error) {
 				errorHandler(error, toast);
 				notificationOccurred("error");
@@ -94,9 +90,20 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 		update();
 	}, 60000);
 
+	useEffect(() => {
+		update();
+	}, [props.auth]);
+
 	return (
 		<AppContext.Provider
-			value={{ props, setProps, wallet, balances, rates, update }}
+			value={{
+				props,
+				setProps,
+				wallet,
+				balances: balances as any,
+				rates: rates as any,
+				update,
+			}}
 		>
 			{children}
 		</AppContext.Provider>

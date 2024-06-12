@@ -53,7 +53,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 		</BaseProvider>
 	) : (
 		<>
-			<BaseProvider>{children}</BaseProvider>
+			<BaseProvider>{!context.rates ? <Loader /> : children}</BaseProvider>
 		</>
 	);
 }

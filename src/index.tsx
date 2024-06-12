@@ -1,7 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { WebAppProvider } from "@vkruglikov/react-telegram-web-app";
 import ReactDOM from "react-dom/client";
-import { MemoryRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import AppProvider from "./providers/AppProvider";
 import { HistoryProvider } from "./providers/HistoryProviders";
@@ -18,11 +18,11 @@ root.render(
 			theme={theme}
 		>
 			<AppProvider>
-				<MemoryRouter>
+				<BrowserRouter>
 					<HistoryProvider>
 						<App />
 					</HistoryProvider>
-				</MemoryRouter>
+				</BrowserRouter>
 			</AppProvider>
 		</ChakraProvider>
 	</WebAppProvider>
