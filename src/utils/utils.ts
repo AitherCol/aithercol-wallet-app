@@ -1,5 +1,10 @@
 import { AppContextType } from "../providers/AppProvider";
 
+export function toDecimals(amount: number, decimals: number): number {
+	const factor = Math.pow(10, decimals);
+	return Math.round(amount / factor) / Math.pow(10, decimals);
+}
+
 export default function errorHandler(err: any, toast: any) {
 	if (err?.response && err.response?.data && err.response.data?.errors) {
 		for (const error of err.response.data.errors) {

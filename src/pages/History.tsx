@@ -13,9 +13,7 @@ import { useContext, useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import api from "../api/api";
-import Balance from "../api/types/Balance";
 import { PaginationMeta } from "../api/types/BasicResponse";
-import Rate from "../api/types/Rate";
 import Transaction from "../api/types/Transaction";
 import Cell from "../components/Cell";
 import CustomBackButton from "../components/CustomBackButton";
@@ -35,10 +33,6 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const [impactOccurred, notificationOccurred, selectionChanged] =
 		useHapticFeedback();
 
-	const [balances, setBalances] = useState<Balance[]>(
-		getCacheItemJSON("balances") || []
-	);
-	const [rates, setRates] = useState<Rate[]>(getCacheItemJSON("rates") || []);
 	const [transactions, setTransactions] = useState<Transaction[]>(
 		getCacheItemJSON(`transactions:${params.balance}`) || []
 	);
@@ -47,42 +41,21 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	useEffect(() => {
 		const getBalances = async () => {
 			try {
-				const data = await api.wallet.balances.list(
+				const transactions = await api.wallet.getTransactions(
+					{
+						balance_id:
+							params?.balance !== "all" ? Number(params.balance) : undefined,
+						page: 1,
+						limit: 25,
+					},
 					context.props.auth?.token || ""
 				);
-				setBalances(data.balances);
-				setCacheItem("balances", JSON.stringify(data.balances));
-				try {
-					const rates = await api.wallet.getRates(
-						data.balances.map(e => e.contract),
-						context.props.auth?.token || ""
-					);
-					setRates(rates.rates);
-					setCacheItem("rates", JSON.stringify(rates.rates));
-				} catch (error) {
-					errorHandler(error, toast);
-					notificationOccurred("error");
-				}
-				try {
-					const transactions = await api.wallet.getTransactions(
-						{
-							balance_id:
-								params?.balance !== "all" ? Number(params.balance) : undefined,
-							page: 1,
-							limit: 25,
-						},
-						context.props.auth?.token || ""
-					);
-					setMeta(transactions.transactions.meta);
-					setTransactions(transactions.transactions.data);
-					setCacheItem(
-						`transactions:${params.balance}`,
-						JSON.stringify(transactions.transactions.data)
-					);
-				} catch (error) {
-					errorHandler(error, toast);
-					notificationOccurred("error");
-				}
+				setMeta(transactions.transactions.meta);
+				setTransactions(transactions.transactions.data);
+				setCacheItem(
+					`transactions:${params.balance}`,
+					JSON.stringify(transactions.transactions.data)
+				);
 			} catch (error) {
 				errorHandler(error, toast);
 				notificationOccurred("error");
@@ -93,11 +66,11 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	}, []);
 
 	const getBalance = (id: number) => {
-		const balance = balances.find(e => e.id === id);
+		const balance = context.balances.find(e => e.id === id);
 		if (!balance) {
 			return null;
 		}
-		const rate = rates.find(e => e.contract === balance.contract);
+		const rate = context.rates.find(e => e.contract === balance.contract);
 		return { ...balance, rate };
 	};
 
@@ -112,8 +85,9 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 				History
 			</Heading>
 
-			{transactions.map(e => (
+			{transactions.map((e, key) => (
 				<Cell
+					key={key}
 					icon={
 						<Center
 							w={"40px"}
@@ -138,7 +112,13 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 							)}
 						</Center>
 					}
-					title={e.description || e.type === "increase" ? "Received" : "Sent"}
+					title={
+						e.description
+							? e.description
+							: e.type === "increase"
+							? "Recieved"
+							: "Sent"
+					}
 					subTitle={moment(e.created_at).format("DD MMMM HH:mm")}
 					additional={{
 						title: `${e.type === "increase" ? "+" : "–"}${Number(

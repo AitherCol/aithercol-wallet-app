@@ -1,6 +1,5 @@
 import {
 	FormControl,
-	FormHelperText,
 	FormLabel,
 	Heading,
 	Image,
@@ -15,67 +14,47 @@ import {
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
-import Commission from "../../api/types/Commission";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
-import useInterval from "../../hooks/useInterval";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
-import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
 import errorHandler, { formatBigint, withoutDecimals } from "../../utils/utils";
 
-function WithdrawContract() {
+function DepositToPool() {
 	const context = useContext(AppContext);
 	const toast = useToast();
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
 	const params = useParams();
-
-	const [address, setAddress] = useState<string>("");
-	const [amountString, setAmountString] = useState<string>("");
 	const [impactOccurred, notificationOccurred, selectionChanged] =
 		useHapticFeedback();
 
-	const [commission, setCommission] = useState<Commission | null>(
-		getCacheItemJSON(`commission:${params?.contract}`) || null
-	);
+	const getBalance = () => {
+		const balance = context.balances.find(e => e.contract === params.contract);
+		if (!balance) {
+			return null;
+		}
+		const rate = context.rates.find(e => e.contract === balance.contract);
+		return { ...balance, rate };
+	};
 
-	useInterval(() => {
-		const getBalances = async () => {
-			try {
-				const commission = await api.wallet.getCommission(
-					context.balances.find(e => e.contract === params.contract)?.id || 0,
-					context.props.auth?.token || ""
-				);
-				setCommission(commission.commission);
-				setCacheItem(
-					`commission:${params?.contract}`,
-					JSON.stringify(commission.commission)
-				);
-			} catch (error) {
-				errorHandler(error, toast);
-				notificationOccurred("error");
-			}
-		};
-
-		getBalances();
-	}, 10000);
+	const [amountString, setAmountString] = useState<string>("");
+	const isOk = amountString.trim() !== "";
 
 	const send = async () => {
 		try {
 			getTelegram().MainButton.showProgress();
 			const balance = getBalance();
 			if (balance) {
-				await api.wallet.balances.withdraw(
+				await api.wallet.exchange.transferToPool(
 					{
 						balance_id: balance.id,
 						amount: withoutDecimals(
 							Number(amountString),
 							balance.decimals
 						).toString(),
-						address: address.trim(),
 					},
 					context.props.auth?.token || ""
 				);
@@ -84,7 +63,7 @@ function WithdrawContract() {
 				notificationOccurred("success");
 			}
 
-			navigate("/");
+			router.back();
 		} catch (error) {
 			errorHandler(error, toast);
 			notificationOccurred("error");
@@ -93,31 +72,9 @@ function WithdrawContract() {
 		}
 	};
 
-	const getBalance = (contract?: string) => {
-		if (!contract) {
-			contract = params.contract;
-		}
-		const balance = context.balances.find(e => e.contract === contract);
-		const rate = context.rates.find(e => e.contract === contract);
-		if (!balance) {
-			return null;
-		}
-		return { ...balance, rate };
-	};
-
-	const getFormattedBalance = () => {
-		if (commission?.contract !== getBalance()?.contract) {
-			return getBalance()?.amount || "0";
-		}
-		let amount = BigInt(getBalance()?.amount || 0);
-		amount -= BigInt(commission?.amount || 0);
-
-		return amount.toString();
-	};
-
-	const isOk = amountString.trim() !== "" && address.trim() !== "";
-
-	return getBalance() !== null ? (
+	return !getBalance() ? (
+		<Loader />
+	) : (
 		<>
 			<CustomBackButton />
 			{isOk && <MainButton text="Send" onClick={send} />}
@@ -127,7 +84,7 @@ function WithdrawContract() {
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					Send {getBalance()?.symbol}
+					Send {getBalance()?.symbol} to {getBalance()?.symbol} pool
 				</Heading>
 
 				<Cell
@@ -140,32 +97,14 @@ function WithdrawContract() {
 						/>
 					}
 					title={getBalance()?.name || ""}
-					subTitle={"Change token"}
 					additional={{
 						title: `${formatBigint(
-							getFormattedBalance(),
+							getBalance()?.amount || "0",
 							getBalance()?.decimals || 1
 						)} ${getBalance()?.symbol}`,
 					}}
-					onClick={() => navigate("/withdraw")}
 				/>
 
-				<FormControl>
-					<FormLabel>Address</FormLabel>
-					<Input
-						borderColor={getTelegram().themeParams.hint_color}
-						_hover={{
-							borderColor: getTelegram().themeParams.hint_color,
-						}}
-						_focus={{
-							borderColor: getTelegram().themeParams.accent_text_color,
-							boxShadow: "none",
-						}}
-						value={address}
-						onChange={e => setAddress(e.currentTarget.value)}
-						inputMode="text"
-					></Input>
-				</FormControl>
 				<FormControl>
 					<FormLabel>Amount</FormLabel>
 					<Input
@@ -208,22 +147,10 @@ function WithdrawContract() {
 							);
 						}}
 					></Input>
-					{commission && (
-						<FormHelperText color={getTelegram().themeParams.hint_color}>
-							Fee:{" "}
-							{formatBigint(
-								commission.amount,
-								getBalance(commission.contract)?.decimals || 1
-							)}{" "}
-							{getBalance(commission.contract)?.symbol}
-						</FormHelperText>
-					)}
 				</FormControl>
 			</Stack>
 		</>
-	) : (
-		<Loader />
 	);
 }
 
-export default WithdrawContract;
+export default DepositToPool;

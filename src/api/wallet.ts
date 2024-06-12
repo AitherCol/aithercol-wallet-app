@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../config";
 import balance from "./balance";
+import exchange from "./exchange";
 import Balance from "./types/Balance";
 import { BasicResponse, PaginationMeta } from "./types/BasicResponse";
 import Commission from "./types/Commission";
@@ -90,6 +91,7 @@ async function getTransaction(
 const wallet = {
 	get,
 	balances: balance,
+	exchange,
 	getRates,
 	getNetwork,
 	getCommission,

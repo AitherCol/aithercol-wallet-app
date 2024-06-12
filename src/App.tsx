@@ -5,6 +5,10 @@ import Balance from "./pages/Balance";
 import History from "./pages/History";
 import Transaction from "./pages/Transaction";
 import Wallet from "./pages/Wallet";
+import BalancesToExchange from "./pages/exchange/Balances";
+import DepositToPool from "./pages/exchange/DepositToPool";
+import PoolList from "./pages/exchange/Pool";
+import Swap from "./pages/exchange/Swap";
 import WithdrawToken from "./pages/withdraw";
 import WithdrawContract from "./pages/withdraw/Contract";
 import AuthProvider from "./providers/AuthProvider";
@@ -72,6 +76,39 @@ function App() {
 						element={
 							<AuthProvider>
 								<Transaction />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path="/exchange"
+						element={
+							<AuthProvider>
+								<BalancesToExchange />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path="/exchange/pool/:contract"
+						element={
+							<AuthProvider>
+								<PoolList />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path="/exchange/pool/:contract/deposit"
+						element={
+							<AuthProvider>
+								<DepositToPool />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path="/exchange/pool/:contract/swap/:output"
+						element={
+							<AuthProvider>
+								<Swap />
 							</AuthProvider>
 						}
 					/>

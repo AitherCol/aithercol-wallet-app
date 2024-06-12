@@ -8,21 +8,20 @@ import {
 	useDisclosure,
 	useToast,
 } from "@chakra-ui/react";
-import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
-import { useContext, useState } from "react";
-import { FaArrowDown, FaArrowUp, FaMoneyBillTransfer } from "react-icons/fa6";
-import api from "../api/api";
-import Balance from "../api/types/Balance";
+import { useContext, useEffect } from "react";
+import {
+	FaArrowDown,
+	FaArrowRightArrowLeft,
+	FaArrowUp,
+	FaMoneyBillTransfer,
+} from "react-icons/fa6";
 import Rate from "../api/types/Rate";
-import WalletType from "../api/types/Wallet";
 import Cell from "../components/Cell";
 import DepositModal from "../components/modals/DepositModal";
-import useInterval from "../hooks/useInterval";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
-import { getCacheItemJSON, setCacheItem } from "../utils/cache";
-import errorHandler, { formatBigint } from "../utils/utils";
+import { formatBigint } from "../utils/utils";
 
 function Wallet() {
 	const context = useContext(AppContext);
@@ -30,51 +29,12 @@ function Wallet() {
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
 
-	const [wallet, setWallet] = useState<WalletType>(getCacheItemJSON("wallet"));
-	const [balances, setBalances] = useState<Balance[]>(
-		getCacheItemJSON("balances") || []
-	);
-	const [rates, setRates] = useState<Rate[]>(getCacheItemJSON("rates") || []);
-	const [impactOccurred, notificationOccurred] = useHapticFeedback();
-
-	useInterval(() => {
-		const getBalances = async () => {
-			try {
-				const data = await api.wallet.get(context.props.auth?.token || "");
-				setWallet(data.wallet);
-				setCacheItem("wallet", JSON.stringify(data.wallet));
-			} catch (error) {
-				errorHandler(error, toast);
-				notificationOccurred("error");
-			}
-			try {
-				const data = await api.wallet.balances.list(
-					context.props.auth?.token || ""
-				);
-				setBalances(data.balances);
-				setCacheItem("balances", JSON.stringify(data.balances));
-				try {
-					const rates = await api.wallet.getRates(
-						data.balances.map(e => e.contract),
-						context.props.auth?.token || ""
-					);
-					setRates(rates.rates);
-					setCacheItem("rates", JSON.stringify(rates.rates));
-				} catch (error) {
-					errorHandler(error, toast);
-					notificationOccurred("error");
-				}
-			} catch (error) {
-				errorHandler(error, toast);
-				notificationOccurred("error");
-			}
-		};
-
-		getBalances();
-	}, 10000);
+	useEffect(() => {
+		context.update();
+	}, []);
 
 	const getRate = (contract: string): Rate => {
-		const rate = rates.find(e => e.contract === contract);
+		const rate = context.rates.find(e => e.contract === contract);
 		if (rate) {
 			return rate;
 		} else {
@@ -90,7 +50,7 @@ function Wallet() {
 
 	const getTotalBalance = (): number => {
 		let total = 0;
-		for (const balance of balances) {
+		for (const balance of context.balances) {
 			total +=
 				getRate(balance.contract).price *
 				Number(formatBigint(balance.amount, balance.decimals));
@@ -145,12 +105,31 @@ function Wallet() {
 								Recieve
 							</Heading>
 						</Stack>
+						<Stack
+							onClick={() => navigate("/exchange")}
+							alignItems={"center"}
+							direction={"column"}
+							spacing={2}
+							cursor={"pointer"}
+						>
+							<Box>
+								<IconButton
+									aria-label="deposit"
+									borderRadius={"999px"}
+									icon={<FaArrowRightArrowLeft size={"20px"} />}
+									colorScheme="button"
+								></IconButton>
+							</Box>
+							<Heading color={"button.500"} size={"sm"}>
+								Swap
+							</Heading>
+						</Stack>
 					</Stack>
 				</Stack>
 			</Center>
 
 			<Stack direction={"column"} spacing={2}>
-				{balances.map((e, key) => (
+				{context.balances.map((e, key) => (
 					<Cell
 						icon={
 							<Image
@@ -195,11 +174,11 @@ function Wallet() {
 				/>
 			</Box>
 
-			{wallet && (
+			{context.wallet && (
 				<DepositModal
 					isOpen={depositModal.isOpen}
 					onClose={depositModal.onClose}
-					wallet={wallet}
+					wallet={context.wallet}
 				/>
 			)}
 		</>
