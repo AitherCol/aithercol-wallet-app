@@ -184,6 +184,9 @@ function Swap() {
 		}
 		let amount = BigInt(getBalance()?.amount || 0);
 		amount -= BigInt(swapRate?.commission?.amount || 0);
+		if (BigInt(amount) <= 0) {
+			return "0";
+		}
 
 		return amount.toString();
 	};
