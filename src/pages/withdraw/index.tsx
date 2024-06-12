@@ -1,6 +1,7 @@
-import { Heading, Image, Stack, useToast } from "@chakra-ui/react";
+import { Heading, Stack, useToast } from "@chakra-ui/react";
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import { useContext } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import { AppContext } from "../../providers/AppProvider";
@@ -29,8 +30,8 @@ function WithdrawToken() {
 			{context.balances.map((e, key) => (
 				<Cell
 					icon={
-						<Image
-							borderRadius={"999px"}
+						<LazyLoadImage
+							style={{ borderRadius: "999px" }}
 							width={"40px"}
 							height={"40px"}
 							src={e.image}

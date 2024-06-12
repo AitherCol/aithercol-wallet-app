@@ -3,7 +3,6 @@ import {
 	Center,
 	Heading,
 	IconButton,
-	Image,
 	Stack,
 	useDisclosure,
 	useToast,
@@ -15,8 +14,10 @@ import {
 	FaArrowUp,
 	FaMoneyBillTransfer,
 } from "react-icons/fa6";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import Rate from "../api/types/Rate";
 import Cell from "../components/Cell";
+import Loader from "../components/Loader";
 import DepositModal from "../components/modals/DepositModal";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
@@ -61,7 +62,9 @@ function Wallet() {
 
 	const depositModal = useDisclosure();
 
-	return (
+	return !context.balances ? (
+		<Loader />
+	) : (
 		<>
 			<Center mt="36px" mb="36px">
 				<Stack direction={"column"} spacing={6} alignItems={"center"}>
@@ -132,8 +135,8 @@ function Wallet() {
 				{context.balances.map((e, key) => (
 					<Cell
 						icon={
-							<Image
-								borderRadius={"999px"}
+							<LazyLoadImage
+								style={{ borderRadius: "999px" }}
 								width={"40px"}
 								height={"40px"}
 								src={e.image}

@@ -51,7 +51,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 	});
 	const [wallet, setWallet] = useState<Wallet>(getCacheItemJSON("wallet"));
 	const [balances, setBalances] = useState<Balance[]>(
-		getCacheItemJSON("balances") || []
+		getCacheItemJSON("balances")
 	);
 	const [rates, setRates] = useState<Rate[]>(getCacheItemJSON("rates") || []);
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();

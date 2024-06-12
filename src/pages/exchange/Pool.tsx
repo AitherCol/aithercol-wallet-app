@@ -4,6 +4,7 @@ import {
 	Heading,
 	IconButton,
 	Image,
+	Input,
 	Stack,
 	Text,
 	useToast,
@@ -11,6 +12,7 @@ import {
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { FaArrowUp } from "react-icons/fa6";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import Cell from "../../components/Cell";
@@ -21,7 +23,7 @@ import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
 import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
-import errorHandler, { formatBigint } from "../../utils/utils";
+import errorHandler, { formatBigint, reduceString } from "../../utils/utils";
 
 function PoolList() {
 	const context = useContext(AppContext);
@@ -35,7 +37,8 @@ function PoolList() {
 	const [poolBalance, setPoolBalance] = useState<string>(
 		getCacheItemJSON(`poolbalance:${params.contract}`) || "0"
 	);
-	const [pools, setPools] = useState<any[]>(getCacheItemJSON("pools") || []);
+	const [pools, setPools] = useState<any[]>(getCacheItemJSON("pools"));
+	const [search, setSearch] = useState<string>("");
 
 	useInterval(() => {
 		const getBalances = async () => {
@@ -78,7 +81,7 @@ function PoolList() {
 		return { ...balance, rate };
 	};
 
-	return !getBalance() ? (
+	return !pools ? (
 		<Loader />
 	) : (
 		<>
@@ -149,35 +152,78 @@ function PoolList() {
 					Swap to
 				</Heading>
 
-				{pools
-					.filter(e => e.contract !== getBalance()?.contract)
-					.map(e => (
-						<Cell
-							icon={
-								<Image
-									borderRadius={"999px"}
-									width={"40px"}
-									height={"40px"}
-									src={e.image}
-								/>
-							}
-							title={e.name}
-							onClick={() => {
-								if (e.amount === "0") {
-									toast({
-										status: "error",
-										title: "Error",
-										description: "Pool balance is 0, we cannot swap tokens.",
-									});
-									notificationOccurred("error");
-								} else {
-									navigate(
-										`/exchange/pool/${params.contract}/swap/${e.contract}`
-									);
-								}
+				{pools.length === 0 && (
+					<Center>
+						<Stack
+							alignItems={"center"}
+							textAlign={"center"}
+							direction={"column"}
+							spacing={2}
+						>
+							<Heading>No Pools Yet</Heading>
+							<Text>
+								When someone deposits coins into the pool, we will be able to
+								exchange tokens
+							</Text>
+						</Stack>
+					</Center>
+				)}
+
+				{pools.length !== 0 && (
+					<>
+						<Input
+							borderColor={getTelegram().themeParams.hint_color}
+							_hover={{
+								borderColor: getTelegram().themeParams.hint_color,
 							}}
-						/>
-					))}
+							_focus={{
+								borderColor: getTelegram().themeParams.accent_text_color,
+								boxShadow: "none",
+							}}
+							placeholder="Search..."
+							value={search}
+							onChange={e => setSearch(e.currentTarget.value)}
+						></Input>
+
+						{pools
+							.filter(e => {
+								return (
+									e.contract !== getBalance()?.contract &&
+									(search.trim() === "" ||
+										e.name.toLowerCase().includes(search.trim().toLowerCase()))
+								);
+							})
+							.map(e => (
+								<Cell
+									icon={
+										<LazyLoadImage
+											style={{ borderRadius: "999px" }}
+											width={"40px"}
+											height={"40px"}
+											src={e.image}
+										/>
+									}
+									title={e.name}
+									subTitle={reduceString(e.contract, 20)}
+									onClick={() => {
+										if (e.amount === "0") {
+											toast({
+												status: "error",
+												title: "Error",
+												description:
+													"Pool balance is 0, we cannot swap tokens.",
+											});
+											notificationOccurred("error");
+										} else {
+											navigate(
+												`/exchange/pool/${params.contract}/swap/${e.contract}`
+											);
+										}
+									}}
+								/>
+							))}
+					</>
+				)}
 			</Stack>
 		</>
 	);
