@@ -146,7 +146,7 @@ function PoolList() {
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					Pools
+					Swap to
 				</Heading>
 
 				{pools
