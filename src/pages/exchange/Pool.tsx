@@ -163,7 +163,7 @@ function PoolList() {
 							}
 							title={e.name}
 							onClick={() => {
-								if (poolBalance === "0") {
+								if (e.amount === "0") {
 									toast({
 										status: "error",
 										title: "Error",
