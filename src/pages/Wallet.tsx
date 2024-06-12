@@ -1,4 +1,5 @@
 import {
+	Badge,
 	Box,
 	Center,
 	Heading,
@@ -68,7 +69,14 @@ function Wallet() {
 		<>
 			<Center mt="36px" mb="36px">
 				<Stack direction={"column"} spacing={6} alignItems={"center"}>
-					<Heading size={"2xl"}>${getTotalBalance().toFixed(2)}</Heading>
+					<Stack alignItems={"center"} direction={"row"} spacing={1}>
+						<Heading alignItems={"center"} size={"2xl"}>
+							${getTotalBalance().toFixed(2)}{" "}
+						</Heading>
+						{context.props.network === "testnet" && (
+							<Badge colorScheme="orange">TEST</Badge>
+						)}
+					</Stack>
 					<Stack direction={"row"} spacing={6}>
 						<Stack
 							onClick={() => navigate("/withdraw")}

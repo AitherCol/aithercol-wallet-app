@@ -20,7 +20,7 @@ function App() {
 		if (getTelegram().initData === "") {
 			window.location.href = "https://t.me/AitherColWalletBot";
 		}
-		setColorMode("light");
+		setColorMode(getTelegram().colorScheme);
 	}, []);
 	if (getTelegram().initData === "") {
 		return <></>;
