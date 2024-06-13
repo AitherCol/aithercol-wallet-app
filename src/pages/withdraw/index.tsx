@@ -24,7 +24,7 @@ function WithdrawToken() {
 				color={getTelegram().themeParams.hint_color}
 				textTransform={"uppercase"}
 			>
-				Choose Token
+				{context.getTranslation("choose_token")}
 			</Heading>
 
 			{context.balances.map((e, key) => (

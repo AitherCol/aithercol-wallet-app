@@ -15,6 +15,8 @@ import Rate from "../api/types/Rate";
 import User from "../api/types/User";
 import Wallet from "../api/types/Wallet";
 import useInterval from "../hooks/useInterval";
+import enTranslation from "../translation/en";
+import ruTranslation from "../translation/ru";
 import errorHandler from "../utils/utils";
 
 export type AppContextType = {
@@ -25,6 +27,7 @@ export type AppContextType = {
 	rates: Rate[];
 	checks: Check[];
 	update: () => void;
+	getTranslation: (key: string, language?: string) => string;
 };
 
 export type PropsType = {
@@ -45,6 +48,9 @@ const AppContext = createContext<AppContextType>({
 	wallet: undefined,
 	checks: [],
 	update() {},
+	getTranslation(key) {
+		return key;
+	},
 });
 
 export default function AppProvider({ children }: { children: ReactNode }) {
@@ -116,6 +122,34 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 				rates: rates as any,
 				update,
 				checks: checks as any,
+				getTranslation(key, languageOverride) {
+					const language =
+						languageOverride || props.auth?.profile.language || "en";
+					const keys = key.split(".");
+					const translation = language === "en" ? enTranslation : ruTranslation;
+
+					let result: any = translation;
+					for (const k of keys) {
+						if (result === undefined || result === null) {
+							if (language !== "en") {
+								return this.getTranslation(key, "en");
+							} else {
+								return key;
+							}
+						}
+						result = result[k];
+					}
+
+					if (!result) {
+						if (language !== "en") {
+							return this.getTranslation(key, "en");
+						} else {
+							return key;
+						}
+					}
+
+					return result as string;
+				},
 			}}
 		>
 			{children}

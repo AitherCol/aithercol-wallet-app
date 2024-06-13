@@ -86,7 +86,10 @@ function WithdrawContract() {
 					context.props.auth?.token || ""
 				);
 
-				toast({ title: "Success", description: "Transaction in progress" });
+				toast({
+					title: context.getTranslation("success"),
+					description: context.getTranslation("Transaction in progress"),
+				});
 				notificationOccurred("success");
 			}
 
@@ -130,14 +133,16 @@ function WithdrawContract() {
 	return getBalance() !== null ? (
 		<>
 			<CustomBackButton />
-			{isOk && <MainButton text="Send" onClick={send} />}
+			{isOk && (
+				<MainButton text={context.getTranslation("send")} onClick={send} />
+			)}
 			<Stack direction={"column"} spacing={2}>
 				<Heading
 					size={"sm"}
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					Send {getBalance()?.symbol}
+					{context.getTranslation("send")} {getBalance()?.symbol}
 				</Heading>
 
 				<Cell
@@ -150,7 +155,7 @@ function WithdrawContract() {
 						/>
 					}
 					title={getBalance()?.name || ""}
-					subTitle={"Change token"}
+					subTitle={context.getTranslation("change_token")}
 					additional={{
 						title: `${formatBigint(
 							getFormattedBalance(),
@@ -161,7 +166,7 @@ function WithdrawContract() {
 				/>
 
 				<FormControl>
-					<FormLabel>Address</FormLabel>
+					<FormLabel>{context.getTranslation("address")}</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{
@@ -177,7 +182,7 @@ function WithdrawContract() {
 					></Input>
 				</FormControl>
 				<FormControl>
-					<FormLabel>Amount</FormLabel>
+					<FormLabel>{context.getTranslation("amount")}</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{
@@ -220,7 +225,7 @@ function WithdrawContract() {
 					></Input>
 					{commission && (
 						<FormHelperText color={getTelegram().themeParams.hint_color}>
-							Fee:{" "}
+							{context.getTranslation("fee")}:{" "}
 							{formatBigint(
 								commission.amount,
 								getBalance(commission.contract)?.decimals || 1
@@ -231,7 +236,10 @@ function WithdrawContract() {
 				</FormControl>
 
 				<FormControl>
-					<FormLabel>Comment (optional)</FormLabel>
+					<FormLabel>
+						{context.getTranslation("comment")} (
+						{context.getTranslation("optional")})
+					</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{

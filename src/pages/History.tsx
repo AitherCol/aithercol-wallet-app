@@ -82,7 +82,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 				color={getTelegram().themeParams.hint_color}
 				textTransform={"uppercase"}
 			>
-				History
+				{context.getTranslation("history")}
 			</Heading>
 
 			{transactions.map((e, key) => (
@@ -114,10 +114,10 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 					}
 					title={
 						e.description
-							? e.description
+							? context.getTranslation(e.description.toLowerCase())
 							: e.type === "increase"
-							? "Recieved"
-							: "Sent"
+							? context.getTranslation("received")
+							: context.getTranslation("sent")
 					}
 					subTitle={moment(e.created_at).format("DD MMMM HH:mm")}
 					additional={{
@@ -145,9 +145,11 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 								direction={"column"}
 								spacing={2}
 							>
-								<Heading>No History Yet</Heading>
+								<Heading>{context.getTranslation("No History Yet")}</Heading>
 								<Text>
-									Once you start making transactions, they will appear here.
+									{context.getTranslation(
+										"Once you start making transactions, they will appear here."
+									)}
 								</Text>
 							</Stack>
 						</Center>
@@ -181,7 +183,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 							}}
 							colorScheme="button"
 						>
-							Show more
+							{context.getTranslation("show_more")}
 						</Button>
 					)}
 				</>

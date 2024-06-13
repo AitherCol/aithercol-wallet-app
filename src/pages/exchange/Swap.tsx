@@ -175,7 +175,10 @@ function Swap() {
 				context.props.auth?.token || ""
 			);
 
-			toast({ title: "Success", description: "Transaction in progress" });
+			toast({
+				title: context.getTranslation("success"),
+				description: context.getTranslation("Transaction in progress"),
+			});
 			notificationOccurred("success");
 			navigate("/");
 		} catch (error) {
@@ -204,14 +207,22 @@ function Swap() {
 	) : (
 		<>
 			<CustomBackButton />
-			{isOk && <MainButton text="Swap" onClick={swap} />}
+			{isOk && (
+				<MainButton
+					text={context.getTranslation("swap_action")}
+					onClick={swap}
+				/>
+			)}
 			<Stack direction={"column"} spacing={2}>
 				<Heading
 					size={"sm"}
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					Swap {getBalance()?.symbol} to {getSwap()?.symbol}
+					{context
+						.getTranslation("swap_token_to")
+						.replaceAll("%input%", getBalance()?.symbol || "")
+						.replaceAll("%output%", getSwap()?.symbol || "")}
 				</Heading>
 
 				<Cell
@@ -233,7 +244,7 @@ function Swap() {
 				/>
 
 				<FormControl>
-					<FormLabel>Amount</FormLabel>
+					<FormLabel>{context.getTranslation("amount")}</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{
@@ -276,18 +287,15 @@ function Swap() {
 					></Input>
 					{swapRate && (
 						<FormHelperText color={getTelegram().themeParams.hint_color}>
-							Rate: 1 {getBalance()?.symbol} ={" "}
+							{context.getTranslation("rate")}: 1 {getBalance()?.symbol} ={" "}
 							{formatBigint(
 								swapRate?.output_amount || "0",
 								getSwap()?.decimals || 0
 							)}{" "}
 							{getSwap()?.symbol}
 							<br />
-							Maximum:{" "}
-							{formatBigint(
-								getSwap()?.amount || "0",
-								getSwap()?.decimals || 0
-							)}{" "}
+							{context.getTranslation("maximum")}:{" "}
+							{formatBigint(getSwap()?.amount || "0", getSwap()?.decimals || 0)}{" "}
 							{getSwap()?.symbol} |{" "}
 							{(
 								Number(
@@ -305,7 +313,7 @@ function Swap() {
 							).toFixed(getBalance()?.decimals)}{" "}
 							{getBalance()?.symbol}
 							<br />
-							Fee:{" "}
+							{context.getTranslation("fee")}:{" "}
 							{formatBigint(
 								swapRate.commission.amount,
 								getBalance(swapRate.commission.contract)?.decimals || 1
@@ -316,7 +324,7 @@ function Swap() {
 				</FormControl>
 
 				<FormControl>
-					<FormLabel>You recieve</FormLabel>
+					<FormLabel>{context.getTranslation("you_receive")}</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{

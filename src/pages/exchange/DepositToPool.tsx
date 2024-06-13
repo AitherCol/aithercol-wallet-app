@@ -63,7 +63,10 @@ function DepositToPool() {
 					context.props.auth?.token || ""
 				);
 
-				toast({ title: "Success", description: "Transaction in progress" });
+				toast({
+					title: context.getTranslation("success"),
+					description: context.getTranslation("Transaction in progress"),
+				});
 				notificationOccurred("success");
 			}
 
@@ -81,14 +84,18 @@ function DepositToPool() {
 	) : (
 		<>
 			<CustomBackButton />
-			{isOk && <MainButton text="Send" onClick={send} />}
+			{isOk && (
+				<MainButton text={context.getTranslation("send")} onClick={send} />
+			)}
 			<Stack direction={"column"} spacing={2}>
 				<Heading
 					size={"sm"}
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					Send {getBalance()?.symbol} to {getBalance()?.symbol} pool
+					{context
+						.getTranslation("send_to_pool")
+						.replaceAll("%symbol%", getBalance()?.symbol || "")}
 				</Heading>
 
 				<Cell
@@ -110,7 +117,7 @@ function DepositToPool() {
 				/>
 
 				<FormControl>
-					<FormLabel>Amount</FormLabel>
+					<FormLabel>{context.getTranslation("amount")}</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{

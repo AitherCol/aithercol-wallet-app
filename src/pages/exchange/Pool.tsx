@@ -103,7 +103,7 @@ function PoolList() {
 						/>
 						<Stack direction={"column"} spacing={2}>
 							<Text color={getTelegram().themeParams.subtitle_text_color}>
-								Pool balance
+								{context.getTranslation("pool_balance")}
 							</Text>
 							<Heading size={"2xl"}>
 								{formatBigint(poolBalance, getBalance()?.decimals || 1)}{" "}
@@ -137,7 +137,7 @@ function PoolList() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Deposit
+								{context.getTranslation("deposit")}
 							</Heading>
 						</Stack>
 					</Stack>
@@ -150,7 +150,7 @@ function PoolList() {
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					Swap to
+					{context.getTranslation("swap_to")}
 				</Heading>
 
 				{pools.length === 0 && (
@@ -161,10 +161,11 @@ function PoolList() {
 							direction={"column"}
 							spacing={2}
 						>
-							<Heading>No Pools Yet</Heading>
+							<Heading>{context.getTranslation("No Pools Yet")}</Heading>
 							<Text>
-								When someone deposits coins into the pool, we will be able to
-								exchange tokens
+								{context.getTranslation(
+									"When someone deposits coins into the pool, we will be able to exchange tokens"
+								)}
 							</Text>
 						</Stack>
 					</Center>
@@ -181,7 +182,7 @@ function PoolList() {
 								borderColor: getTelegram().themeParams.accent_text_color,
 								boxShadow: "none",
 							}}
-							placeholder="Search..."
+							placeholder={`${context.getTranslation("search")}...`}
 							value={search}
 							onChange={e => setSearch(e.currentTarget.value)}
 						></Input>
@@ -210,9 +211,10 @@ function PoolList() {
 										if (e.amount === "0") {
 											toast({
 												status: "error",
-												title: "Error",
-												description:
-													"Pool balance is 0, we cannot swap tokens.",
+												title: context.getTranslation("error"),
+												description: context.getTranslation(
+													"Pool balance is 0, we cannot swap tokens."
+												),
 											});
 											notificationOccurred("error");
 										} else {

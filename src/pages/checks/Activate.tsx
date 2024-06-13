@@ -102,7 +102,11 @@ function Activate() {
 					<MainButton
 						disabled={loading}
 						progress={loading}
-						text={loading ? "Activating" : "Activate"}
+						text={
+							loading
+								? context.getTranslation("activating")
+								: context.getTranslation("activate")
+						}
 						onClick={() => activate()}
 					></MainButton>
 				)}
@@ -122,7 +126,7 @@ function Activate() {
 						/>
 						<Stack direction={"column"} spacing={2}>
 							<Text color={getTelegram().themeParams.subtitle_text_color}>
-								Check for
+								{context.getTranslation("check_for")}
 							</Text>
 							<Heading size={"2xl"}>
 								{formatBigint(data.check.amount, data.info.decimals)}{" "}
@@ -142,7 +146,7 @@ function Activate() {
 
 			{data.check.password_protected && (
 				<FormControl>
-					<FormLabel>Password</FormLabel>
+					<FormLabel>{context.getTranslation("password")}</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{

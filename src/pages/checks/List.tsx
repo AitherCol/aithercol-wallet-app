@@ -42,7 +42,7 @@ function CheckList() {
 				color={getTelegram().themeParams.hint_color}
 				textTransform={"uppercase"}
 			>
-				Checks
+				{context.getTranslation("checks")}
 			</Heading>
 
 			{context.checks.map((e, key) => {
@@ -67,9 +67,16 @@ function CheckList() {
 										)}
 									</Center>
 								}
-								title={`${getBalance(e.balance_id)?.symbol} Check`}
+								title={context
+									.getTranslation("check_title")
+									.replaceAll(
+										"%symbol%",
+										getBalance(e.balance_id)?.symbol || ""
+									)}
 								subTitle={
-									e.password_protected ? "Password protected" : undefined
+									e.password_protected
+										? context.getTranslation("password_protected")
+										: undefined
 								}
 								additional={{
 									title: `${formatBigint(
@@ -103,7 +110,7 @@ function CheckList() {
 								}}
 								bgColor={getTelegram().themeParams.bg_color}
 							>
-								Share
+								{context.getTranslation("share")}
 							</MenuItem>
 							<MenuItem
 								bgColor={getTelegram().themeParams.bg_color}
@@ -112,13 +119,13 @@ function CheckList() {
 										window.navigator.clipboard.writeText(
 											`https://t.me/${config.username}?start=C${e.key}`
 										);
-										toast({ title: "Link copied" });
+										toast({ title: context.getTranslation("link_copied") });
 									} catch (error) {
 										errorHandler(error, toast);
 									}
 								}}
 							>
-								Copy Link
+								{context.getTranslation("copy_link")}
 							</MenuItem>
 							<MenuItem
 								bgColor={getTelegram().themeParams.bg_color}
@@ -134,7 +141,7 @@ function CheckList() {
 									}
 								}}
 							>
-								Delete
+								{context.getTranslation("delete")}
 							</MenuItem>
 						</MenuList>
 					</Menu>

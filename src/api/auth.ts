@@ -25,9 +25,25 @@ async function login(
 	return data;
 }
 
+async function editSettings(
+	settings: { language: "en" | "ru" },
+	token: string
+): Promise<BasicResponse> {
+	const { data } = await axios.post(
+		`${config.apiUrl}/auth/edit_settings`,
+		settings,
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		}
+	);
+
+	return data;
+}
+
 const auth = {
 	login,
 	getProfile,
+	editSettings,
 };
 
 export default auth;

@@ -122,7 +122,7 @@ function Transaction() {
 									<FaCalendar size={"20px"} />
 								</Center>
 							}
-							title="Date"
+							title={context.getTranslation("date")}
 							value={moment(data.transaction.created_at).format(
 								"DD MMMM HH:mm"
 							)}
@@ -141,7 +141,7 @@ function Transaction() {
 										<FaArrowUp size={"20px"} />
 									</Center>
 								}
-								title="To"
+								title={context.getTranslation("to")}
 								value={
 									data.transaction.is_address
 										? reduceString(data.transaction.to, 20)
@@ -172,7 +172,7 @@ function Transaction() {
 										<FaArrowUp size={"20px"} />
 									</Center>
 								}
-								title="From"
+								title={context.getTranslation("from")}
 								value={
 									data.transaction.is_address
 										? reduceString(data.transaction.from, 20)
@@ -192,7 +192,7 @@ function Transaction() {
 						{data.transaction.comment && (
 							<InfoCell
 								icon={<LinkedItem />}
-								title="Comment"
+								title={context.getTranslation("comment")}
 								value={data.transaction.comment}
 							/>
 						)}
@@ -205,7 +205,7 @@ function Transaction() {
 									src={data.balance.image}
 								/>
 							}
-							title="Total amount"
+							title={context.getTranslation("total_amount")}
 							value={`${formatBigint(
 								data.transaction.amount,
 								data.balance.decimals
@@ -220,7 +220,7 @@ function Transaction() {
 							<>
 								<InfoCell
 									icon={<LinkedItem />}
-									title="You sent"
+									title={context.getTranslation("you_sent")}
 									value={`${formatBigint(
 										data.transaction.original_amount || data.transaction.amount,
 										data.balance.decimals
@@ -237,7 +237,7 @@ function Transaction() {
 								/>
 								<InfoCell
 									icon={<LinkedItem />}
-									title="Fee"
+									title={context.getTranslation("fee")}
 									value={`${formatBigint(
 										(
 											BigInt(data.transaction.amount) -

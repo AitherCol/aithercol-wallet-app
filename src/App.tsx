@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Balance from "./pages/Balance";
 import History from "./pages/History";
+import Settings from "./pages/Settings";
 import Transaction from "./pages/Transaction";
 import Wallet from "./pages/Wallet";
 import Activate from "./pages/checks/Activate";
@@ -147,6 +148,15 @@ function App() {
 						element={
 							<AuthProvider>
 								<Swap />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/settings"}
+						element={
+							<AuthProvider>
+								<Settings />
 							</AuthProvider>
 						}
 					/>

@@ -93,14 +93,16 @@ function CreateCheck() {
 	return getBalance() !== null ? (
 		<>
 			<CustomBackButton />
-			{isOk && <MainButton text="Send" onClick={send} />}
+			{isOk && (
+				<MainButton text={context.getTranslation("send")} onClick={send} />
+			)}
 			<Stack direction={"column"} spacing={2}>
 				<Heading
 					size={"sm"}
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					Send {getBalance()?.symbol}
+					{context.getTranslation("send")} {getBalance()?.symbol}
 				</Heading>
 
 				<Cell
@@ -113,7 +115,7 @@ function CreateCheck() {
 						/>
 					}
 					title={getBalance()?.name || ""}
-					subTitle={"Change token"}
+					subTitle={context.getTranslation("change_token")}
 					additional={{
 						title: `${formatBigint(
 							getFormattedBalance(),
@@ -124,7 +126,7 @@ function CreateCheck() {
 				/>
 
 				<FormControl>
-					<FormLabel>Amount</FormLabel>
+					<FormLabel>{context.getTranslation("amount")}</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{
@@ -168,7 +170,10 @@ function CreateCheck() {
 				</FormControl>
 
 				<FormControl>
-					<FormLabel>Password (optional)</FormLabel>
+					<FormLabel>
+						{context.getTranslation("password")} (
+						{context.getTranslation("optional")})
+					</FormLabel>
 					<Input
 						borderColor={getTelegram().themeParams.hint_color}
 						_hover={{

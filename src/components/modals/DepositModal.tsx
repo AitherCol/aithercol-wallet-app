@@ -11,9 +11,11 @@ import {
 	Text,
 	useToast,
 } from "@chakra-ui/react";
+import { useContext } from "react";
 import { FaCopy } from "react-icons/fa6";
 import { QRCode } from "react-qrcode-logo";
 import Wallet from "../../api/types/Wallet";
+import { AppContext } from "../../providers/AppProvider";
 import { getTelegram } from "../../utils";
 
 function DepositModal({
@@ -26,13 +28,14 @@ function DepositModal({
 	wallet: Wallet;
 }) {
 	const toast = useToast();
+	const context = useContext(AppContext);
 
 	return (
 		<Drawer placement="bottom" onClose={onClose} isOpen={isOpen} size={"full"}>
 			<DrawerOverlay />
 			<DrawerContent bgColor={getTelegram().themeParams.secondary_bg_color}>
 				<DrawerCloseButton />
-				<DrawerHeader>Deposit</DrawerHeader>
+				<DrawerHeader>{context.getTranslation("receive")}</DrawerHeader>
 				<DrawerBody>
 					<Stack direction={"column"} alignItems={"center"} spacing={4}>
 						<Stack
@@ -73,10 +76,10 @@ function DepositModal({
 								colorScheme="button"
 								onClick={() => {
 									window.navigator.clipboard.writeText(wallet.address);
-									toast({ title: "Address copied" });
+									toast({ title: context.getTranslation("address_copied") });
 								}}
 							>
-								Copy address
+								{context.getTranslation("copy_address")}
 							</Button>
 						</Center>
 					</Stack>

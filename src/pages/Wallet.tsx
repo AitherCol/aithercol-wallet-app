@@ -89,7 +89,7 @@ function Wallet() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Send
+								{context.getTranslation("send")}
 							</Heading>
 						</Stack>
 						<Stack
@@ -108,7 +108,7 @@ function Wallet() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Recieve
+								{context.getTranslation("receive")}
 							</Heading>
 						</Stack>
 						<Stack
@@ -127,7 +127,7 @@ function Wallet() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Swap
+								{context.getTranslation("swap")}
 							</Heading>
 						</Stack>
 					</Stack>
@@ -149,7 +149,7 @@ function Wallet() {
 								<FaMoneyBills size={"20px"} />
 							</Center>
 						}
-						title={"Checks"}
+						title={context.getTranslation("checks")}
 						onClick={() => navigate("/checks")}
 					/>
 				</Box>
@@ -196,7 +196,7 @@ function Wallet() {
 							<FaMoneyBillTransfer size={"20px"} />
 						</Center>
 					}
-					title={"History"}
+					title={context.getTranslation("history")}
 					onClick={() => navigate("/history/all")}
 				/>
 			</Box>

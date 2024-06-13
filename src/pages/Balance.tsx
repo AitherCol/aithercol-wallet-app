@@ -100,7 +100,7 @@ function Balance() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Send
+								{context.getTranslation("send")}
 							</Heading>
 						</Stack>
 						<Stack
@@ -119,7 +119,7 @@ function Balance() {
 								></IconButton>
 							</Box>
 							<Heading color={"button.500"} size={"sm"}>
-								Recieve
+								{context.getTranslation("receive")}
 							</Heading>
 						</Stack>
 						{(getBalance()?.rate?.price || 0) > 0 && (
@@ -141,7 +141,7 @@ function Balance() {
 									></IconButton>
 								</Box>
 								<Heading color={"button.500"} size={"sm"}>
-									Swap
+									{context.getTranslation("swap")}
 								</Heading>
 							</Stack>
 						)}

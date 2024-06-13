@@ -1,4 +1,6 @@
 import { useBoolean } from "@chakra-ui/react";
+import moment from "moment";
+import "moment/locale/ru";
 import { useContext, useEffect } from "react";
 import api from "../api/api";
 import Loader from "../components/Loader";
@@ -24,7 +26,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 						const network = await api.wallet.getNetwork();
 
 						if (profile === null) {
-							navigate("/login");
+							navigate("/error");
 						} else {
 							context.setProps({
 								auth: {
@@ -33,6 +35,9 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 								},
 								network: network.network,
 							});
+							moment().locale(profile.language);
+							getTelegram().SettingsButton.show();
+							getTelegram().SettingsButton.onClick(() => navigate("/settings"));
 						}
 					} else {
 						navigate("/error");
