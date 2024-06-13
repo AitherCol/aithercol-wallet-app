@@ -56,6 +56,7 @@ const enTranslation = {
 	rate: "Rate",
 	maximum: "Maximum",
 	you_receive: "You receive",
+	you_receive_moment: "You receive",
 	swap_action: "Swap",
 	success: "Success",
 	"Transaction in progress": "Transaction in progress",

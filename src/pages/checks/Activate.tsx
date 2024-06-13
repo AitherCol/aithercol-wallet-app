@@ -57,11 +57,12 @@ function Activate() {
 			await context.update();
 			notificationOccurred("success");
 			toast({
-				title: "Success",
-				description: `You recieve ${formatBigint(
-					response.check.amount,
-					response.info.decimals
-				)} ${response.info.symbol}`,
+				title: context.getTranslation("success"),
+				description: `${context.getTranslation(
+					"you_receive)moment"
+				)} ${formatBigint(response.check.amount, response.info.decimals)} ${
+					response.info.symbol
+				}`,
 			});
 			router.push("/");
 		} catch (error) {

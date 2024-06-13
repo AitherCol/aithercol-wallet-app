@@ -56,6 +56,7 @@ const ruTranslation = {
 	rate: "Курс",
 	maximum: "Максимум",
 	you_receive: "Вы получите",
+	you_receive_moment: "Вы получили",
 	swap_action: "Обменять",
 	success: "Успех",
 	"Transaction in progress": "Транзакция в процессе",
