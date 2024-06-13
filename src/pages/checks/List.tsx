@@ -14,6 +14,7 @@ import { FaLock, FaMoneyBillWave } from "react-icons/fa6";
 import api from "../../api/api";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
+import config from "../../config";
 import { AppContext } from "../../providers/AppProvider";
 import { getTelegram } from "../../utils";
 import errorHandler, { formatBigint } from "../../utils/utils";
@@ -101,6 +102,21 @@ function CheckList() {
 								bgColor={getTelegram().themeParams.bg_color}
 							>
 								Share
+							</MenuItem>
+							<MenuItem
+								bgColor={getTelegram().themeParams.bg_color}
+								onClick={async () => {
+									try {
+										window.navigator.clipboard.writeText(
+											`https://t.me/${config.username}?start=C${e.key}`
+										);
+										toast({ title: "Link copied" });
+									} catch (error) {
+										errorHandler(error, toast);
+									}
+								}}
+							>
+								Copy Link
 							</MenuItem>
 							<MenuItem
 								bgColor={getTelegram().themeParams.bg_color}
