@@ -1,5 +1,5 @@
 const config = {
-	apiUrl: "https://test-wallet-api.aithercol.com",
+	apiUrl: "https://wallet-api.aithercol.com",
 	username: "AitherColWalletBot",
 };
 
