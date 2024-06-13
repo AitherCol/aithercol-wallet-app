@@ -76,7 +76,10 @@ function Activate() {
 	useEffect(() => {
 		const getData = async () => {
 			try {
-				const response = await api.wallet.checks.get(params.key || "");
+				const response = await api.wallet.checks.get(
+					params.key || "",
+					context.props.auth?.token || ""
+				);
 
 				setData(response);
 

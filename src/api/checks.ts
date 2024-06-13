@@ -41,9 +41,10 @@ async function create(
 	return data;
 }
 
-async function get(key: string): Promise<CheckResponse> {
+async function get(key: string, token: string): Promise<CheckResponse> {
 	const { data } = await axios.get(
-		`${config.apiUrl}/wallet/checks/get?key=${key}`
+		`${config.apiUrl}/wallet/checks/get?key=${key}`,
+		{ headers: { Authorization: `Bearer ${token}` } }
 	);
 
 	return data;
