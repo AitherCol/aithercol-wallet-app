@@ -67,7 +67,7 @@ const ruTranslation = {
 	russian: "Русский",
 	our_channel: "Наш канал",
 	"Stay tuned for AitherCol Wallet updates":
-		"Следите за обновленияем AitherCol Wallet",
+		"Следите за обновлениями AitherCol Wallet",
 };
 
 export default ruTranslation;
