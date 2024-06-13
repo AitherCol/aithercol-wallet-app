@@ -10,6 +10,7 @@ import {
 import {
 	MainButton,
 	useHapticFeedback,
+	useSwitchInlineQuery,
 } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -54,6 +55,7 @@ function CreateCheck() {
 	};
 
 	const isOk = amountString.trim() !== "";
+	const switchInlineQuery = useSwitchInlineQuery();
 
 	const send = async () => {
 		try {
@@ -73,8 +75,8 @@ function CreateCheck() {
 				);
 				await context.update();
 				notificationOccurred("success");
-				navigate("/");
-				getTelegram().switchInlineQuery(`C${response.check.key}`, [
+				navigate("/checks", false, "/");
+				switchInlineQuery(`C${response.check.key}`, [
 					"users",
 					"groups",
 					"channels",

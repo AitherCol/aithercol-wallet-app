@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 export const HistoryContext = createContext<{
 	back: () => void;
-	push: (location: string) => void;
+	push: (location: string, back?: boolean, prev?: string) => void;
 }>({ back() {}, push(location) {} });
 
 export function HistoryProvider({
@@ -15,7 +15,7 @@ export function HistoryProvider({
 	const [query] = useSearchParams();
 	const currentLocation = useLocation();
 
-	const push = (location: string, back?: boolean) => {
+	const push = (location: string, back?: boolean, prev?: string) => {
 		let queryString = "";
 
 		let history = query.get("history")?.split(".") || [];
@@ -25,6 +25,9 @@ export function HistoryProvider({
 		if (back) {
 			history.pop();
 		} else {
+			if (prev) {
+				history.push(prev.split("#")[0]);
+			}
 			history.push(location.split("#")[0]);
 		}
 		queryString = `?history=${history.join(".")}`;

@@ -9,6 +9,7 @@ import {
 	Stack,
 	useToast,
 } from "@chakra-ui/react";
+import { useSwitchInlineQuery } from "@vkruglikov/react-telegram-web-app";
 import { useContext } from "react";
 import { FaLock, FaMoneyBillWave } from "react-icons/fa6";
 import api from "../../api/api";
@@ -22,6 +23,7 @@ import errorHandler, { formatBigint } from "../../utils/utils";
 function CheckList() {
 	const context = useContext(AppContext);
 	const toast = useToast();
+	const switchInlineQuery = useSwitchInlineQuery();
 
 	const getBalance = (id: number) => {
 		const balance = context.balances.find(e => e.id === id);
@@ -90,7 +92,7 @@ function CheckList() {
 							<MenuItem
 								onClick={() => {
 									try {
-										getTelegram().switchInlineQuery(`C${e.key}`, [
+										switchInlineQuery(`C${e.key}`, [
 											"users",
 											"groups",
 											"channels",
