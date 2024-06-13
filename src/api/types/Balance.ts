@@ -6,6 +6,7 @@ export default interface Balance {
 	image: string;
 	symbol: string;
 	amount: string;
+	frozen_amount: string;
 	decimals: number;
 	verification: string;
 	created_at: string;

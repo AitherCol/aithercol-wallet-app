@@ -10,6 +10,7 @@ import {
 } from "react";
 import api from "../api/api";
 import Balance from "../api/types/Balance";
+import Check from "../api/types/Check";
 import Rate from "../api/types/Rate";
 import User from "../api/types/User";
 import Wallet from "../api/types/Wallet";
@@ -22,6 +23,7 @@ export type AppContextType = {
 	wallet: Wallet | undefined;
 	balances: Balance[];
 	rates: Rate[];
+	checks: Check[];
 	update: () => void;
 };
 
@@ -41,6 +43,7 @@ const AppContext = createContext<AppContextType>({
 	balances: [],
 	rates: [],
 	wallet: undefined,
+	checks: [],
 	update() {},
 });
 
@@ -52,6 +55,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 	const [wallet, setWallet] = useState<Wallet>();
 	const [balances, setBalances] = useState<Balance[]>();
 	const [rates, setRates] = useState<Rate[]>();
+	const [checks, setChecks] = useState<Check[]>();
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();
 	const toast = useToast();
 
@@ -80,6 +84,14 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 				errorHandler(error, toast);
 				notificationOccurred("error");
 			}
+
+			try {
+				const checks = await api.wallet.checks.list(props.auth?.token || "");
+				setChecks(checks.checks);
+			} catch (error) {
+				errorHandler(error, toast);
+				notificationOccurred("error");
+			}
 		} catch (error) {
 			errorHandler(error, toast);
 			notificationOccurred("error");
@@ -103,6 +115,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 				balances: balances as any,
 				rates: rates as any,
 				update,
+				checks: checks as any,
 			}}
 		>
 			{children}

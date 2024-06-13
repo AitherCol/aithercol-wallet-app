@@ -5,12 +5,16 @@ import Balance from "./pages/Balance";
 import History from "./pages/History";
 import Transaction from "./pages/Transaction";
 import Wallet from "./pages/Wallet";
+import Activate from "./pages/checks/Activate";
+import CreateCheck from "./pages/checks/Create";
+import CheckList from "./pages/checks/List";
 import BalancesToExchange from "./pages/exchange/Balances";
 import DepositToPool from "./pages/exchange/DepositToPool";
 import PoolList from "./pages/exchange/Pool";
 import Swap from "./pages/exchange/Swap";
 import WithdrawToken from "./pages/withdraw";
 import WithdrawContract from "./pages/withdraw/Contract";
+import Method from "./pages/withdraw/Method";
 import AuthProvider from "./providers/AuthProvider";
 import { getTelegram } from "./utils";
 
@@ -31,7 +35,7 @@ function App() {
 			<Stack direction={"column"} spacing={0}>
 				<Routes>
 					<Route
-						path="/"
+						path={`/`}
 						element={
 							<AuthProvider>
 								<Wallet />
@@ -39,7 +43,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/balance/:balance"
+						path={`/balance/:balance`}
 						element={
 							<AuthProvider>
 								<Balance />
@@ -48,7 +52,25 @@ function App() {
 					/>
 
 					<Route
-						path="/withdraw"
+						path={`/checks`}
+						element={
+							<AuthProvider>
+								<CheckList />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={`/check/:key`}
+						element={
+							<AuthProvider>
+								<Activate />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={`/withdraw`}
 						element={
 							<AuthProvider>
 								<WithdrawToken />
@@ -56,7 +78,15 @@ function App() {
 						}
 					/>
 					<Route
-						path="/withdraw/:contract"
+						path={`/withdraw/:contract`}
+						element={
+							<AuthProvider>
+								<Method />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={`/withdraw/:contract/address`}
 						element={
 							<AuthProvider>
 								<WithdrawContract />
@@ -64,7 +94,15 @@ function App() {
 						}
 					/>
 					<Route
-						path="/history/:balance"
+						path={`/withdraw/:contract/check`}
+						element={
+							<AuthProvider>
+								<CreateCheck />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={`/history/:balance`}
 						element={
 							<AuthProvider>
 								<History />
@@ -72,7 +110,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/transaction/:id"
+						path={`/transaction/:id`}
 						element={
 							<AuthProvider>
 								<Transaction />
@@ -81,7 +119,7 @@ function App() {
 					/>
 
 					<Route
-						path="/exchange"
+						path={`/exchange`}
 						element={
 							<AuthProvider>
 								<BalancesToExchange />
@@ -89,7 +127,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/exchange/pool/:contract"
+						path={"/exchange/pool/:contract"}
 						element={
 							<AuthProvider>
 								<PoolList />
@@ -97,7 +135,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/exchange/pool/:contract/deposit"
+						path={"/exchange/pool/:contract/deposit"}
 						element={
 							<AuthProvider>
 								<DepositToPool />
@@ -105,7 +143,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/exchange/pool/:contract/swap/:output"
+						path={"/exchange/pool/:contract/swap/:output"}
 						element={
 							<AuthProvider>
 								<Swap />

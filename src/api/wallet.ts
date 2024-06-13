@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../config";
 import balance from "./balance";
+import checks from "./checks";
 import exchange from "./exchange";
 import Balance from "./types/Balance";
 import { BasicResponse, PaginationMeta } from "./types/BasicResponse";
@@ -97,6 +98,7 @@ const wallet = {
 	getCommission,
 	getTransactions,
 	getTransaction,
+	checks,
 };
 
 export default wallet;

@@ -13,6 +13,7 @@ import {
 	FaArrowRightArrowLeft,
 	FaArrowUp,
 	FaMoneyBillTransfer,
+	FaMoneyBills,
 } from "react-icons/fa6";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Rate from "../api/types/Rate";
@@ -132,6 +133,27 @@ function Wallet() {
 					</Stack>
 				</Stack>
 			</Center>
+
+			{context.checks.length !== 0 && (
+				<Box mb={4}>
+					<Cell
+						icon={
+							<Center
+								w={"40px"}
+								h="40px"
+								borderRadius={"999px"}
+								overflow={"hidden"}
+								bgColor={getTelegram().themeParams.accent_text_color}
+								color={getTelegram().themeParams.button_text_color}
+							>
+								<FaMoneyBills size={"20px"} />
+							</Center>
+						}
+						title={"Checks"}
+						onClick={() => navigate("/checks")}
+					/>
+				</Box>
+			)}
 
 			<Stack direction={"column"} spacing={2}>
 				{context.balances.map((e, key) => (

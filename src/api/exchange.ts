@@ -1,10 +1,11 @@
 import axios from "axios";
 import config from "../config";
 import { BasicResponse } from "./types/BasicResponse";
+import Pool from "./types/Pool";
 
 export async function getPools(
 	token: string
-): Promise<BasicResponse & { pools: any[] }> {
+): Promise<BasicResponse & { pools: Pool[] }> {
 	const { data } = await axios.get(`${config.apiUrl}/wallet/exchange/pools`, {
 		headers: { Authorization: `Bearer ${token}` },
 	});
@@ -30,7 +31,7 @@ export async function getPoolBalance(
 export async function transferToPool(
 	body: { balance_id: number; amount: string },
 	token: string
-): Promise<BasicResponse & { balance: string }> {
+): Promise<BasicResponse> {
 	const { data } = await axios.post(
 		`${config.apiUrl}/wallet/exchange/transfer_to_pool`,
 		body,

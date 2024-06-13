@@ -15,6 +15,7 @@ import { FaArrowUp } from "react-icons/fa6";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
+import Pool from "../../api/types/Pool";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
@@ -37,7 +38,7 @@ function PoolList() {
 	const [poolBalance, setPoolBalance] = useState<string>(
 		getCacheItemJSON(`poolbalance:${params.contract}`) || "0"
 	);
-	const [pools, setPools] = useState<any[]>(getCacheItemJSON("pools"));
+	const [pools, setPools] = useState<Pool[]>(getCacheItemJSON("pools"));
 	const [search, setSearch] = useState<string>("");
 
 	useInterval(() => {

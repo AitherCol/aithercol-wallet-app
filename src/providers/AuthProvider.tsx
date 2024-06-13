@@ -30,7 +30,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 									token: login.token,
 									profile: profile,
 								},
-								network: (await api.wallet.getNetwork()).network,
+								network: context.props.network,
 							});
 						}
 					} else {
@@ -53,7 +53,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 		</BaseProvider>
 	) : (
 		<>
-			<BaseProvider>{!context.rates ? <Loader /> : children}</BaseProvider>
+			<BaseProvider>{!context.checks ? <Loader /> : children}</BaseProvider>
 		</>
 	);
 }

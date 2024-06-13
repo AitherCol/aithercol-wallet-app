@@ -34,7 +34,8 @@
 		"predeploy": "yarn build",
 		"deploy": "gh-pages -d build",
 		"start": "react-scripts start",
-		"build": "GENERATE_SOURCEMAP=false react-scripts build && node testBuild.js",
+		"build": "GENERATE_SOURCEMAP=false react-scripts build && cp ./build/index.html ./build/404.html",
+		"testBuild": "node testBuild.js",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
 	},

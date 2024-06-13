@@ -16,6 +16,7 @@ import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import Commission from "../../api/types/Commission";
+import Pool from "../../api/types/Pool";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
@@ -38,7 +39,7 @@ function Swap() {
 	const [poolBalance, setPoolBalance] = useState<string>(
 		getCacheItemJSON(`poolbalance:${params.contract}`) || "0"
 	);
-	const [pools, setPools] = useState<any[]>(getCacheItemJSON("pools") || []);
+	const [pools, setPools] = useState<Pool[]>(getCacheItemJSON("pools") || []);
 	const [swapRate, setSwapRate] = useState<{
 		output_amount: string;
 		commission: Commission;
@@ -141,13 +142,16 @@ function Swap() {
 				(
 					number *
 					Number(
-						formatBigint(swapRate?.output_amount || "0", getSwap()?.decimals)
+						formatBigint(
+							swapRate?.output_amount || "0",
+							getSwap()?.decimals || 0
+						)
 					)
 				)
-					.toFixed(getSwap().decimals)
+					.toFixed(getSwap()?.decimals || 0)
 					.replaceAll(".", ""),
-				getSwap().decimals
-			) + ` ${getSwap().symbol}`
+				getSwap()?.decimals || 0
+			) + ` ${getSwap()?.symbol}`
 		);
 	};
 
@@ -271,21 +275,27 @@ function Swap() {
 							Rate: 1 {getBalance()?.symbol} ={" "}
 							{formatBigint(
 								swapRate?.output_amount || "0",
-								getSwap()?.decimals
+								getSwap()?.decimals || 0
 							)}{" "}
-							{getSwap().symbol}
+							{getSwap()?.symbol}
 							<br />
 							Maximum:{" "}
-							{formatBigint(getSwap()?.amount || "0", getSwap()?.decimals)}{" "}
-							{getSwap().symbol} |{" "}
+							{formatBigint(
+								getSwap()?.amount || "0",
+								getSwap()?.decimals || 0
+							)}{" "}
+							{getSwap()?.symbol} |{" "}
 							{(
 								Number(
-									formatBigint(getSwap()?.amount || "0", getSwap()?.decimals)
+									formatBigint(
+										getSwap()?.amount || "0",
+										getSwap()?.decimals || 0
+									)
 								) /
 								Number(
 									formatBigint(
 										swapRate?.output_amount || "0",
-										getSwap()?.decimals
+										getSwap()?.decimals || 0
 									)
 								)
 							).toFixed(getBalance()?.decimals)}{" "}
