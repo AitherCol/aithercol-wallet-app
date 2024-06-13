@@ -58,6 +58,7 @@
 		]
 	},
 	"devDependencies": {
+		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
 		"@types/chroma-js": "^2.4.4",
 		"@types/react-lazy-load-image-component": "^1.6.4"
 	}

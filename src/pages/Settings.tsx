@@ -80,6 +80,7 @@ function Settings() {
 								<FaEarthEurope size={"20px"} />
 							</Center>
 						}
+						onClick={() => {}}
 						title={context.getTranslation("language")}
 						additional={{
 							title: `${

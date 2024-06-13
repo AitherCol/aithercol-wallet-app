@@ -67,6 +67,7 @@ function CheckList() {
 										)}
 									</Center>
 								}
+								onClick={() => {}}
 								title={context
 									.getTranslation("check_title")
 									.replaceAll(
