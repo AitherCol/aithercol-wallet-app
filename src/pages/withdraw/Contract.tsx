@@ -116,6 +116,10 @@ function WithdrawContract() {
 		let amount = BigInt(formatBalance(getBalance() as any) || 0);
 		amount -= BigInt(commission?.amount || 0);
 
+		if (amount < 0) {
+			return "0";
+		}
+
 		return amount.toString();
 	};
 
