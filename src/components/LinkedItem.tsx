@@ -11,7 +11,7 @@ function LinkedItem() {
 				height={"40px"}
 				left={"calc(50% - 1px)"}
 				position={"absolute"}
-				top={"-20px"}
+				top={"-25px"}
 				width={"16px"}
 			></Box>
 		</Box>

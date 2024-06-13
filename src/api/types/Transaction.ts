@@ -8,5 +8,6 @@ export default interface Transaction {
 	from: string | null;
 	to: string | null;
 	is_address: boolean;
+	comment: string | null;
 	created_at: string;
 }

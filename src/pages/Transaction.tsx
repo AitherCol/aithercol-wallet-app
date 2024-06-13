@@ -189,6 +189,13 @@ function Transaction() {
 								}
 							/>
 						)}
+						{data.transaction.comment && (
+							<InfoCell
+								icon={<LinkedItem />}
+								title="Comment"
+								value={data.transaction.comment}
+							/>
+						)}
 						<InfoCell
 							icon={
 								<Image

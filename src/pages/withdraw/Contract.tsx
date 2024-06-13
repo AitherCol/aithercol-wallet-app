@@ -39,6 +39,7 @@ function WithdrawContract() {
 
 	const [address, setAddress] = useState<string>("");
 	const [amountString, setAmountString] = useState<string>("");
+	const [comment, setComment] = useState<string>("");
 	const [impactOccurred, notificationOccurred, selectionChanged] =
 		useHapticFeedback();
 
@@ -80,6 +81,7 @@ function WithdrawContract() {
 							balance.decimals
 						).toString(),
 						address: address.trim(),
+						comment: comment.trim(),
 					},
 					context.props.auth?.token || ""
 				);
@@ -226,6 +228,23 @@ function WithdrawContract() {
 							{getBalance(commission.contract)?.symbol}
 						</FormHelperText>
 					)}
+				</FormControl>
+
+				<FormControl>
+					<FormLabel>Comment (optional)</FormLabel>
+					<Input
+						borderColor={getTelegram().themeParams.hint_color}
+						_hover={{
+							borderColor: getTelegram().themeParams.hint_color,
+						}}
+						_focus={{
+							borderColor: getTelegram().themeParams.accent_text_color,
+							boxShadow: "none",
+						}}
+						value={comment}
+						onChange={e => setComment(e.currentTarget.value)}
+						inputMode="text"
+					></Input>
 				</FormControl>
 			</Stack>
 		</>

@@ -14,7 +14,12 @@ async function list(
 }
 
 async function withdraw(
-	body: { balance_id: number; address: string; amount: string },
+	body: {
+		balance_id: number;
+		address: string;
+		amount: string;
+		comment?: string;
+	},
 	token: string
 ): Promise<BasicResponse & { balances: Balance[] }> {
 	const { data } = await axios.post(
