@@ -23,7 +23,7 @@ import DepositModal from "../components/modals/DepositModal";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
-import { formatBigint } from "../utils/utils";
+import { formatBalance, formatBigint } from "../utils/utils";
 
 function Wallet() {
 	const context = useContext(AppContext);
@@ -50,7 +50,7 @@ function Wallet() {
 		for (const balance of context.balances) {
 			total +=
 				getRate(balance.contract).price *
-				Number(formatBigint(balance.amount, balance.decimals));
+				Number(formatBigint(formatBalance(balance), balance.decimals));
 		}
 
 		return total;
@@ -169,12 +169,12 @@ function Wallet() {
 						title={e.name}
 						subTitle={`$${getRate(e.contract).price}`}
 						additional={{
-							title: `${Number(formatBigint(e.amount, e.decimals)).toFixed(
-								2
-							)} ${e.symbol}`,
+							title: `${Number(
+								formatBigint(formatBalance(e), e.decimals)
+							).toFixed(2)} ${e.symbol}`,
 							subTitle: `$${(
 								getRate(e.contract).price *
-								Number(formatBigint(e.amount, e.decimals))
+								Number(formatBigint(formatBalance(e), e.decimals))
 							).toFixed(2)}`,
 						}}
 						onClick={() => navigate(`/balance/${e.id}`)}

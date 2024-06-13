@@ -1,3 +1,4 @@
+import Balance from "../api/types/Balance";
 import { AppContextType } from "../providers/AppProvider";
 
 export function toDecimals(amount: number, decimals: number): number {
@@ -74,4 +75,11 @@ export function getTonViewer(context: AppContextType) {
 	return context.props.network === "testnet"
 		? "https://testnet.tonviewer.com"
 		: "https://tonviewer.com";
+}
+
+export function formatBalance(balance?: Balance) {
+	if (!balance) {
+		return "0";
+	}
+	return (BigInt(balance.amount) - BigInt(balance.frozen_amount)).toString();
 }

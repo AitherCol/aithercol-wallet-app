@@ -20,7 +20,11 @@ import Loader from "../../components/Loader";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
-import errorHandler, { formatBigint, withoutDecimals } from "../../utils/utils";
+import errorHandler, {
+	formatBalance,
+	formatBigint,
+	withoutDecimals,
+} from "../../utils/utils";
 
 function DepositToPool() {
 	const context = useContext(AppContext);
@@ -99,7 +103,7 @@ function DepositToPool() {
 					title={getBalance()?.name || ""}
 					additional={{
 						title: `${formatBigint(
-							getBalance()?.amount || "0",
+							formatBalance(getBalance() as any),
 							getBalance()?.decimals || 1
 						)} ${getBalance()?.symbol}`,
 					}}

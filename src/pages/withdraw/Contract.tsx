@@ -24,7 +24,11 @@ import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
 import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
-import errorHandler, { formatBigint, withoutDecimals } from "../../utils/utils";
+import errorHandler, {
+	formatBalance,
+	formatBigint,
+	withoutDecimals,
+} from "../../utils/utils";
 
 function WithdrawContract() {
 	const context = useContext(AppContext);
@@ -107,9 +111,9 @@ function WithdrawContract() {
 
 	const getFormattedBalance = () => {
 		if (commission?.contract !== getBalance()?.contract) {
-			return getBalance()?.amount || "0";
+			return formatBalance(getBalance() as any) || "0";
 		}
-		let amount = BigInt(getBalance()?.amount || 0);
+		let amount = BigInt(formatBalance(getBalance() as any) || 0);
 		amount -= BigInt(commission?.amount || 0);
 
 		return amount.toString();

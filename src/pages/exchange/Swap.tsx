@@ -25,7 +25,11 @@ import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
 import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
-import errorHandler, { formatBigint, withoutDecimals } from "../../utils/utils";
+import errorHandler, {
+	formatBalance,
+	formatBigint,
+	withoutDecimals,
+} from "../../utils/utils";
 
 function Swap() {
 	const context = useContext(AppContext);
@@ -184,9 +188,9 @@ function Swap() {
 
 	const getFormattedBalance = () => {
 		if (swapRate?.commission?.contract !== getBalance()?.contract) {
-			return getBalance()?.amount || "0";
+			return formatBalance(getBalance() as any) || "0";
 		}
-		let amount = BigInt(getBalance()?.amount || 0);
+		let amount = BigInt(formatBalance(getBalance() as any) || 0);
 		amount -= BigInt(swapRate?.commission?.amount || 0);
 		if (BigInt(amount) <= 0) {
 			return "0";

@@ -19,7 +19,7 @@ import DepositModal from "../components/modals/DepositModal";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
-import { formatBigint } from "../utils/utils";
+import { formatBalance, formatBigint } from "../utils/utils";
 import History from "./History";
 
 function Balance() {
@@ -65,7 +65,7 @@ function Balance() {
 						/>
 						<Heading size={"2xl"}>
 							{formatBigint(
-								getBalance()?.amount || "0",
+								formatBalance(getBalance() as any),
 								getBalance()?.decimals || 1
 							)}{" "}
 							{getBalance()?.symbol}
@@ -76,7 +76,7 @@ function Balance() {
 								(getBalance()?.rate?.price || 0) *
 								Number(
 									formatBigint(
-										getBalance()?.amount || "0",
+										formatBalance(getBalance() as any),
 										getBalance()?.decimals || 1
 									)
 								)
