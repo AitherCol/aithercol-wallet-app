@@ -59,7 +59,7 @@ function Activate() {
 			toast({
 				title: context.getTranslation("success"),
 				description: `${context.getTranslation(
-					"you_receive)moment"
+					"you_receive_moment"
 				)} ${formatBigint(response.check.amount, response.info.decimals)} ${
 					response.info.symbol
 				}`,
