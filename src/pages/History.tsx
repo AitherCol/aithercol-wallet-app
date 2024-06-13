@@ -148,7 +148,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 								<Heading>{context.getTranslation("No History Yet")}</Heading>
 								<Text>
 									{context.getTranslation(
-										"Once you start making transactions, they will appear here."
+										"Once you start making transactions, they will appear here"
 									)}
 								</Text>
 							</Stack>

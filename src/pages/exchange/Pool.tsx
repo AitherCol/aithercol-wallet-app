@@ -213,7 +213,7 @@ function PoolList() {
 												status: "error",
 												title: context.getTranslation("error"),
 												description: context.getTranslation(
-													"Pool balance is 0, we cannot swap tokens."
+													"Pool balance is 0, we cannot swap tokens"
 												),
 											});
 											notificationOccurred("error");

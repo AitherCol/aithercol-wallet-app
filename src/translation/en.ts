@@ -19,7 +19,7 @@ const enTranslation = {
 	fee: "Fee",
 	show_more: "Show more",
 	"No History Yet": "No History Yet",
-	"Once you start making transactions, they will appear here.":
+	"Once you start making transactions, they will appear here":
 		"Once you start making transactions, they will appear here.",
 	from: "From",
 	to: "To",
@@ -43,7 +43,7 @@ const enTranslation = {
 	check_for: "Check for",
 	send_to_pool: "Send %symbol% to %symbol% pool",
 	error: "Error",
-	"Pool balance is 0, we cannot swap tokens.":
+	"Pool balance is 0, we cannot swap tokens":
 		"Pool balance is 0, we cannot swap tokens.",
 	search: "Search",
 	"No Pools Yet": "No Pools Yet",

@@ -19,7 +19,7 @@ const ruTranslation = {
 	fee: "Комиссия",
 	show_more: "Показать больше",
 	"No History Yet": "Истории пока нет",
-	"Once you start making transactions, they will appear here.":
+	"Once you start making transactions, they will appear here":
 		"Как только вы начнете совершать транзакции, они появятся здесь.",
 	from: "От",
 	to: "Кому",
@@ -43,7 +43,7 @@ const ruTranslation = {
 	check_for: "Чек на",
 	send_to_pool: "Отправить %symbol% в %symbol% пул",
 	error: "Ошибка",
-	"Pool balance is 0, we cannot swap tokens.":
+	"Pool balance is 0, we cannot swap tokens":
 		"Баланс пула равен 0, мы не можем обменять токены.",
 	search: "Поиск",
 	"No Pools Yet": "Пулы отсутствуют",
