@@ -48,7 +48,7 @@ function CheckList() {
 			{context.checks.map((e, key) => {
 				return (
 					<Menu>
-						<MenuButton as={Box}>
+						<MenuButton as={Box} cursor={"pointer"}>
 							<Cell
 								key={key}
 								icon={

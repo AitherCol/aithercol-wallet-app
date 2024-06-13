@@ -66,7 +66,7 @@ function Settings() {
 				{context.getTranslation("settings")}
 			</Heading>
 			<Menu>
-				<MenuButton as={Box}>
+				<MenuButton as={Box} cursor={"pointer"}>
 					<Cell
 						icon={
 							<Center
@@ -80,7 +80,6 @@ function Settings() {
 								<FaEarthEurope size={"20px"} />
 							</Center>
 						}
-						onClick={() => {}}
 						title={context.getTranslation("language")}
 						additional={{
 							title: `${
