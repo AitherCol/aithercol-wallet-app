@@ -21,6 +21,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 					const login = await api.auth.login(getTelegram().initData);
 					if (login.token && context.setProps) {
 						const profile = await api.auth.getProfile(login.token);
+						const network = await api.wallet.getNetwork();
 
 						if (profile === null) {
 							navigate("/login");
@@ -30,7 +31,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 									token: login.token,
 									profile: profile,
 								},
-								network: context.props.network,
+								network: network.network,
 							});
 						}
 					} else {
