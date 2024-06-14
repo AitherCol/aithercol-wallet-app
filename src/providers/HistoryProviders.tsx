@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 export const HistoryContext = createContext<{
@@ -45,6 +45,10 @@ export function HistoryProvider({
 		}
 		navigate("/");
 	};
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [currentLocation.pathname]);
 
 	return (
 		<HistoryContext.Provider value={{ back, push }}>

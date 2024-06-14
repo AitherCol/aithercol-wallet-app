@@ -59,7 +59,7 @@ const ruTranslation = {
 	you_receive_moment: "Вы получили",
 	swap_action: "Обменять",
 	success: "Успех",
-	"Transaction in progress": "Транзакция в процессе",
+	"Transaction in progress": "Транзакция в обработке",
 	amount: "Сумма",
 	settings: "Настройки",
 	language: "Язык",
