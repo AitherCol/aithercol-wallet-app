@@ -1,5 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
+import moment from "moment";
+import "moment/locale/ru";
 import {
 	createContext,
 	Dispatch,
@@ -110,6 +112,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		update();
+		moment.locale(props.auth?.profile.language || "en");
 	}, [props.auth]);
 
 	return (
