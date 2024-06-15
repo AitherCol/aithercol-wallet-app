@@ -68,6 +68,7 @@ const enTranslation = {
 	our_channel: "Our channel",
 	"Stay tuned for AitherCol Wallet updates":
 		"Stay tuned for AitherCol Wallet updates",
+	in_progress: "In progress",
 };
 
 export default enTranslation;

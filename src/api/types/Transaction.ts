@@ -9,5 +9,7 @@ export default interface Transaction {
 	to: string | null;
 	is_address: boolean;
 	comment: string | null;
+	status: "ok" | "waiting" | "error";
+	updated_at: string;
 	created_at: string;
 }

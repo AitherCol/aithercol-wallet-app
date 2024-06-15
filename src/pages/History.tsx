@@ -119,7 +119,13 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 							? context.getTranslation("received")
 							: context.getTranslation("sent")
 					}
-					subTitle={moment(e.created_at).format("DD MMMM HH:mm")}
+					subTitle={
+						e.status === "ok"
+							? moment(e.updated_at).format("DD MMMM HH:mm")
+							: e.status === "error"
+							? context.getTranslation("error")
+							: context.getTranslation("in_progress")
+					}
 					additional={{
 						title: `${e.type === "increase" ? "+" : "–"}${Number(
 							formatBigint(e.amount, getBalance(e.balance_id)?.decimals || 1)
