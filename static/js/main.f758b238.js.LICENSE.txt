@@ -126,6 +126,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+//! goToAndStop must be relative to the start of the current segment
+
 //! moment.js
 
 //! moment.js locale configuration
