@@ -339,8 +339,10 @@ export default function OfferPageComponent({
 						></IconButton>
 					</Stack>
 					<FormHelperText>
-						Price per 1 {getContract()?.symbol} = {offerInfo.offer.price}{" "}
-						{offerInfo.offer.currency}
+						{context
+							.getTranslation("Price per %amount%")
+							.replaceAll("%amount%", `1 ${getContract()?.symbol}`)}{" "}
+						= {offerInfo.offer.price} {offerInfo.offer.currency}
 					</FormHelperText>
 				</FormControl>
 			</Stack>

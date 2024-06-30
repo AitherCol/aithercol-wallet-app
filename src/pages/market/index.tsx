@@ -52,17 +52,19 @@ function MarketMain() {
 
 	useEffect(() => {
 		(async () => {
-			try {
-				setDeals(null);
-				const data = await api.custom.get(
-					`wallet/market/deals?active=${type === "active"}&page=1&limit=25`,
-					context.props.auth?.token
-				);
-				setMeta(data.deals.meta);
-				setDeals(data.deals.data);
-			} catch (error) {
-				errorHandler(error, toast);
-				notificationOccurred("error");
+			if (context.props.auth?.profile.is_market_registred) {
+				try {
+					setDeals(null);
+					const data = await api.custom.get(
+						`wallet/market/deals?active=${type === "active"}&page=1&limit=25`,
+						context.props.auth?.token
+					);
+					setMeta(data.deals.meta);
+					setDeals(data.deals.data);
+				} catch (error) {
+					errorHandler(error, toast);
+					notificationOccurred("error");
+				}
 			}
 		})();
 	}, [type]);

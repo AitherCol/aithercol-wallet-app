@@ -1,12 +1,15 @@
-import { Center, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import { Center, Heading, Stack, Text } from "@chakra-ui/react";
 import {
 	MainButton,
 	useHapticFeedback,
 } from "@vkruglikov/react-telegram-web-app";
 import HTMLReactParser from "html-react-parser";
+import Lottie from "lottie-react";
 import { useContext } from "react";
+import CustomBackButton from "../../components/CustomBackButton";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
+import exchange from "../../stickers/exchange.json";
 import { getTelegram } from "../../utils";
 
 function RegisterMarket() {
@@ -17,6 +20,7 @@ function RegisterMarket() {
 
 	return (
 		<Center mt="36px" mb="36px">
+			<CustomBackButton />
 			<MainButton
 				text={context.getTranslation("Agree")}
 				onClick={() => {
@@ -32,11 +36,10 @@ function RegisterMarket() {
 					direction={"column"}
 					spacing={2}
 				>
-					<Image
-						src={"/emoji/exchange.gif"}
-						w={"80px"}
-						h="80px"
-						borderRadius={"999px"}
+					<Lottie
+						style={{ width: 80, height: 80 }}
+						animationData={exchange}
+						loop={true}
 					/>
 
 					<Heading size={"md"}>{context.getTranslation("P2P Market")}</Heading>

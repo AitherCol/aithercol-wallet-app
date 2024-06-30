@@ -91,8 +91,7 @@ const ruTranslation = {
 	"Payment Methods": "Платежные методы",
 	"Choose currency": "Выберите валюту",
 	"P2P Market": "P2P Маркет",
-	"Manage offers and payment settings":
-		"Управляйте объявлениями и настройками оплаты",
+	"Manage offers and payment settings": "Управляйте объявлениями и оплатой",
 	"My Deals": "Мои сделки",
 	Active: "Активные",
 	Completed: "Завершенные",
