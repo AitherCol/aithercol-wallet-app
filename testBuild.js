@@ -2,7 +2,7 @@ const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 const fs = require("fs");
 
-const testConfig = `const config = {apiUrl: "https://test-wallet-api.aithercol.com", username: "AitherColWalletTestBot"};export default config;`;
+const testConfig = `const config = {apiUrl: "https://test-wallet-api.aithercol.com", username: "AitherColWalletTestBot", isMarketEnabled: true};export default config;`;
 
 async function main() {
 	await fs.promises.rename("./package.json", "./package.prod.json");

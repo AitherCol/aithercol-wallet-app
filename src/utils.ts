@@ -46,6 +46,8 @@ export function getColorMap(color: string) {
 			index += 100;
 		}
 	}
-	console.log(map);
+
+	map["500"] = color;
+
 	return map;
 }

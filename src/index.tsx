@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Container } from "@chakra-ui/react";
 import { WebAppProvider } from "@vkruglikov/react-telegram-web-app";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -14,13 +14,15 @@ const root = ReactDOM.createRoot(
 root.render(
 	<WebAppProvider options={{ smoothButtonsTransition: true }}>
 		<ChakraProvider
-			toastOptions={{ defaultOptions: { position: "top", duration: 3000 } }}
+			toastOptions={{ defaultOptions: { position: "bottom", duration: 3000 } }}
 			theme={theme}
 		>
 			<AppProvider>
 				<BrowserRouter>
 					<HistoryProvider>
-						<App />
+						<Container p={0} w="full" maxW={["full", "480px"]}>
+							<App />
+						</Container>
 					</HistoryProvider>
 				</BrowserRouter>
 			</AppProvider>

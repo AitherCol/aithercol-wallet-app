@@ -7,40 +7,24 @@ import {
 	MenuItem,
 	MenuList,
 	Stack,
+	Text,
 	useToast,
 } from "@chakra-ui/react";
 import { useContext } from "react";
-import { FaEarthEurope } from "react-icons/fa6";
+import { FaArrowUp, FaCommentDots, FaEarthEurope } from "react-icons/fa6";
 import { IoMegaphone } from "react-icons/io5";
 import api from "../api/api";
-import Cell from "../components/Cell";
 
+import CellButton from "../components/CellButton";
 import CustomBackButton from "../components/CustomBackButton";
 import { AppContext } from "../providers/AppProvider";
-import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
 import errorHandler from "../utils/utils";
 
 function Settings() {
 	const context = useContext(AppContext);
-	const router = useContext(HistoryContext);
-	const toast = useToast();
 
-	const updateProfile = async () => {
-		try {
-			const profile = await api.auth.getProfile(
-				context.props.auth?.token || ""
-			);
-			if (profile && context.setProps) {
-				context.setProps({
-					...context.props,
-					auth: { profile, token: context.props.auth?.token || "" },
-				});
-			}
-		} catch (error) {
-			errorHandler(error, toast);
-		}
-	};
+	const toast = useToast();
 
 	const changeLanguage = async (language: "en" | "ru") => {
 		try {
@@ -48,7 +32,7 @@ function Settings() {
 				{ language },
 				context.props.auth?.token || ""
 			);
-			await updateProfile();
+			await context.updateProfile();
 		} catch (error) {
 			errorHandler(error, toast);
 		}
@@ -67,27 +51,30 @@ function Settings() {
 			</Heading>
 			<Menu>
 				<MenuButton as={Box} cursor={"pointer"}>
-					<Cell
+					<CellButton
 						icon={
 							<Center
-								w={"40px"}
-								h="40px"
+								w={"24px"}
+								h="24px"
 								borderRadius={"999px"}
 								overflow={"hidden"}
 								bgColor={getTelegram().themeParams.accent_text_color}
 								color={getTelegram().themeParams.button_text_color}
 							>
-								<FaEarthEurope size={"20px"} />
+								<FaEarthEurope size={"14px"} />
 							</Center>
 						}
 						title={context.getTranslation("language")}
-						additional={{
-							title: `${
-								context.props.auth?.profile.language === "en"
+						rightItem={
+							<Text
+								color={getTelegram().themeParams.hint_color}
+								fontSize={"sm"}
+							>
+								{context.props.auth?.profile.language === "en"
 									? context.getTranslation("english")
-									: context.getTranslation("russian")
-							}`,
-						}}
+									: context.getTranslation("russian")}
+							</Text>
+						}
 					/>
 				</MenuButton>
 
@@ -111,26 +98,54 @@ function Settings() {
 				</MenuList>
 			</Menu>
 
-			<Cell
+			<CellButton
 				icon={
 					<Center
-						w={"40px"}
-						h="40px"
+						w={"24px"}
+						h="24px"
 						borderRadius={"999px"}
 						overflow={"hidden"}
 						bgColor={getTelegram().themeParams.accent_text_color}
 						color={getTelegram().themeParams.button_text_color}
 					>
-						<IoMegaphone size={"20px"} />
+						<FaCommentDots size={"14px"} />
+					</Center>
+				}
+				title={context.getTranslation("Support")}
+				onClick={() => {
+					getTelegram().openTelegramLink("https://t.me/AitherColSupport");
+				}}
+				rightItem={
+					<FaArrowUp
+						color={getTelegram().themeParams.hint_color}
+						style={{ transform: "rotate(45deg)" }}
+					/>
+				}
+			/>
+
+			<CellButton
+				icon={
+					<Center
+						w={"24px"}
+						h="24px"
+						borderRadius={"999px"}
+						overflow={"hidden"}
+						bgColor={getTelegram().themeParams.accent_text_color}
+						color={getTelegram().themeParams.button_text_color}
+					>
+						<IoMegaphone size={"14px"} />
 					</Center>
 				}
 				title={context.getTranslation("our_channel")}
-				subTitle={context.getTranslation(
-					"Stay tuned for AitherCol Wallet updates"
-				)}
 				onClick={() => {
 					getTelegram().openTelegramLink("https://t.me/aithercol");
 				}}
+				rightItem={
+					<FaArrowUp
+						color={getTelegram().themeParams.hint_color}
+						style={{ transform: "rotate(45deg)" }}
+					/>
+				}
 			/>
 		</Stack>
 	);

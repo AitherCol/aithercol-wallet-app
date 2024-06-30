@@ -174,13 +174,17 @@ function PoolList() {
 				{pools.length !== 0 && (
 					<>
 						<Input
-							borderColor={getTelegram().themeParams.hint_color}
+							borderColor={"transparent"}
+							bgColor={getTelegram().themeParams.bg_color}
 							_hover={{
 								borderColor: getTelegram().themeParams.hint_color,
 							}}
 							_focus={{
 								borderColor: getTelegram().themeParams.accent_text_color,
 								boxShadow: "none",
+							}}
+							_placeholder={{
+								color: getTelegram().themeParams.hint_color,
 							}}
 							placeholder={`${context.getTranslation("search")}...`}
 							value={search}

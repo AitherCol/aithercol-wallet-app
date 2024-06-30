@@ -1,4 +1,5 @@
 import { useBoolean } from "@chakra-ui/react";
+import { useInitData } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useEffect } from "react";
 import api from "../api/api";
 import Loader from "../components/Loader";
@@ -12,6 +13,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 	const context = useContext(AppContext);
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
+	const [initData] = useInitData();
 
 	useEffect(() => {
 		const getAuth = async () => {
@@ -35,6 +37,14 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 							});
 							getTelegram().SettingsButton.show();
 							getTelegram().SettingsButton.onClick(() => navigate("/settings"));
+							if (initData?.start_param && initData?.start_param.length > 1) {
+								if (initData.start_param.startsWith("C")) {
+									navigate(`/check/${initData.start_param.slice(1)}`);
+								}
+								if (initData.start_param.startsWith("O")) {
+									navigate(`/market/offer/${initData.start_param.slice(1)}`);
+								}
+							}
 						}
 					} else {
 						navigate("/error");

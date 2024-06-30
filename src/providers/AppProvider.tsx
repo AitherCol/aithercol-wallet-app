@@ -30,6 +30,7 @@ export type AppContextType = {
 	checks: Check[];
 	update: () => void;
 	getTranslation: (key: string, language?: string) => string;
+	updateProfile: () => void;
 };
 
 export type PropsType = {
@@ -53,6 +54,7 @@ const AppContext = createContext<AppContextType>({
 	getTranslation(key) {
 		return key;
 	},
+	updateProfile() {},
 });
 
 export default function AppProvider({ children }: { children: ReactNode }) {
@@ -66,6 +68,20 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 	const [checks, setChecks] = useState<Check[]>();
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();
 	const toast = useToast();
+
+	const updateProfile = async () => {
+		try {
+			const profile = await api.auth.getProfile(props.auth?.token || "");
+			if (profile) {
+				setProps({
+					...props,
+					auth: { profile, token: props.auth?.token || "" },
+				});
+			}
+		} catch (error) {
+			errorHandler(error, toast);
+		}
+	};
 
 	const update = async () => {
 		if (!props.auth) {
@@ -125,10 +141,11 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 				rates: rates as any,
 				update,
 				checks: checks as any,
+				updateProfile,
 				getTranslation(key, languageOverride) {
 					const language =
 						languageOverride || props.auth?.profile.language || "en";
-					const keys = key.split(".");
+					const keys = [key];
 					const translation = language === "en" ? enTranslation : ruTranslation;
 
 					let result: any = translation;

@@ -9,7 +9,11 @@ import {
 	Stack,
 	useToast,
 } from "@chakra-ui/react";
-import { useSwitchInlineQuery } from "@vkruglikov/react-telegram-web-app";
+import {
+	useHapticFeedback,
+	useShowPopup,
+	useSwitchInlineQuery,
+} from "@vkruglikov/react-telegram-web-app";
 import { useContext } from "react";
 import { FaLock, FaMoneyBillWave } from "react-icons/fa6";
 import api from "../../api/api";
@@ -24,6 +28,7 @@ function CheckList() {
 	const context = useContext(AppContext);
 	const toast = useToast();
 	const switchInlineQuery = useSwitchInlineQuery();
+	const { 1: notificationOccurred } = useHapticFeedback();
 
 	const getBalance = (id: number) => {
 		const balance = context.balances.find(e => e.id === id);
@@ -33,6 +38,8 @@ function CheckList() {
 		}
 		return { ...balance, rate };
 	};
+
+	const showPopup = useShowPopup();
 
 	return (
 		<Stack direction={"column"} spacing={2}>
@@ -107,6 +114,7 @@ function CheckList() {
 										]);
 									} catch (error) {
 										errorHandler(error, toast);
+										notificationOccurred("error");
 									}
 								}}
 								bgColor={getTelegram().themeParams.bg_color}
@@ -131,14 +139,33 @@ function CheckList() {
 							<MenuItem
 								bgColor={getTelegram().themeParams.bg_color}
 								onClick={async () => {
-									try {
-										await api.wallet.checks.deleteCheck(
-											e.id,
-											context.props.auth?.token || ""
-										);
-										await context.update();
-									} catch (error) {
-										errorHandler(error, toast);
+									const button = await showPopup({
+										title: context.getTranslation("Delete check"),
+										message: context.getTranslation(
+											"Do you confirm the deletion of the check?"
+										),
+										buttons: [
+											{
+												id: "confirm",
+												type: "destructive",
+												text: context.getTranslation("Confirm"),
+											},
+											{ type: "cancel" },
+										],
+									});
+
+									if (button === "confirm") {
+										try {
+											await api.wallet.checks.deleteCheck(
+												e.id,
+												context.props.auth?.token || ""
+											);
+											await context.update();
+											notificationOccurred("success");
+										} catch (error) {
+											errorHandler(error, toast);
+											notificationOccurred("error");
+										}
 									}
 								}}
 							>

@@ -1,6 +1,7 @@
 import { Stack, Text } from "@chakra-ui/react";
+import HTMLReactParser from "html-react-parser";
 import React from "react";
-import { getTelegram } from "../utils";
+import { getColorMap, getTelegram } from "../utils";
 
 export interface InfoCellProps {
 	icon?: React.ReactElement;
@@ -8,19 +9,39 @@ export interface InfoCellProps {
 	value: string;
 	onClick?: () => void;
 	isLink?: boolean;
+	variant?: "solid" | "transparent";
+	rightIcon?: React.ReactElement;
 }
 
-function InfoCell({ icon, title, value, isLink, onClick }: InfoCellProps) {
+function InfoCell({
+	icon,
+	title,
+	value,
+	isLink,
+	onClick,
+	variant = "solid",
+	rightIcon,
+}: InfoCellProps) {
+	const colors = getColorMap(getTelegram().themeParams.bg_color);
 	return (
 		<Stack
-			p={3}
+			p={variant === "solid" ? 3 : 0}
 			direction={"row"}
 			justifyContent={"space-between"}
 			alignItems={"center"}
 			borderRadius={"lg"}
-			bgColor={getTelegram().themeParams.bg_color}
+			bgColor={
+				variant === "solid" ? getTelegram().themeParams.bg_color : "transparent"
+			}
+			_active={{
+				bgColor: onClick
+					? colors[getTelegram().colorScheme === "dark" ? "700" : "200"]
+					: undefined,
+			}}
 			onClick={onClick}
 			cursor={onClick ? "pointer" : "default"}
+			transitionProperty={"var(--aithercol-transition-property-common)"}
+			transitionDuration={"var(--aithercol-transition-duration-normal)"}
 		>
 			<Stack alignItems={"center"} direction={"row"} spacing={3}>
 				{icon}
@@ -41,10 +62,11 @@ function InfoCell({ icon, title, value, isLink, onClick }: InfoCellProps) {
 						}
 						fontWeight={"semibold"}
 					>
-						{value}
+						{HTMLReactParser(value)}
 					</Text>
 				</Stack>
 			</Stack>
+			{rightIcon && rightIcon}
 		</Stack>
 	);
 }

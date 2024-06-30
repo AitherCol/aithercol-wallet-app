@@ -32,6 +32,10 @@ export function HistoryProvider({
 		}
 		queryString = `?history=${history.join(".")}`;
 
+		if (location === "/") {
+			queryString = "";
+		}
+
 		navigate(location.split("#")[0] + `${queryString}${window.location.hash}`);
 	};
 	const back = () => {

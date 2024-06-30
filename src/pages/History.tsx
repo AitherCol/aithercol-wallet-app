@@ -30,8 +30,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const navigate = router.push;
 	const params = useParams();
 	const [loading, setLoading] = useBoolean();
-	const [impactOccurred, notificationOccurred, selectionChanged] =
-		useHapticFeedback();
+	const { 1: notificationOccurred } = useHapticFeedback();
 
 	const [transactions, setTransactions] = useState<Transaction[]>(
 		getCacheItemJSON(`transactions:${params.balance}`) || []

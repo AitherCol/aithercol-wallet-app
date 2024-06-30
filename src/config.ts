@@ -1,6 +1,6 @@
 const config = {
 	apiUrl: "https://wallet-api.aithercol.com",
-	username: "AitherColWalletBot",
+	username: "AitherColBot",
+	isMarketEnabled: true,
 };
-
 export default config;

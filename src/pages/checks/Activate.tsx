@@ -152,7 +152,8 @@ function Activate() {
 				<FormControl>
 					<FormLabel>{context.getTranslation("password")}</FormLabel>
 					<Input
-						borderColor={getTelegram().themeParams.hint_color}
+						borderColor={"transparent"}
+						bgColor={getTelegram().themeParams.bg_color}
 						_hover={{
 							borderColor: getTelegram().themeParams.hint_color,
 						}}

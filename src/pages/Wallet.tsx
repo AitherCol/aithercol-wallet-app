@@ -14,12 +14,14 @@ import {
 	FaArrowUp,
 	FaMoneyBillTransfer,
 	FaMoneyBills,
+	FaStore,
 } from "react-icons/fa6";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Rate from "../api/types/Rate";
 import Cell from "../components/Cell";
 import Loader from "../components/Loader";
 import DepositModal from "../components/modals/DepositModal";
+import config from "../config";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
@@ -130,6 +132,27 @@ function Wallet() {
 								{context.getTranslation("swap")}
 							</Heading>
 						</Stack>
+						{config.isMarketEnabled && (
+							<Stack
+								onClick={() => navigate("/market")}
+								alignItems={"center"}
+								direction={"column"}
+								spacing={2}
+								cursor={"pointer"}
+							>
+								<Box>
+									<IconButton
+										aria-label="deposit"
+										borderRadius={"999px"}
+										icon={<FaStore size={"20px"} />}
+										colorScheme="button"
+									></IconButton>
+								</Box>
+								<Heading color={"button.500"} size={"sm"}>
+									{context.getTranslation("market")}
+								</Heading>
+							</Stack>
+						)}
 					</Stack>
 				</Stack>
 			</Center>
@@ -167,7 +190,7 @@ function Wallet() {
 							/>
 						}
 						title={e.name}
-						subTitle={`$${getRate(e.contract).price}`}
+						subTitle={`$${getRate(e.contract).price.toFixed(2)}`}
 						additional={{
 							title: `${Number(
 								formatBigint(formatBalance(e), e.decimals)

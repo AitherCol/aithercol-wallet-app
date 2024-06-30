@@ -15,6 +15,7 @@ import {
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
+import AmountInput from "../../components/AmountInput";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
@@ -127,46 +128,14 @@ function CreateCheck() {
 
 				<FormControl>
 					<FormLabel>{context.getTranslation("amount")}</FormLabel>
-					<Input
-						borderColor={getTelegram().themeParams.hint_color}
-						_hover={{
-							borderColor: getTelegram().themeParams.hint_color,
-						}}
-						_focus={{
-							borderColor: getTelegram().themeParams.accent_text_color,
-							boxShadow: "none",
-						}}
+					<AmountInput
 						value={amountString}
-						inputMode="decimal"
-						onChange={e => {
-							let value = e.currentTarget.value.trim();
-							if (value === "") {
-								setAmountString("");
-							}
-							if (value.includes(",")) {
-								value = value.replaceAll(",", ".");
-							}
-							if (value.startsWith(".")) {
-								return;
-							}
-							if (value.endsWith(".")) {
-								if (
-									!new RegExp(/^[0-9]\d*(\.\d+)?$/gm).test(
-										value.replace(".", "")
-									)
-								) {
-									return;
-								}
-							} else {
-								if (!new RegExp(/^[0-9]\d*(\.\d+)?$/gm).test(value)) {
-									return;
-								}
-							}
-							setAmountString(
-								e.currentTarget.value.trim().replaceAll(",", ".")
-							);
-						}}
-					></Input>
+						onChange={setAmountString}
+						maxValue={formatBigint(
+							getFormattedBalance(),
+							getBalance()?.decimals || 1
+						)}
+					/>
 				</FormControl>
 
 				<FormControl>
@@ -175,7 +144,8 @@ function CreateCheck() {
 						{context.getTranslation("optional")})
 					</FormLabel>
 					<Input
-						borderColor={getTelegram().themeParams.hint_color}
+						borderColor={"transparent"}
+						bgColor={getTelegram().themeParams.bg_color}
 						_hover={{
 							borderColor: getTelegram().themeParams.hint_color,
 						}}

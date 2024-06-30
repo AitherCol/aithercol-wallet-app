@@ -83,3 +83,14 @@ export function formatBalance(balance?: Balance) {
 	}
 	return (BigInt(balance.amount) - BigInt(balance.frozen_amount)).toString();
 }
+
+export function arrayToString(arr: string[]): string {
+	if (arr.length === 0) {
+		return "";
+	}
+	if (arr.length === 1) {
+		return arr[0];
+	}
+	const lastElement = arr.pop();
+	return arr.join(", ") + " and " + lastElement;
+}

@@ -69,6 +69,15 @@ const enTranslation = {
 	"Stay tuned for AitherCol Wallet updates":
 		"Stay tuned for AitherCol Wallet updates",
 	in_progress: "In progress",
+	market: "Market",
+	buy: "Buy",
+	sell: "Sell",
+	"Completed (one)": "Completed",
+	"Confirm Payment (action)": "Confirm Payment",
+	deal: "Deal",
+	"Select Payment Method (action)": "Select Payment Method",
+	Price: "Price",
+	"Your price": "Your price",
 };
 
 export default enTranslation;
