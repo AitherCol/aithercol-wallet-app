@@ -28,5 +28,16 @@ export default {
 
 			return data;
 		},
+		postForm: async (
+			path: string,
+			token?: string,
+			body?: any
+		): Promise<BasicResponse & any> => {
+			const { data } = await axios.postForm(`${config.apiUrl}/${path}`, body, {
+				headers: { Authorization: `Bearer ${token}` },
+			});
+
+			return data;
+		},
 	},
 };

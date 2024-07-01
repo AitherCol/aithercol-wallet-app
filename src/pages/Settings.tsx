@@ -18,11 +18,13 @@ import api from "../api/api";
 import CellButton from "../components/CellButton";
 import CustomBackButton from "../components/CustomBackButton";
 import { AppContext } from "../providers/AppProvider";
+import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
 import errorHandler from "../utils/utils";
 
 function Settings() {
 	const context = useContext(AppContext);
+	const router = useContext(HistoryContext);
 
 	const toast = useToast();
 
@@ -147,6 +149,20 @@ function Settings() {
 					/>
 				}
 			/>
+			<Center>
+				<Text
+					onClick={() => {
+						if (context.props.auth?.profile.is_admin) {
+							router.push("/admin");
+						}
+					}}
+					fontSize={"sm"}
+					color={getTelegram().themeParams.hint_color}
+				>
+					AitherCol Wallet • v{process.env.REACT_APP_VERSION}{" "}
+					{context.props.network === "testnet" && "testnet"}
+				</Text>
+			</Center>
 		</Stack>
 	);
 }

@@ -1,5 +1,8 @@
 const config = {
-	apiUrl: "https://wallet-api.aithercol.com",
+	apiUrl:
+		process.env.NODE_ENV === "production"
+			? "https://wallet-api.aithercol.com"
+			: "https://test-wallet-api.aithercol.com",
 	username: "AitherColBot",
 	isMarketEnabled: true,
 };

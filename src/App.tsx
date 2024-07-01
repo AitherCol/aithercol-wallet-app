@@ -10,6 +10,8 @@ import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import Transaction from "./pages/Transaction";
 import Wallet from "./pages/Wallet";
+import AdminPanel from "./pages/admin";
+import AdminAddMethod from "./pages/admin/AddMethod";
 import Activate from "./pages/checks/Activate";
 import CreateCheck from "./pages/checks/Create";
 import CheckList from "./pages/checks/List";
@@ -31,6 +33,7 @@ import Offers from "./pages/market/offers/Offers";
 import WithdrawToken from "./pages/withdraw";
 import WithdrawContract from "./pages/withdraw/Contract";
 import Method from "./pages/withdraw/Method";
+import AdminProvider from "./providers/AdminProvider";
 import AuthProvider from "./providers/AuthProvider";
 import BaseProvider from "./providers/BaseProvider";
 import MarketProvider from "./providers/MarketProvider";
@@ -308,6 +311,30 @@ function App() {
 						element={
 							<AuthProvider>
 								<Settings />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/admin"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<AdminPanel />
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/admin/add_method"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<MarketProvider>
+										<AdminAddMethod />
+									</MarketProvider>
+								</AdminProvider>
 							</AuthProvider>
 						}
 					/>

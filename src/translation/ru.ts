@@ -192,6 +192,7 @@ const ruTranslation = {
 		"Отправьте доказательства вашей правоты в поддержку",
 	Price: "Цена",
 	"Your price": "Ваша цена",
+	"Add %method%": "Добавить %method%",
 };
 
 export default ruTranslation;
