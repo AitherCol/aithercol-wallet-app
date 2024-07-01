@@ -179,10 +179,15 @@ export default function OfferPageComponent({
 					<Stack direction={"column"} spacing={2}>
 						<InfoCell
 							variant="transparent"
+							alignItems="start"
 							icon={
 								<Center
 									w={"40px"}
 									h="40px"
+									minW="40px"
+									minH="40px"
+									maxW="40px"
+									maxH="40px"
 									borderRadius={"999px"}
 									overflow={"hidden"}
 									bgColor={getTelegram().themeParams.accent_text_color}
@@ -192,7 +197,7 @@ export default function OfferPageComponent({
 								</Center>
 							}
 							title="Description"
-							value={offerInfo.offer.description}
+							value={offerInfo.offer.description.replaceAll("\n", "<br/>")}
 						/>
 						<Text fontSize={"sm"} color={getTelegram().themeParams.hint_color}>
 							⚠️{" "}

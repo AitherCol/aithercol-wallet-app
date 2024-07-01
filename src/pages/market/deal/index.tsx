@@ -373,10 +373,15 @@ export default function DealPage() {
 					{isUser && dealInfo.offer && dealInfo.offer.description && (
 						<Stack direction={"column"} spacing={2}>
 							<InfoCell
+								alignItems="start"
 								icon={
 									<Center
 										w={"40px"}
 										h="40px"
+										minW="40px"
+										minH="40px"
+										maxW="40px"
+										maxH="40px"
 										borderRadius={"999px"}
 										overflow={"hidden"}
 										bgColor={getTelegram().themeParams.accent_text_color}

@@ -11,6 +11,7 @@ export interface InfoCellProps {
 	isLink?: boolean;
 	variant?: "solid" | "transparent";
 	rightIcon?: React.ReactElement;
+	alignItems?: "center" | "start";
 }
 
 function InfoCell({
@@ -21,6 +22,7 @@ function InfoCell({
 	onClick,
 	variant = "solid",
 	rightIcon,
+	alignItems = "center",
 }: InfoCellProps) {
 	const colors = getColorMap(getTelegram().themeParams.bg_color);
 	return (
@@ -28,7 +30,7 @@ function InfoCell({
 			p={variant === "solid" ? 3 : 0}
 			direction={"row"}
 			justifyContent={"space-between"}
-			alignItems={"center"}
+			alignItems={alignItems}
 			borderRadius={"lg"}
 			bgColor={
 				variant === "solid" ? getTelegram().themeParams.bg_color : "transparent"
