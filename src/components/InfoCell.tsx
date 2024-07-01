@@ -30,7 +30,7 @@ function InfoCell({
 			p={variant === "solid" ? 3 : 0}
 			direction={"row"}
 			justifyContent={"space-between"}
-			alignItems={alignItems}
+			alignItems={"center"}
 			borderRadius={"lg"}
 			bgColor={
 				variant === "solid" ? getTelegram().themeParams.bg_color : "transparent"
@@ -45,7 +45,7 @@ function InfoCell({
 			transitionProperty={"var(--aithercol-transition-property-common)"}
 			transitionDuration={"var(--aithercol-transition-duration-normal)"}
 		>
-			<Stack alignItems={"center"} direction={"row"} spacing={3}>
+			<Stack alignItems={alignItems} direction={"row"} spacing={3}>
 				{icon}
 				<Stack direction={"column"} spacing={0}>
 					<Text
