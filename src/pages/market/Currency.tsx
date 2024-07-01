@@ -48,6 +48,7 @@ export default function MarketCurrency() {
 									{ currency: e }
 								);
 								await context.updateProfile();
+								await market.update();
 							}
 							router.back();
 						} catch (error) {
