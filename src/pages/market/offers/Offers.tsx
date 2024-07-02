@@ -21,6 +21,7 @@ import Offer from "../../../api/types/Offer";
 import AmountInput from "../../../components/AmountInput";
 import CustomBackButton from "../../../components/CustomBackButton";
 import SelectScreen from "../../../components/SelectScreen";
+import config from "../../../config";
 import "../../../css/text.css";
 import { AppContext } from "../../../providers/AppProvider";
 import { HistoryContext } from "../../../providers/HistoryProviders";
@@ -342,6 +343,12 @@ function OfferComponent({
 						<IconButton
 							aria-label="share"
 							icon={<FaShare />}
+							onClick={() => {
+								window.navigator.clipboard.writeText(
+									`https://t.me/${config.username}/app?startapp=O${offer.id}`
+								);
+								toast({ title: context.getTranslation("link_copied") });
+							}}
 							size={"xs"}
 							color={"button.500"}
 							variant={"ghost"}

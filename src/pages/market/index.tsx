@@ -35,7 +35,6 @@ import { MarketContext } from "../../providers/MarketProvider";
 import exchange from "../../stickers/exchange.json";
 import { getColorMap, getTelegram } from "../../utils";
 import errorHandler, { formatBigint } from "../../utils/utils";
-import RegisterMarket from "./RegisterMarket";
 
 function MarketMain() {
 	const [loading, setLoading] = useBoolean();
@@ -69,9 +68,7 @@ function MarketMain() {
 		})();
 	}, [type]);
 
-	return !context.props.auth?.profile.is_market_registred ? (
-		<RegisterMarket />
-	) : (
+	return (
 		<>
 			<CustomBackButton />
 

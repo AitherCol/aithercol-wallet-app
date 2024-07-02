@@ -38,6 +38,12 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 							getTelegram().SettingsButton.show();
 							getTelegram().SettingsButton.onClick(() => navigate("/settings"));
 							if (initData?.start_param && initData?.start_param.length > 1) {
+								if (initData.start_param === "market") {
+									navigate(`/market`);
+								}
+								if (initData.start_param === "exchange") {
+									navigate(`/exchange`);
+								}
 								if (initData.start_param.startsWith("C")) {
 									navigate(`/check/${initData.start_param.slice(1)}`);
 								}

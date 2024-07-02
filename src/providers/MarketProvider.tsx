@@ -1,10 +1,12 @@
 import { useToast } from "@chakra-ui/react";
 import React, { createContext, useContext, useState } from "react";
+import { useLocation } from "react-router-dom";
 import api from "../api/api";
 import MarketMethod, { UserMarketMethod } from "../api/types/MarketMethod";
 import MarketToken from "../api/types/MarketToken";
 import Loader from "../components/Loader";
 import useInterval from "../hooks/useInterval";
+import RegisterMarket from "../pages/market/RegisterMarket";
 import errorHandler from "../utils/utils";
 import { AppContext } from "./AppProvider";
 
@@ -92,11 +94,16 @@ export default function MarketProvider({
 		update();
 	}, 30000);
 
+	const location = useLocation();
+	const isNotRegistred =
+		!context.props.auth?.profile.is_market_registred &&
+		location.pathname !== "/market/currency";
+
 	return (
 		<MarketContext.Provider
 			value={{ update, currencies, tokens, methods, myMethods, minAmount }}
 		>
-			{currencies ? children : <Loader />}
+			{currencies ? isNotRegistred ? <RegisterMarket /> : children : <Loader />}
 		</MarketContext.Provider>
 	);
 }

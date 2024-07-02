@@ -79,6 +79,7 @@ export default function OfferPageComponent({
 			} catch (error) {
 				notificationOccurred("error");
 				errorHandler(error, toast);
+				router.push("/");
 			}
 		})();
 	}, [id]);
