@@ -9,6 +9,7 @@ import useInterval from "../hooks/useInterval";
 import RegisterMarket from "../pages/market/RegisterMarket";
 import errorHandler from "../utils/utils";
 import { AppContext } from "./AppProvider";
+import ChannelSubscriptionProvider from "./ChannelSubscriptionProvider";
 
 export const MarketContext = createContext<{
 	update: () => void;
@@ -103,7 +104,17 @@ export default function MarketProvider({
 		<MarketContext.Provider
 			value={{ update, currencies, tokens, methods, myMethods, minAmount }}
 		>
-			{currencies ? isNotRegistred ? <RegisterMarket /> : children : <Loader />}
+			<ChannelSubscriptionProvider>
+				{currencies ? (
+					isNotRegistred ? (
+						<RegisterMarket />
+					) : (
+						children
+					)
+				) : (
+					<Loader />
+				)}
+			</ChannelSubscriptionProvider>
 		</MarketContext.Provider>
 	);
 }

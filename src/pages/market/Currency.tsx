@@ -39,17 +39,20 @@ export default function MarketCurrency() {
 						try {
 							setLoading.on();
 							if (context.props.auth?.profile.is_market_registred) {
-								// @TODO: Change currency
-								await context.updateProfile();
+								await api.custom.post(
+									"wallet/market/change_currency",
+									context.props.auth?.token,
+									{ currency: e }
+								);
 							} else {
 								await api.custom.post(
 									"wallet/market/register",
 									context.props.auth?.token,
 									{ currency: e }
 								);
-								await context.updateProfile();
-								await market.update();
 							}
+							await context.updateProfile();
+							await market.update();
 							router.back();
 						} catch (error) {
 							errorHandler(error, toast);

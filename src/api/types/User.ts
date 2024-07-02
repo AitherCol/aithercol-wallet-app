@@ -9,6 +9,7 @@ export default interface User {
 	is_market_registred: boolean;
 	market_currency: string;
 	is_busy: boolean;
+	is_subscribed: boolean;
 	is_transfers_allowed: boolean;
 	deals: number;
 	deals_amount: number;

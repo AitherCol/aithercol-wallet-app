@@ -193,6 +193,10 @@ const ruTranslation = {
 	Price: "Цена",
 	"Your price": "Ваша цена",
 	"Add %method%": "Добавить %method%",
+	"To use AitherCol Wallet, subscribe to our channel!":
+		"Подпишитесь на наш канал, чтобы использовать AitherCol Wallet!",
+	"Check Subscription": "Проверить подписку",
+	"You are not subscribed": "Вы не подписаны",
 };
 
 export default ruTranslation;

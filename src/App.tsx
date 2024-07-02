@@ -36,6 +36,7 @@ import Method from "./pages/withdraw/Method";
 import AdminProvider from "./providers/AdminProvider";
 import AuthProvider from "./providers/AuthProvider";
 import BaseProvider from "./providers/BaseProvider";
+import ChannelSubscriptionProvider from "./providers/ChannelSubscriptionProvider";
 import MarketProvider from "./providers/MarketProvider";
 import { getTelegram } from "./utils";
 
@@ -68,7 +69,9 @@ function App() {
 						path={`/`}
 						element={
 							<AuthProvider>
-								<Wallet />
+								<ChannelSubscriptionProvider>
+									<Wallet />
+								</ChannelSubscriptionProvider>
 							</AuthProvider>
 						}
 					/>
