@@ -8,7 +8,7 @@ import Loader from "../../components/Loader";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { MarketContext } from "../../providers/MarketProvider";
-import { getTelegram } from "../../utils";
+import { getTelegram, sleep } from "../../utils";
 import errorHandler from "../../utils/utils";
 
 export default function MarketCurrency() {
@@ -44,14 +44,16 @@ export default function MarketCurrency() {
 									context.props.auth?.token,
 									{ currency: e }
 								);
+								await context.updateProfile();
 							} else {
 								await api.custom.post(
 									"wallet/market/register",
 									context.props.auth?.token,
 									{ currency: e }
 								);
+								await context.updateProfile();
 							}
-							await context.updateProfile();
+							await sleep(1000);
 							await market.update();
 							router.back();
 						} catch (error) {

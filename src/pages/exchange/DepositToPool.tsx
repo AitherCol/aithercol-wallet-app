@@ -63,6 +63,8 @@ function DepositToPool() {
 					context.props.auth?.token || ""
 				);
 
+				await context.update();
+
 				toast({
 					title: context.getTranslation("success"),
 					description: context.getTranslation("Transaction in progress"),

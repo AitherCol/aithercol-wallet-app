@@ -51,3 +51,7 @@ export function getColorMap(color: string) {
 
 	return map;
 }
+
+export function sleep(ms: number) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}

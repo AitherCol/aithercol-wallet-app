@@ -59,7 +59,7 @@ export default function MarketProvider({
 
 			try {
 				const data = await api.custom.get(
-					"wallet/market/methods",
+					"wallet/market/methods?all=1",
 					context.props.auth?.token
 				);
 

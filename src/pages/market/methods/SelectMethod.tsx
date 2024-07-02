@@ -30,26 +30,30 @@ function SelectMethod() {
 				onClick={() => router.push("/market/currency")}
 			/>
 
-			{market.methods?.map(method => (
-				<Cell
-					icon={
-						<Image
-							src={method.logo}
-							width={"40px"}
-							height={"40px"}
-							borderRadius={"999px"}
-						/>
-					}
-					title={
-						context.props.auth?.profile.language === "ru"
-							? method.name_ru || method.name_en
-							: method.name_en
-					}
-					onClick={() =>
-						router.push(`/market/profile/methods/new/${method.id}`)
-					}
-				/>
-			))}
+			{market.methods
+				?.filter(
+					e => e.currency === context.props.auth?.profile.market_currency
+				)
+				.map(method => (
+					<Cell
+						icon={
+							<Image
+								src={method.logo}
+								width={"40px"}
+								height={"40px"}
+								borderRadius={"999px"}
+							/>
+						}
+						title={
+							context.props.auth?.profile.language === "ru"
+								? method.name_ru || method.name_en
+								: method.name_en
+						}
+						onClick={() =>
+							router.push(`/market/profile/methods/new/${method.id}`)
+						}
+					/>
+				))}
 		</Stack>
 	);
 }
