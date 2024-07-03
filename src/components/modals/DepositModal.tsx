@@ -7,6 +7,7 @@ import {
 	DrawerContent,
 	DrawerHeader,
 	DrawerOverlay,
+	Link,
 	Stack,
 	Text,
 	useToast,
@@ -82,6 +83,43 @@ function DepositModal({
 								{context.getTranslation("copy_address")}
 							</Button>
 						</Center>
+						<Text fontSize={"sm"} textAlign={"center"}>
+							{context.props.auth?.profile.language === "ru" ? (
+								<>
+									Отправляйте только <b>TON</b> и{" "}
+									<b>
+										<Link
+											color="button.500"
+											onClick={() => {
+												getTelegram().openLink(
+													"https://help.aithercol.com/faq-ru#tW3F"
+												);
+											}}
+										>
+											верифицированные токены
+										</Link>
+									</b>{" "}
+									в сети TON, иначе монеты будут утеряны.
+								</>
+							) : (
+								<>
+									Send only <b>TON</b> and{" "}
+									<b>
+										<Link
+											color="button.500"
+											onClick={() =>
+												getTelegram().openLink(
+													"https://help.aithercol.com/faq#tW3F"
+												)
+											}
+										>
+											verified tokens
+										</Link>
+									</b>{" "}
+									on the TON network, otherwise the coins will be lost.
+								</>
+							)}
+						</Text>
 					</Stack>
 				</DrawerBody>
 			</DrawerContent>

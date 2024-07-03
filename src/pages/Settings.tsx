@@ -11,7 +11,12 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { useContext } from "react";
-import { FaArrowUp, FaCommentDots, FaEarthEurope } from "react-icons/fa6";
+import {
+	FaArrowUp,
+	FaCommentDots,
+	FaEarthEurope,
+	FaQuestion,
+} from "react-icons/fa6";
 import { IoMegaphone } from "react-icons/io5";
 import api from "../api/api";
 
@@ -110,12 +115,12 @@ function Settings() {
 						bgColor={getTelegram().themeParams.accent_text_color}
 						color={getTelegram().themeParams.button_text_color}
 					>
-						<FaCommentDots size={"14px"} />
+						<IoMegaphone size={"14px"} />
 					</Center>
 				}
-				title={context.getTranslation("Support")}
+				title={context.getTranslation("our_channel")}
 				onClick={() => {
-					getTelegram().openTelegramLink("https://t.me/AitherColSupport");
+					getTelegram().openTelegramLink("https://t.me/aithercol");
 				}}
 				rightItem={
 					<FaArrowUp
@@ -135,12 +140,16 @@ function Settings() {
 						bgColor={getTelegram().themeParams.accent_text_color}
 						color={getTelegram().themeParams.button_text_color}
 					>
-						<IoMegaphone size={"14px"} />
+						<FaQuestion size={"14px"} />
 					</Center>
 				}
-				title={context.getTranslation("our_channel")}
+				title={context.getTranslation("FAQ")}
 				onClick={() => {
-					getTelegram().openTelegramLink("https://t.me/aithercol");
+					getTelegram().openLink(
+						context.props.auth?.profile.language === "ru"
+							? "https://help.aithercol.com/faq-ru"
+							: "https://help.aithercol.com/faq"
+					);
 				}}
 				rightItem={
 					<FaArrowUp
@@ -149,6 +158,32 @@ function Settings() {
 					/>
 				}
 			/>
+
+			<CellButton
+				icon={
+					<Center
+						w={"24px"}
+						h="24px"
+						borderRadius={"999px"}
+						overflow={"hidden"}
+						bgColor={getTelegram().themeParams.accent_text_color}
+						color={getTelegram().themeParams.button_text_color}
+					>
+						<FaCommentDots size={"14px"} />
+					</Center>
+				}
+				title={context.getTranslation("Support")}
+				onClick={() => {
+					getTelegram().openTelegramLink("https://t.me/AitherColSupport");
+				}}
+				rightItem={
+					<FaArrowUp
+						color={getTelegram().themeParams.hint_color}
+						style={{ transform: "rotate(45deg)" }}
+					/>
+				}
+			/>
+
 			<Center>
 				<Text
 					onClick={() => {

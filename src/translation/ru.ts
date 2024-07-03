@@ -197,6 +197,7 @@ const ruTranslation = {
 		"Подпишитесь на наш канал, чтобы использовать AitherCol Wallet!",
 	"Check Subscription": "Проверить подписку",
 	"You are not subscribed": "Вы не подписаны",
+	FAQ: "Справка",
 };
 
 export default ruTranslation;
