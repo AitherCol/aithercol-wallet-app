@@ -139,7 +139,7 @@ function CheckList() {
 								onClick={async () => {
 									try {
 										window.navigator.clipboard.writeText(
-											`https://t.me/${config.username}?start=C${e.key}`
+											`https://t.me/${config.username}/app?startapp=C${e.key}`
 										);
 										toast({ title: context.getTranslation("link_copied") });
 									} catch (error) {
