@@ -41,6 +41,15 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 								if (initData.start_param === "market") {
 									navigate(`/market`);
 								}
+								if (initData.start_param === "send") {
+									navigate(`/withdraw`);
+								}
+								if (initData.start_param === "settings") {
+									navigate(`/settings`);
+								}
+								if (initData.start_param === "history") {
+									navigate(`/history`);
+								}
 								if (initData.start_param === "exchange") {
 									navigate(`/exchange`);
 								}
