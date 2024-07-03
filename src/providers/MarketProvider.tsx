@@ -12,7 +12,7 @@ import { AppContext } from "./AppProvider";
 import ChannelSubscriptionProvider from "./ChannelSubscriptionProvider";
 
 export const MarketContext = createContext<{
-	update: () => void;
+	update: (force?: boolean) => void;
 	tokens?: MarketToken[];
 	currencies?: string[];
 	methods?: MarketMethod[];
@@ -34,8 +34,8 @@ export default function MarketProvider({
 	const [myMethods, setMyMethods] = useState<UserMarketMethod[]>();
 	const [minAmount, setMinAmount] = useState<any>();
 
-	const update = async () => {
-		if (context.props.auth?.profile.is_market_registred) {
+	const update = async (force?: boolean) => {
+		if (context.props.auth?.profile.is_market_registred || force) {
 			try {
 				const data = await api.custom.get(
 					"wallet/market/min_amount",

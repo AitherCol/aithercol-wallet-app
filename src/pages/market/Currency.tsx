@@ -8,7 +8,7 @@ import Loader from "../../components/Loader";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { MarketContext } from "../../providers/MarketProvider";
-import { getTelegram, sleep } from "../../utils";
+import { getTelegram } from "../../utils";
 import errorHandler from "../../utils/utils";
 
 export default function MarketCurrency() {
@@ -53,8 +53,7 @@ export default function MarketCurrency() {
 								);
 								await context.updateProfile();
 							}
-							await sleep(1000);
-							await market.update();
+							await market.update(true);
 							router.back();
 						} catch (error) {
 							errorHandler(error, toast);
