@@ -1,4 +1,4 @@
-import { Heading, Image, Stack } from "@chakra-ui/react";
+import { Heading, Stack } from "@chakra-ui/react";
 import { useContext } from "react";
 import Cell from "../../../components/Cell";
 import CellButton from "../../../components/CellButton";
@@ -36,14 +36,6 @@ function SelectMethod() {
 				)
 				.map(method => (
 					<Cell
-						icon={
-							<Image
-								src={method.logo}
-								width={"40px"}
-								height={"40px"}
-								borderRadius={"999px"}
-							/>
-						}
 						title={
 							context.props.auth?.profile.language === "ru"
 								? method.name_ru || method.name_en

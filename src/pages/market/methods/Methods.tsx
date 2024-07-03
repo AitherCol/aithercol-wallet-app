@@ -1,4 +1,4 @@
-import { Center, Heading, Image, Link, Stack, Text } from "@chakra-ui/react";
+import { Center, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 import Cell from "../../../components/Cell";
 import CellButton from "../../../components/CellButton";
@@ -65,14 +65,6 @@ export default function MarketMethods() {
 									  getMethod(method.method_id)?.name_en
 									: getMethod(method.method_id)?.name_en
 							} • ${getMethod(method.method_id)?.currency}`}
-							icon={
-								<Image
-									src={getMethod(method.method_id)?.logo || ""}
-									width={"40px"}
-									height={"40px"}
-									borderRadius={"999px"}
-								/>
-							}
 							onClick={() =>
 								router.push(`/market/profile/methods/${method.id}`)
 							}

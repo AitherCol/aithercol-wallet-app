@@ -87,7 +87,6 @@ export default function SendMethod({ dealInfo, update }: DealStatusProps) {
 									return {
 										name: e.name,
 										value: e.id.toString(),
-										image: getMethod(e.method_id)?.logo || undefined,
 									};
 								}) || []),
 						]}

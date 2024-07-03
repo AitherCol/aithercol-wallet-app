@@ -118,7 +118,6 @@ export default function Offers() {
 									? e.name_ru || e.name_en
 									: e.name_en,
 							value: e.id.toString(),
-							image: e.logo,
 						};
 					}) || []),
 				]}
