@@ -76,26 +76,39 @@ function CheckList() {
 								}
 								onClick={() => {}}
 								title={context
-									.getTranslation("check_title")
+									.getTranslation(
+										e.max_activations > 1
+											? "Multi-Use %symbol% Check"
+											: "check_title"
+									)
 									.replaceAll(
 										"%symbol%",
 										getBalance(e.balance_id)?.symbol || ""
 									)}
 								subTitle={
-									e.password_protected
-										? context.getTranslation("password_protected")
+									e.password_protected || e.max_activations > 1
+										? `${
+												e.password_protected
+													? context.getTranslation("password_protected") +
+													  (e.max_activations > 1 ? " • " : "")
+													: ""
+										  }${
+												e.max_activations > 1
+													? e.activations + "/" + e.max_activations
+													: ""
+										  }`
 										: undefined
 								}
 								additional={{
 									title: `${formatBigint(
-										e.amount,
+										e.total_amount === "0" ? e.amount : e.total_amount,
 										getBalance(e.balance_id)?.decimals || 1
 									)} ${getBalance(e.balance_id)?.symbol}`,
 									subTitle: `$${(
 										(getBalance(e.balance_id)?.rate?.price || 0) *
 										Number(
 											formatBigint(
-												e.amount,
+												e.total_amount,
 												getBalance(e.balance_id)?.decimals || 1
 											)
 										)

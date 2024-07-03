@@ -198,6 +198,10 @@ const ruTranslation = {
 	"Check Subscription": "Проверить подписку",
 	"You are not subscribed": "Вы не подписаны",
 	FAQ: "Справка",
+	"Amount per activation": "Сумма за активацию",
+	Activations: "Активации",
+	"Only for Premium Users": "Только для Premium пользователей",
+	"Multi-Use %symbol% Check": "%symbol% Мульти-чек",
 };
 
 export default ruTranslation;

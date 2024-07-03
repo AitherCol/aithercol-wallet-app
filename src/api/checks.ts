@@ -27,7 +27,13 @@ export type CheckResponse = BasicResponse & {
 };
 
 async function create(
-	body: { balance_id: number; amount: string; password?: string },
+	body: {
+		balance_id: number;
+		amount: string;
+		password?: string;
+		activations: number;
+		only_for_premium: boolean;
+	},
 	token: string
 ): Promise<CheckResponse> {
 	const { data } = await axios.post(

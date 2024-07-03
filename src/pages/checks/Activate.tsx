@@ -68,6 +68,7 @@ function Activate() {
 		} catch (error) {
 			errorHandler(error, toast);
 			notificationOccurred("error");
+			router.push("/");
 		} finally {
 			setLoading.off();
 		}

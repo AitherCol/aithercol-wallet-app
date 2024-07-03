@@ -7,4 +7,7 @@ export default interface Check {
 	created_at: string;
 	updated_at: string;
 	id: number;
+	activations: number;
+	max_activations: number;
+	total_amount: string;
 }

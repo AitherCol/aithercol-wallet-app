@@ -1,10 +1,12 @@
 import {
+	Button,
 	FormControl,
 	FormLabel,
 	Heading,
 	Image,
 	Input,
 	Stack,
+	Switch,
 	useToast,
 } from "@chakra-ui/react";
 import {
@@ -17,6 +19,7 @@ import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import AmountInput from "../../components/AmountInput";
 import Cell from "../../components/Cell";
+import CellButton from "../../components/CellButton";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
 import { AppContext } from "../../providers/AppProvider";
@@ -33,8 +36,9 @@ function CreateCheck() {
 
 	const [password, setPassword] = useState<string>("");
 	const [amountString, setAmountString] = useState<string>("");
-	const [impactOccurred, notificationOccurred, selectionChanged] =
-		useHapticFeedback();
+	const [activations, setActivations] = useState<string>("1");
+	const [onlyForPremium, setOnlyForPremium] = useState<boolean>(false);
+	const { 1: notificationOccurred } = useHapticFeedback();
 
 	const getBalance = (contract?: string) => {
 		if (!contract) {
@@ -71,6 +75,8 @@ function CreateCheck() {
 							balance.decimals
 						).toString(),
 						password,
+						activations: Number(activations),
+						only_for_premium: onlyForPremium,
 					},
 					context.props.auth?.token || ""
 				);
@@ -91,12 +97,24 @@ function CreateCheck() {
 		}
 	};
 
+	const getTotalBalance = () => {
+		let activationsInt = Number(activations);
+		if (!activationsInt || activationsInt <= 0) {
+			activationsInt = 1;
+		}
+		return (BigInt(getFormattedBalance()) / BigInt(activationsInt)).toString();
+	};
+
 	return getBalance() !== null ? (
 		<>
 			<CustomBackButton />
 			{isOk && (
-				<MainButton text={context.getTranslation("send")} onClick={send} />
+				<MainButton text={context.getTranslation("Create")} onClick={send} />
 			)}
+			{isOk && (
+				<Button children={context.getTranslation("Create")} onClick={send} />
+			)}
+
 			<Stack direction={"column"} spacing={2}>
 				<Heading
 					size={"sm"}
@@ -119,7 +137,7 @@ function CreateCheck() {
 					subTitle={context.getTranslation("change_token")}
 					additional={{
 						title: `${formatBigint(
-							getFormattedBalance(),
+							getTotalBalance(),
 							getBalance()?.decimals || 1
 						)} ${getBalance()?.symbol}`,
 					}}
@@ -127,15 +145,22 @@ function CreateCheck() {
 				/>
 
 				<FormControl>
-					<FormLabel>{context.getTranslation("amount")}</FormLabel>
+					<FormLabel>
+						{context.getTranslation("Amount per activation")}
+					</FormLabel>
 					<AmountInput
 						value={amountString}
 						onChange={setAmountString}
 						maxValue={formatBigint(
-							getFormattedBalance(),
+							getTotalBalance(),
 							getBalance()?.decimals || 1
 						)}
 					/>
+				</FormControl>
+
+				<FormControl>
+					<FormLabel>{context.getTranslation("Activations")}</FormLabel>
+					<AmountInput value={activations} onChange={setActivations} />
 				</FormControl>
 
 				<FormControl>
@@ -160,6 +185,18 @@ function CreateCheck() {
 						autoComplete="new-password"
 					></Input>
 				</FormControl>
+				<CellButton
+					title={context.getTranslation("Only for Premium Users")}
+					rightItem={
+						<Switch
+							isChecked={onlyForPremium}
+							size={"md"}
+							colorScheme="button"
+							onClick={() => setOnlyForPremium(!onlyForPremium)}
+							onChange={() => setOnlyForPremium(!onlyForPremium)}
+						/>
+					}
+				/>
 			</Stack>
 		</>
 	) : (
