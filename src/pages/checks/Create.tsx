@@ -1,5 +1,4 @@
 import {
-	Button,
 	FormControl,
 	FormLabel,
 	Heading,
@@ -110,9 +109,6 @@ function CreateCheck() {
 			<CustomBackButton />
 			{isOk && (
 				<MainButton text={context.getTranslation("Create")} onClick={send} />
-			)}
-			{isOk && (
-				<Button children={context.getTranslation("Create")} onClick={send} />
 			)}
 
 			<Stack direction={"column"} spacing={2}>
