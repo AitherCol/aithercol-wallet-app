@@ -205,6 +205,23 @@ function Swap() {
 		return amount.toString();
 	};
 
+	const getMaxValue = () => {
+		const max = (
+			Number(formatBigint(getSwap()?.amount || "0", getSwap()?.decimals || 0)) /
+			Number(
+				formatBigint(swapRate?.output_amount || "0", getSwap()?.decimals || 0)
+			)
+		).toFixed(getBalance()?.decimals);
+		if (
+			Number(max) >=
+			Number(formatBigint(getFormattedBalance(), getBalance()?.decimals || 1))
+		) {
+			return formatBigint(getFormattedBalance(), getBalance()?.decimals || 1);
+		}
+
+		return max;
+	};
+
 	return !getBalance() ? (
 		<Loader />
 	) : (
@@ -251,10 +268,7 @@ function Swap() {
 					<AmountInput
 						value={amountString}
 						onChange={setAmountString}
-						maxValue={formatBigint(
-							getFormattedBalance(),
-							getBalance()?.decimals || 1
-						)}
+						maxValue={getMaxValue()}
 					/>
 
 					{swapRate && (
