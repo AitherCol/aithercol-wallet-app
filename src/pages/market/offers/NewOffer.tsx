@@ -196,49 +196,51 @@ export default function NewOffer() {
 					{context.getTranslation("Create Offer")}
 				</Heading>
 
-				{(market.methods || []).map(e => (
-					<CellButton
-						title={
-							context.props.auth?.profile.language === "ru"
-								? e.name_ru || e.name_en
-								: e.name_en
-						}
-						icon={
-							methods.includes(e.id) ? (
-								<Center
-									borderRadius={"999px"}
-									border={`1px solid ${
-										getTelegram().themeParams.accent_text_color
-									}`}
-									w="20px"
-									h="20px"
-									bgColor={getTelegram().themeParams.accent_text_color}
-									overflow={"hidden"}
-								>
-									<FaCheck
-										color={getTelegram().themeParams.button_text_color}
-										size={"12px"}
-									/>
-								</Center>
-							) : (
-								<Box
-									borderRadius={"999px"}
-									border={`1px solid ${getTelegram().themeParams.hint_color}`}
-									w="20px"
-									h="20px"
-								/>
-							)
-						}
-						hideRight
-						onClick={() => {
-							if (methods.includes(e.id)) {
-								setMethods(methods.filter(method => method !== e.id));
-							} else {
-								setMethods([...methods, e.id]);
+				{(market.methods || [])
+					.filter(e => e.currency === currency)
+					.map(e => (
+						<CellButton
+							title={
+								context.props.auth?.profile.language === "ru"
+									? e.name_ru || e.name_en
+									: e.name_en
 							}
-						}}
-					/>
-				))}
+							icon={
+								methods.includes(e.id) ? (
+									<Center
+										borderRadius={"999px"}
+										border={`1px solid ${
+											getTelegram().themeParams.accent_text_color
+										}`}
+										w="20px"
+										h="20px"
+										bgColor={getTelegram().themeParams.accent_text_color}
+										overflow={"hidden"}
+									>
+										<FaCheck
+											color={getTelegram().themeParams.button_text_color}
+											size={"12px"}
+										/>
+									</Center>
+								) : (
+									<Box
+										borderRadius={"999px"}
+										border={`1px solid ${getTelegram().themeParams.hint_color}`}
+										w="20px"
+										h="20px"
+									/>
+								)
+							}
+							hideRight
+							onClick={() => {
+								if (methods.includes(e.id)) {
+									setMethods(methods.filter(method => method !== e.id));
+								} else {
+									setMethods([...methods, e.id]);
+								}
+							}}
+						/>
+					))}
 			</Stack>
 		);
 	}

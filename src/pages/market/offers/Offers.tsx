@@ -111,15 +111,19 @@ export default function Offers() {
 			<SelectScreen
 				options={[
 					{ name: context.getTranslation("All Methods"), value: "all" },
-					...(market.methods?.map(e => {
-						return {
-							name:
-								context.props.auth?.profile.language === "ru"
-									? e.name_ru || e.name_en
-									: e.name_en,
-							value: e.id.toString(),
-						};
-					}) || []),
+					...(market.methods
+						?.filter(
+							e => e.currency === context.props.auth?.profile.market_currency
+						)
+						.map(e => {
+							return {
+								name:
+									context.props.auth?.profile.language === "ru"
+										? e.name_ru || e.name_en
+										: e.name_en,
+								value: e.id.toString(),
+							};
+						}) || []),
 				]}
 				onChange={e => {
 					if (e === "all") {
