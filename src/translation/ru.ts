@@ -204,7 +204,7 @@ const ruTranslation = {
 	"Multi-Use %symbol% Check": "%symbol% Мульти-чек",
 	"Offers not found": "Объявления не найдены",
 	"But you can create your own offer :)": "Но вы можете создать свое :)",
-	"Referral Program": "Реферальная программа",
+	"Referral Program": "Реферальная система",
 	"Invite users and receive 30% of their commission.":
 		"Приглашайте пользоватателей и получайте 30% с их комиссии.",
 	"Your invite link": "Ваша реферальная ссылка",
