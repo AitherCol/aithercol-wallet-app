@@ -12,6 +12,9 @@ import Transaction from "./pages/Transaction";
 import Wallet from "./pages/Wallet";
 import AdminPanel from "./pages/admin";
 import AdminAddMethod from "./pages/admin/AddMethod";
+import Dispute from "./pages/admin/Dispute";
+import Disputes from "./pages/admin/Disputes";
+import Stats from "./pages/admin/Stats";
 import Activate from "./pages/checks/Activate";
 import CreateCheck from "./pages/checks/Create";
 import CheckList from "./pages/checks/List";
@@ -328,6 +331,30 @@ function App() {
 							</AuthProvider>
 						}
 					/>
+					<Route
+						path={"/admin/disputes"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<MarketProvider>
+										<Disputes />
+									</MarketProvider>
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/admin/disputes/:id"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<MarketProvider>
+										<Dispute />
+									</MarketProvider>
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
 
 					<Route
 						path={"/admin/add_method"}
@@ -337,6 +364,16 @@ function App() {
 									<MarketProvider>
 										<AdminAddMethod />
 									</MarketProvider>
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/admin/stats"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<Stats />
 								</AdminProvider>
 							</AuthProvider>
 						}

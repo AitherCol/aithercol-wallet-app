@@ -228,7 +228,8 @@ export default function Offers() {
 
 			{(meta && (
 				<>
-					{offers.length === 0 && (
+					{offers.filter(e => e.user_id !== context.props.auth?.profile.id)
+						.length === 0 && (
 						<Center>
 							<Stack
 								alignItems={"center"}
@@ -251,9 +252,11 @@ export default function Offers() {
 							</Stack>
 						</Center>
 					)}
-					{offers.map(e => (
-						<OfferComponent offer={e} setOffer={setSelectedOffer} />
-					))}
+					{offers
+						.filter(e => e.user_id !== context.props.auth?.profile.id)
+						.map(e => (
+							<OfferComponent offer={e} setOffer={setSelectedOffer} />
+						))}
 
 					{meta?.current_page !== meta?.last_page && (
 						<Button

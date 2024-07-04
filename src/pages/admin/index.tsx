@@ -19,7 +19,11 @@ export default function AdminPanel() {
 			>
 				Admin Panel
 			</Heading>
-
+			<CellButton title={"Stats"} onClick={() => router.push("/admin/stats")} />
+			<CellButton
+				title={"Disputes"}
+				onClick={() => router.push("/admin/disputes")}
+			/>
 			<CellButton
 				title={"Add Method to Market"}
 				onClick={() => router.push("/admin/add_method")}
