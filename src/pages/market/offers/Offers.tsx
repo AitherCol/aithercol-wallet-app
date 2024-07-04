@@ -1,8 +1,10 @@
 import {
 	Box,
 	Button,
+	Center,
 	Heading,
 	IconButton,
+	Link,
 	Skeleton,
 	SkeletonText,
 	Stack,
@@ -226,6 +228,29 @@ export default function Offers() {
 
 			{(meta && (
 				<>
+					{offers.length === 0 && (
+						<Center>
+							<Stack
+								alignItems={"center"}
+								textAlign={"center"}
+								direction={"column"}
+								spacing={2}
+							>
+								<Heading>{context.getTranslation("Offers not found")}</Heading>
+								<Text>
+									{context.getTranslation(
+										"But you can create your own offer :)"
+									)}
+								</Text>
+								<Link
+									onClick={() => router.push("/market/profile/offers/new")}
+									color={getTelegram().themeParams.link_color}
+								>
+									{context.getTranslation("Create Offer")}
+								</Link>
+							</Stack>
+						</Center>
+					)}
 					{offers.map(e => (
 						<OfferComponent offer={e} setOffer={setSelectedOffer} />
 					))}

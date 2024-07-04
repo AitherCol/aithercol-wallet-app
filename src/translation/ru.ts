@@ -202,6 +202,8 @@ const ruTranslation = {
 	Activations: "Активации",
 	"Only for Premium Users": "Только для Premium пользователей",
 	"Multi-Use %symbol% Check": "%symbol% Мульти-чек",
+	"Offers not found": "Объявления не найдены",
+	"But you can create your own offer :)": "Но вы можете создать свое :)",
 };
 
 export default ruTranslation;
