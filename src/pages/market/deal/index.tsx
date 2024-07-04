@@ -236,6 +236,93 @@ export default function DealPage() {
 								}
 								icon={getDealStatuses(context)[dealInfo.deal.status].icon}
 							/>
+							{dealInfo.deal.status === "waiting_payment" &&
+							!isSendPaymentStatus ? (
+								<Countdown
+									date={moment(dealInfo.deal.expired_at).valueOf()}
+									renderer={({ minutes, seconds, completed }) => {
+										if (completed) {
+											return dealInfo.deal.is_dispute_opened ? null : (
+												<Box>
+													<Button
+														variant="link"
+														colorScheme="button"
+														onClick={async () => {
+															try {
+																await api.custom.post(
+																	"wallet/market/deals/handle",
+																	context.props.auth?.token,
+																	{
+																		id: dealInfo.deal.id,
+																		action: "open_dispute",
+																	}
+																);
+																await update(true);
+																notificationOccurred("success");
+															} catch (error) {
+																notificationOccurred("error");
+																errorHandler(error, toast);
+															}
+														}}
+													>
+														{context.getTranslation("Open Dispute")}
+													</Button>
+												</Box>
+											);
+										}
+										const formatTime = (time: number) => {
+											if (time.toString().length === 2) {
+												return time.toString();
+											}
+											return `0${time}`;
+										};
+										return (
+											<Text
+												fontSize={"md"}
+												color={getTelegram().themeParams.hint_color}
+											>
+												{context.getTranslation(
+													"You will be able to open a dispute in"
+												)}{" "}
+												{minutes}:{formatTime(seconds)}
+											</Text>
+										);
+									}}
+								/>
+							) : (
+								<></>
+							)}
+
+							{(dealInfo.deal.status === "waiting" && !isDealer) ||
+							dealInfo.deal.status === "waiting_method" ? (
+								<Countdown
+									date={moment(dealInfo.deal.expired_at).valueOf()}
+									renderer={({ minutes, seconds, completed }) => {
+										if (completed) {
+											return <></>;
+										}
+										const formatTime = (time: number) => {
+											if (time.toString().length === 2) {
+												return time.toString();
+											}
+											return `0${time}`;
+										};
+										return (
+											<Text
+												fontSize={"md"}
+												color={getTelegram().themeParams.hint_color}
+											>
+												{context.getTranslation(
+													"Deal will be automatically canceled after"
+												)}{" "}
+												{minutes}:{formatTime(seconds)}
+											</Text>
+										);
+									}}
+								/>
+							) : (
+								<></>
+							)}
 
 							{dealInfo.deal.status === "payment_sent" &&
 								!isWaitingPaymentConfirmationWithoutDispute && (
