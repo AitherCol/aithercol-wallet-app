@@ -17,7 +17,7 @@ import {
 	FaEarthEurope,
 	FaQuestion,
 } from "react-icons/fa6";
-import { IoMegaphone } from "react-icons/io5";
+import { IoMegaphone, IoPeople } from "react-icons/io5";
 import api from "../api/api";
 
 import CellButton from "../components/CellButton";
@@ -104,6 +104,23 @@ function Settings() {
 					</MenuItem>
 				</MenuList>
 			</Menu>
+
+			<CellButton
+				icon={
+					<Center
+						w={"24px"}
+						h="24px"
+						borderRadius={"999px"}
+						overflow={"hidden"}
+						bgColor={getTelegram().themeParams.accent_text_color}
+						color={getTelegram().themeParams.button_text_color}
+					>
+						<IoPeople size={"14px"} />
+					</Center>
+				}
+				title={context.getTranslation("Referral Program")}
+				onClick={() => router.push("/referrals")}
+			/>
 
 			<CellButton
 				icon={

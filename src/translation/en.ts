@@ -78,6 +78,7 @@ const enTranslation = {
 	"Select Payment Method (action)": "Select Payment Method",
 	Price: "Price",
 	"Your price": "Your price",
+	"ref reward": "Referral Reward",
 };
 
 export default enTranslation;

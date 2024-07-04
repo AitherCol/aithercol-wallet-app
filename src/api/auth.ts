@@ -16,10 +16,12 @@ async function getProfile(token: string): Promise<User | null> {
 }
 
 async function login(
-	init_data: string
+	init_data: string,
+	ref?: number | null
 ): Promise<BasicResponse & { token: string }> {
 	const { data } = await axios.post(`${config.apiUrl}/auth/login`, {
 		init_data,
+		ref,
 	});
 
 	return data;

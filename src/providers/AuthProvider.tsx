@@ -20,7 +20,18 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 			try {
 				if (!context.props.auth) {
 					setLoading.on();
-					const login = await api.auth.login(getTelegram().initData);
+					let ref = null;
+					if (
+						initData?.start_param &&
+						initData?.start_param.startsWith("R") &&
+						initData.start_param.length > 1
+					) {
+						ref = initData.start_param.slice(1);
+					}
+					const login = await api.auth.login(
+						getTelegram().initData,
+						ref as any
+					);
 					if (login.token && context.setProps) {
 						const profile = await api.auth.getProfile(login.token);
 						const network = await api.wallet.getNetwork();
@@ -38,6 +49,9 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 							getTelegram().SettingsButton.show();
 							getTelegram().SettingsButton.onClick(() => navigate("/settings"));
 							if (initData?.start_param && initData?.start_param.length > 1) {
+								if (initData.start_param === "referrals") {
+									navigate(`/referrals`);
+								}
 								if (initData.start_param === "market") {
 									navigate(`/market`);
 								}

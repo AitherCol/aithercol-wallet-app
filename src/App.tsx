@@ -7,6 +7,7 @@ import Balance from "./pages/Balance";
 import Error from "./pages/Error";
 import History from "./pages/History";
 import NotFound from "./pages/NotFound";
+import Ref from "./pages/Ref";
 import Settings from "./pages/Settings";
 import Transaction from "./pages/Transaction";
 import Wallet from "./pages/Wallet";
@@ -317,6 +318,15 @@ function App() {
 						element={
 							<AuthProvider>
 								<Settings />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/referrals"}
+						element={
+							<AuthProvider>
+								<Ref />
 							</AuthProvider>
 						}
 					/>

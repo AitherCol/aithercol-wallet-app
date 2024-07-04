@@ -14,4 +14,6 @@ export default interface User {
 	deals: number;
 	deals_amount: number;
 	completed_deals: number;
+	ref_invited: number;
+	ref_profit: number;
 }

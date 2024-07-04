@@ -1,5 +1,6 @@
 import { Heading, Stack, Text } from "@chakra-ui/react";
 import React from "react";
+import "../css/text.css";
 import { getColorMap, getTelegram } from "../utils";
 
 export interface CellProps {
@@ -34,7 +35,15 @@ function Cell({ icon, title, subTitle, additional, onClick }: CellProps) {
 			<Stack alignItems={"center"} direction={"row"} spacing={3}>
 				{icon}
 				<Stack direction={"column"} spacing={0}>
-					<Heading size={"sm"}>{title}</Heading>
+					<Heading
+						maxW="200px"
+						textOverflow={"ellipsis"}
+						overflowX={"hidden"}
+						size={"sm"}
+						className="text-nowrap"
+					>
+						{title}
+					</Heading>
 					{subTitle && (
 						<Text
 							fontSize={"sm"}
