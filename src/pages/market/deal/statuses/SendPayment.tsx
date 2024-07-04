@@ -22,7 +22,7 @@ import { AppContext } from "../../../../providers/AppProvider";
 import { HistoryContext } from "../../../../providers/HistoryProviders";
 import { MarketContext } from "../../../../providers/MarketProvider";
 import { getTelegram } from "../../../../utils";
-import errorHandler from "../../../../utils/utils";
+import errorHandler, { getMethodName } from "../../../../utils/utils";
 
 function SendPayment({ dealInfo, update }: DealStatusProps) {
 	const router = useContext(HistoryContext);
@@ -57,12 +57,10 @@ function SendPayment({ dealInfo, update }: DealStatusProps) {
 			<InfoCell
 				icon={<BsBank size={"20px"} />}
 				title={context.getTranslation("Payment Method")}
-				value={`${
-					context.props.auth?.profile.language === "ru"
-						? getMethod(dealInfo.deal.method_type)?.name_ru ||
-						  getMethod(dealInfo.deal.method_type)?.name_en
-						: getMethod(dealInfo.deal.method_type)?.name_en
-				}`}
+				value={`${getMethodName(
+					getMethod(dealInfo.deal.method_type) as any,
+					context
+				)}`}
 			/>
 
 			{dealInfo.method && (

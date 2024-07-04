@@ -38,6 +38,7 @@ import { getTelegram } from "../../../utils";
 import errorHandler, {
 	formatBalance,
 	formatBigint,
+	getMethodName,
 	withoutDecimals,
 } from "../../../utils/utils";
 
@@ -170,7 +171,7 @@ export default function OfferPageComponent({
 						title={context.getTranslation("Payment Method")}
 						value={
 							method
-								? getMethod(method)?.name_en || ""
+								? getMethodName(getMethod(method) as any, context)
 								: context.getTranslation("None")
 						}
 						variant="transparent"
@@ -394,10 +395,7 @@ export default function OfferPageComponent({
 					options={offerInfo.offer.methods.map(e => {
 						const method = getMethod(e);
 						return {
-							placeholder:
-								(context.props.auth?.profile.language === "ru"
-									? method?.name_ru || method?.name_en
-									: method?.name_en) || "",
+							placeholder: getMethodName(method as any, context),
 							value: e.toString(),
 						};
 					})}
@@ -410,7 +408,7 @@ export default function OfferPageComponent({
 						title={context.getTranslation("Payment Method")}
 						value={
 							method
-								? getMethod(method)?.name_en || ""
+								? getMethodName(getMethod(method) as any, context)
 								: context.getTranslation("None")
 						}
 						onClick={() => {}}

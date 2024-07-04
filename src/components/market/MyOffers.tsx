@@ -22,7 +22,11 @@ import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { MarketContext } from "../../providers/MarketProvider";
 import { getTelegram } from "../../utils";
-import errorHandler, { arrayToString, formatBigint } from "../../utils/utils";
+import errorHandler, {
+	arrayToString,
+	formatBigint,
+	getMethodName,
+} from "../../utils/utils";
 import CellButton from "../CellButton";
 
 export default function MyOffers() {
@@ -288,11 +292,7 @@ function OfferComponent({
 					<Text fontSize={"sm"}>
 						{arrayToString(
 							offer.methods.map(e => {
-								return (
-									(context.props.auth?.profile.language === "ru"
-										? getMethod(e)?.name_ru || getMethod(e)?.name_en
-										: getMethod(e)?.name_en) || ""
-								);
+								return getMethodName(getMethod(e) as any, context) || "";
 							})
 						)}
 					</Text>

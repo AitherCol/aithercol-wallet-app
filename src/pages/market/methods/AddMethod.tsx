@@ -18,7 +18,7 @@ import { AppContext } from "../../../providers/AppProvider";
 import { HistoryContext } from "../../../providers/HistoryProviders";
 import { MarketContext } from "../../../providers/MarketProvider";
 import { getTelegram } from "../../../utils";
-import errorHandler from "../../../utils/utils";
+import errorHandler, { getMethodName } from "../../../utils/utils";
 
 export default function AddMarketMethod() {
 	const context = useContext(AppContext);
@@ -72,12 +72,7 @@ export default function AddMarketMethod() {
 			>
 				{context
 					.getTranslation("Add %method%")
-					.replaceAll(
-						"%method%",
-						context.props.auth?.profile.language === "ru"
-							? getMethod()?.name_ru || getMethod()?.name_en || ""
-							: getMethod()?.name_en || ""
-					)}
+					.replaceAll("%method%", getMethodName(getMethod() as any, context))}
 			</Heading>
 
 			<FormControl>

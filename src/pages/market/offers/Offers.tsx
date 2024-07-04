@@ -32,6 +32,7 @@ import { getColorMap, getTelegram } from "../../../utils";
 import errorHandler, {
 	arrayToString,
 	formatBigint,
+	getMethodName,
 } from "../../../utils/utils";
 import OfferPageComponent from "./Offer";
 
@@ -119,10 +120,7 @@ export default function Offers() {
 						)
 						.map(e => {
 							return {
-								name:
-									context.props.auth?.profile.language === "ru"
-										? e.name_ru || e.name_en
-										: e.name_en,
+								name: getMethodName(e, context),
 								value: e.id.toString(),
 							};
 						}) || []),
@@ -214,9 +212,7 @@ export default function Offers() {
 					>
 						{!method
 							? context.getTranslation("Method")
-							: context.props.auth?.profile.language === "ru"
-							? getMethod(method)?.name_ru || getMethod(method)?.name_en
-							: getMethod(method)?.name_en}
+							: getMethodName(getMethod(method) as any, context)}
 					</Text>
 				</Stack>
 				<AmountInput
@@ -477,11 +473,7 @@ function OfferComponent({
 						<Text fontSize={"sm"}>
 							{arrayToString(
 								offer.methods.map(e => {
-									return (
-										(context.props.auth?.profile.language === "ru"
-											? getMethod(e)?.name_ru || getMethod(e)?.name_en
-											: getMethod(e)?.name_en) || ""
-									);
+									return getMethodName(getMethod(e) as any, context);
 								})
 							)}
 						</Text>

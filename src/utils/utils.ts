@@ -1,4 +1,5 @@
 import Balance from "../api/types/Balance";
+import MarketMethod from "../api/types/MarketMethod";
 import { AppContextType } from "../providers/AppProvider";
 
 export function toDecimals(amount: number, decimals: number): number {
@@ -93,4 +94,10 @@ export function arrayToString(arr: string[]): string {
 	}
 	const lastElement = arr.pop();
 	return arr.join(", ") + " and " + lastElement;
+}
+
+export function getMethodName(method: MarketMethod, context: AppContextType) {
+	return context.props.auth?.profile.language === "ru"
+		? method.name_ru || method.name_en
+		: method.name_en;
 }

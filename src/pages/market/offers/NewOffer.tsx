@@ -35,6 +35,7 @@ import { getTelegram } from "../../../utils";
 import errorHandler, {
 	formatBalance,
 	formatBigint,
+	getMethodName,
 	withoutDecimals,
 } from "../../../utils/utils";
 
@@ -200,11 +201,7 @@ export default function NewOffer() {
 					.filter(e => e.currency === currency)
 					.map(e => (
 						<CellButton
-							title={
-								context.props.auth?.profile.language === "ru"
-									? e.name_ru || e.name_en
-									: e.name_en
-							}
+							title={getMethodName(e, context)}
 							icon={
 								methods.includes(e.id) ? (
 									<Center

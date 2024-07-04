@@ -35,7 +35,10 @@ import { AppContext } from "../../../providers/AppProvider";
 import { HistoryContext } from "../../../providers/HistoryProviders";
 import { MarketContext } from "../../../providers/MarketProvider";
 import { getTelegram } from "../../../utils";
-import errorHandler, { formatBigint } from "../../../utils/utils";
+import errorHandler, {
+	formatBigint,
+	getMethodName,
+} from "../../../utils/utils";
 import DealerWaiting from "./statuses/DealerWaiting";
 import SendMethod from "./statuses/SendMethod";
 import SendPayment from "./statuses/SendPayment";
@@ -361,12 +364,10 @@ export default function DealPage() {
 						/>
 						<InfoRawCell
 							title={context.getTranslation("Payment Method")}
-							value={`${
-								context.props.auth?.profile.language === "ru"
-									? getMethod(dealInfo.deal.method_type)?.name_ru ||
-									  getMethod(dealInfo.deal.method_type)?.name_en
-									: getMethod(dealInfo.deal.method_type)?.name_en
-							}`}
+							value={`${getMethodName(
+								getMethod(dealInfo.deal.method_type) as any,
+								context
+							)}`}
 						/>
 					</Stack>
 

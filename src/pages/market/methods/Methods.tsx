@@ -7,6 +7,7 @@ import { AppContext } from "../../../providers/AppProvider";
 import { HistoryContext } from "../../../providers/HistoryProviders";
 import { MarketContext } from "../../../providers/MarketProvider";
 import { getTelegram } from "../../../utils";
+import { getMethodName } from "../../../utils/utils";
 
 export default function MarketMethods() {
 	const context = useContext(AppContext);
@@ -59,12 +60,10 @@ export default function MarketMethods() {
 					{market.myMethods?.map(method => (
 						<Cell
 							title={method.name}
-							subTitle={`${
-								context.props.auth?.profile.language === "ru"
-									? getMethod(method.method_id)?.name_ru ||
-									  getMethod(method.method_id)?.name_en
-									: getMethod(method.method_id)?.name_en
-							} • ${getMethod(method.method_id)?.currency}`}
+							subTitle={`${getMethodName(
+								getMethod(method.method_id) as any,
+								context
+							)} • ${getMethod(method.method_id)?.currency}`}
 							onClick={() =>
 								router.push(`/market/profile/methods/${method.id}`)
 							}

@@ -7,6 +7,7 @@ import { AppContext } from "../../../providers/AppProvider";
 import { HistoryContext } from "../../../providers/HistoryProviders";
 import { MarketContext } from "../../../providers/MarketProvider";
 import { getTelegram } from "../../../utils";
+import { getMethodName } from "../../../utils/utils";
 
 function SelectMethod() {
 	const context = useContext(AppContext);
@@ -36,11 +37,7 @@ function SelectMethod() {
 				)
 				.map(method => (
 					<Cell
-						title={
-							context.props.auth?.profile.language === "ru"
-								? method.name_ru || method.name_en
-								: method.name_en
-						}
+						title={getMethodName(method, context)}
 						onClick={() =>
 							router.push(`/market/profile/methods/new/${method.id}`)
 						}

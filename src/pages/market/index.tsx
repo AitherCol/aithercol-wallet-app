@@ -34,7 +34,7 @@ import { HistoryContext } from "../../providers/HistoryProviders";
 import { MarketContext } from "../../providers/MarketProvider";
 import exchange from "../../stickers/exchange.json";
 import { getColorMap, getTelegram } from "../../utils";
-import errorHandler, { formatBigint } from "../../utils/utils";
+import errorHandler, { formatBigint, getMethodName } from "../../utils/utils";
 
 function MarketMain() {
 	const [loading, setLoading] = useBoolean();
@@ -401,10 +401,7 @@ export function DealComponent({ deal }: { deal: Deal }) {
 			</Heading>
 			<Text fontSize={"md"} color={getTelegram().themeParams.hint_color}>
 				{context.getTranslation("Payment Method")}:{" "}
-				{context.props.auth?.profile.language === "ru"
-					? getMethod(deal.method_type)?.name_ru ||
-					  getMethod(deal.method_type)?.name_en
-					: getMethod(deal.method_type)?.name_en}
+				{getMethodName(getMethod(deal.method_type) as any, context)}
 			</Text>
 			<Text fontSize={"md"} color={getTelegram().themeParams.hint_color}>
 				{moment(deal.created_at).format("LLL")} • #D{deal.id}
