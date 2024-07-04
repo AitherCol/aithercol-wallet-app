@@ -155,14 +155,14 @@ export default function OfferPageComponent({
 						value={`${offerInfo.offer.min_amount} – ${
 							offerInfo.offer.max_amount
 								? offerInfo.offer.max_amount
-								: `${
+								: `${(
 										Number(
 											formatBigint(
 												offerInfo.offer.volume,
 												getContract()?.decimals || 1
 											)
 										) * offerInfo.offer.price
-								  }`
+								  ).toFixed(2)}`
 						} ${offerInfo.offer.currency}`}
 						variant="transparent"
 						divider
@@ -422,14 +422,14 @@ export default function OfferPageComponent({
 							? `${offerInfo.offer.min_amount} – ${
 									offerInfo.offer.max_amount
 										? offerInfo.offer.max_amount
-										: `${
+										: `${(
 												Number(
 													formatBigint(
 														offerInfo.offer.volume,
 														getContract()?.decimals || 1
 													)
 												) * offerInfo.offer.price
-										  }`
+										  ).toFixed(2)}`
 							  } ${offerInfo.offer.currency}`
 							: `${(offerInfo.offer.min_amount / offerInfo.offer.price).toFixed(
 									2
