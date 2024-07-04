@@ -49,10 +49,14 @@ export default function ChannelSubscriptionProvider({
 						icon={
 							<Image src={channel} w="40px" h="40px" borderRadius={"999px"} />
 						}
-						title="AitherCol"
-						subTitle="The official news channel of @AitherColBot"
+						title={context.getTranslation("AitherCol News")}
+						subTitle={context.getTranslation(
+							"The official news channel of @AitherColBot"
+						)}
 						onClick={() => {
-							getTelegram().openTelegramLink("https://t.me/AitherCol");
+							getTelegram().openTelegramLink(
+								context.getTranslation("https://t.me/AitherCol")
+							);
 						}}
 					/>
 				</Stack>

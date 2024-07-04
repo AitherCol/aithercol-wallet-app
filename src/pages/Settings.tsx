@@ -137,7 +137,9 @@ function Settings() {
 				}
 				title={context.getTranslation("our_channel")}
 				onClick={() => {
-					getTelegram().openTelegramLink("https://t.me/aithercol");
+					getTelegram().openTelegramLink(
+						context.getTranslation("https://t.me/aithercol")
+					);
 				}}
 				rightItem={
 					<FaArrowUp

@@ -211,6 +211,10 @@ const ruTranslation = {
 	"Total invited": "Всего приглашено",
 	"Total earned": "Ваш заработок",
 	"ref reward": "Реферальное вознаграждение",
+	"AitherCol News": "Новости AitherCol",
+	"The official news channel of @AitherColBot":
+		"Официальный новостной канал @AitherColBot",
+	"https://t.me/AitherCol": "https://t.me/AitherColRU",
 };
 
 export default ruTranslation;
