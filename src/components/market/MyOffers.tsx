@@ -221,7 +221,11 @@ function OfferComponent({
 
 			<Stack direction={"column"} spacing={1}>
 				<Stack direction={"row"} spacing={4}>
-					<Box minW="110px">
+					<Box
+						minW={
+							context.props.auth?.profile.language === "ru" ? "125px" : "110px"
+						}
+					>
 						<Text fontSize={"sm"} color={getTelegram().themeParams.hint_color}>
 							{context.getTranslation("Type")}
 						</Text>
@@ -229,7 +233,11 @@ function OfferComponent({
 					<Text fontSize={"sm"}>{context.getTranslation(offer.type)}</Text>
 				</Stack>
 				<Stack direction={"row"} spacing={4}>
-					<Box minW="110px">
+					<Box
+						minW={
+							context.props.auth?.profile.language === "ru" ? "125px" : "110px"
+						}
+					>
 						<Text fontSize={"sm"} color={getTelegram().themeParams.hint_color}>
 							{context.getTranslation("Available")}
 						</Text>
@@ -243,7 +251,11 @@ function OfferComponent({
 					</Text>
 				</Stack>
 				<Stack direction={"row"} spacing={4}>
-					<Box minW="110px">
+					<Box
+						minW={
+							context.props.auth?.profile.language === "ru" ? "125px" : "110px"
+						}
+					>
 						<Text fontSize={"sm"} color={getTelegram().themeParams.hint_color}>
 							{context.getTranslation("Limits")}
 						</Text>
@@ -264,7 +276,11 @@ function OfferComponent({
 					</Text>
 				</Stack>
 				<Stack direction={"row"} spacing={4}>
-					<Box minW="110px">
+					<Box
+						minW={
+							context.props.auth?.profile.language === "ru" ? "125px" : "110px"
+						}
+					>
 						<Text fontSize={"sm"} color={getTelegram().themeParams.hint_color}>
 							{context.getTranslation("Payment Methods")}
 						</Text>

@@ -379,7 +379,13 @@ function OfferComponent({
 			{!isLoading && (
 				<Stack direction={"column"} spacing={1}>
 					<Stack direction={"row"} spacing={4}>
-						<Box minW="110px">
+						<Box
+							minW={
+								context.props.auth?.profile.language === "ru"
+									? "125px"
+									: "110px"
+							}
+						>
 							<Text
 								fontSize={"sm"}
 								color={getTelegram().themeParams.hint_color}
@@ -396,7 +402,13 @@ function OfferComponent({
 						</Text>
 					</Stack>
 					<Stack direction={"row"} spacing={4}>
-						<Box minW="110px">
+						<Box
+							minW={
+								context.props.auth?.profile.language === "ru"
+									? "125px"
+									: "110px"
+							}
+						>
 							<Text
 								fontSize={"sm"}
 								color={getTelegram().themeParams.hint_color}
@@ -420,7 +432,13 @@ function OfferComponent({
 						</Text>
 					</Stack>
 					<Stack direction={"row"} spacing={4}>
-						<Box minW="110px">
+						<Box
+							minW={
+								context.props.auth?.profile.language === "ru"
+									? "125px"
+									: "110px"
+							}
+						>
 							<Text
 								fontSize={"sm"}
 								color={getTelegram().themeParams.hint_color}
@@ -445,7 +463,13 @@ function OfferComponent({
 
 			{isLoading && (
 				<Stack alignItems={"center"} direction={"row"} spacing={4}>
-					<Stack minW="110px" direction={"column"} spacing={1}>
+					<Stack
+						minW={
+							context.props.auth?.profile.language === "ru" ? "125px" : "110px"
+						}
+						direction={"column"}
+						spacing={1}
+					>
 						<Stack direction={"column"} spacing={1} w="110px">
 							<SkeletonText
 								noOfLines={1}

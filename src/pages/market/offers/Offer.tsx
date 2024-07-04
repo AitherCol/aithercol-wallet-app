@@ -36,6 +36,7 @@ import { HistoryContext } from "../../../providers/HistoryProviders";
 import { MarketContext } from "../../../providers/MarketProvider";
 import { getTelegram } from "../../../utils";
 import errorHandler, {
+	formatBalance,
 	formatBigint,
 	withoutDecimals,
 } from "../../../utils/utils";
@@ -314,18 +315,36 @@ export default function OfferPageComponent({
 									? getContract()?.symbol
 									: offerInfo.offer.currency
 							}`}
-							maxValue={(
-								Number(
-									offerInfo.offer.max_amount
-										? offerInfo.offer.max_amount
-										: Number(
-												formatBigint(
-													offerInfo.offer.volume,
-													getContract()?.decimals || 1
-												)
-										  ) * offerInfo.offer.price
-								) / (currency === "crypto" ? offerInfo.offer.price : 1)
-							).toString()}
+							maxValue={(() => {
+								let maxAmount = offerInfo.offer.max_amount
+									? offerInfo.offer.max_amount
+									: Number(
+											formatBigint(
+												offerInfo.offer.volume,
+												getContract()?.decimals || 1
+											)
+									  ) * offerInfo.offer.price;
+								if (offerInfo.offer.type === "buy") {
+									const balance =
+										Number(
+											formatBigint(
+												formatBalance(
+													context.balances.find(
+														e => e.contract === offerInfo.offer.contract
+													)
+												),
+												getContract()?.decimals || 1
+											)
+										) * offerInfo.offer.price;
+									if (balance < maxAmount) {
+										maxAmount = balance;
+									}
+								}
+								return (
+									Number(maxAmount) /
+									(currency === "crypto" ? offerInfo.offer.price : 1)
+								).toString();
+							})()}
 						/>
 						<IconButton
 							colorScheme="button"
@@ -349,6 +368,23 @@ export default function OfferPageComponent({
 							.getTranslation("Price per %amount%")
 							.replaceAll("%amount%", `1 ${getContract()?.symbol}`)}{" "}
 						= {offerInfo.offer.price} {offerInfo.offer.currency}
+						{offerInfo.offer.type === "buy" ? (
+							<>
+								<br />
+								{context.getTranslation("Your balance")}:{" "}
+								{formatBigint(
+									formatBalance(
+										context.balances.find(
+											e => e.contract === offerInfo.offer.contract
+										)
+									),
+									getContract()?.decimals || 1
+								)}{" "}
+								{getContract()?.symbol}
+							</>
+						) : (
+							<></>
+						)}
 					</FormHelperText>
 				</FormControl>
 			</Stack>
