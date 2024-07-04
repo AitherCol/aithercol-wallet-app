@@ -43,7 +43,7 @@ export default function Ref() {
 
 			<InfoCell
 				title={context.getTranslation("Your invite link")}
-				value={`https://t.me/${config.username}/app?startapp=R${context.props.auth?.profile.id}`}
+				value={`t.me/${config.username}/app?startapp=R${context.props.auth?.profile.id}`}
 				isLink
 				rightIcon={<FaCopy color={getTelegram().themeParams.link_color} />}
 				onClick={() => {
