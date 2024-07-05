@@ -341,6 +341,16 @@ export default function OfferPageComponent({
 										maxAmount = balance;
 									}
 								}
+								const volume =
+									Number(
+										formatBigint(
+											offerInfo.offer.volume,
+											getContract()?.decimals || 1
+										)
+									) * offerInfo.offer.price;
+								if (volume < maxAmount) {
+									maxAmount = volume;
+								}
 								return (
 									Number(maxAmount) /
 									(currency === "crypto" ? offerInfo.offer.price : 1)
