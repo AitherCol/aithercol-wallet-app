@@ -216,7 +216,7 @@ const ruTranslation = {
 		"Официальный новостной канал @AitherColBot",
 	"https://t.me/AitherCol": "https://t.me/AitherColRU",
 	"Deal will be automatically canceled after":
-		"Сделка будет автоматически отменана через",
+		"Сделка будет автоматически отменена через",
 };
 
 export default ruTranslation;
