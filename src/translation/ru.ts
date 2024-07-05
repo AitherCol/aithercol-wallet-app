@@ -217,6 +217,11 @@ const ruTranslation = {
 	"https://t.me/AitherCol": "https://t.me/AitherColRU",
 	"Deal will be automatically canceled after":
 		"Сделка будет автоматически отменена через",
+	"You send": "Вы отправляете",
+	"From (swap)": "Отправляете",
+	"To (swap)": "Получаете",
+	"Find QR that contains wallet address":
+		"Наведите на QR-код с адресом кошелька",
 };
 
 export default ruTranslation;

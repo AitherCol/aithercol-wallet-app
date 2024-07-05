@@ -3,14 +3,20 @@ import {
 	FormHelperText,
 	FormLabel,
 	Heading,
+	IconButton,
 	Image,
 	Input,
+	InputGroup,
+	InputRightElement,
 	Stack,
 	useToast,
 } from "@chakra-ui/react";
+import { LuScanLine } from "react-icons/lu";
+
 import {
 	MainButton,
 	useHapticFeedback,
+	useScanQrPopup,
 } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -37,6 +43,7 @@ function WithdrawContract() {
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
 	const params = useParams();
+	const [showQrPopup, closeQrPopup] = useScanQrPopup();
 
 	const [address, setAddress] = useState<string>("");
 	const [amountString, setAmountString] = useState<string>("");
@@ -170,20 +177,45 @@ function WithdrawContract() {
 
 				<FormControl>
 					<FormLabel>{context.getTranslation("address")}</FormLabel>
-					<Input
-						borderColor={"transparent"}
-						bgColor={getTelegram().themeParams.bg_color}
-						_hover={{
-							borderColor: getTelegram().themeParams.hint_color,
-						}}
-						_focus={{
-							borderColor: getTelegram().themeParams.accent_text_color,
-							boxShadow: "none",
-						}}
-						value={address}
-						onChange={e => setAddress(e.currentTarget.value)}
-						inputMode="text"
-					></Input>
+					<InputGroup>
+						<Input
+							borderColor={"transparent"}
+							bgColor={getTelegram().themeParams.bg_color}
+							_hover={{
+								borderColor: getTelegram().themeParams.hint_color,
+							}}
+							_focus={{
+								borderColor: getTelegram().themeParams.accent_text_color,
+								boxShadow: "none",
+							}}
+							value={address}
+							onChange={e => setAddress(e.currentTarget.value)}
+							inputMode="text"
+						></Input>
+						<InputRightElement width="3rem">
+							<IconButton
+								variant={"ghost"}
+								colorScheme="button"
+								color="button.500"
+								size={"sm"}
+								aria-label="scan"
+								icon={<LuScanLine size={"20px"} />}
+								onClick={() => {
+									showQrPopup(
+										{
+											text: context.getTranslation(
+												"Find QR that contains wallet address"
+											),
+										},
+										text => {
+											closeQrPopup();
+											setAddress(text);
+										}
+									);
+								}}
+							/>
+						</InputRightElement>
+					</InputGroup>
 				</FormControl>
 				<FormControl>
 					<FormLabel>{context.getTranslation("amount")}</FormLabel>

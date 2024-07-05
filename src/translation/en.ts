@@ -79,6 +79,8 @@ const enTranslation = {
 	Price: "Price",
 	"Your price": "Your price",
 	"ref reward": "Referral Reward",
+	"From (swap)": "From",
+	"To (swap)": "To",
 };
 
 export default enTranslation;

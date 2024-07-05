@@ -4,7 +4,6 @@ import {
 	FormLabel,
 	Heading,
 	Image,
-	Input,
 	Stack,
 	useToast,
 } from "@chakra-ui/react";
@@ -133,30 +132,55 @@ function Swap() {
 	};
 
 	const [amountString, setAmountString] = useState<string>("");
+	const [receiveString, setReceiveString] = useState<string>("");
 	const isOk = amountString.trim() !== "";
 
-	const formatRecieve = () => {
+	const formatRecieve = (value: string) => {
 		let number = 0;
 		try {
-			number = Number(amountString);
+			number = Number(value);
 		} catch (error) {
 			return "";
 		}
-		return (
-			formatBigint(
-				(
-					number *
-					Number(
-						formatBigint(
-							swapRate?.output_amount || "0",
-							getSwap()?.decimals || 0
-						)
+		if (!number) {
+			return "";
+		}
+		return formatBigint(
+			(
+				number *
+				Number(
+					formatBigint(swapRate?.output_amount || "0", getSwap()?.decimals || 0)
+				)
+			)
+				.toFixed(getSwap()?.decimals || 0)
+				.replaceAll(".", ""),
+			getSwap()?.decimals || 0
+		);
+	};
+
+	const formatSend = (value: string) => {
+		let number = 0;
+		try {
+			number = Number(value);
+		} catch (error) {
+			return "";
+		}
+		if (!number) {
+			return "";
+		}
+		return formatBigint(
+			(
+				number /
+				Number(
+					formatBigint(
+						swapRate?.output_amount || "0",
+						getBalance()?.decimals || 0
 					)
 				)
-					.toFixed(getSwap()?.decimals || 0)
-					.replaceAll(".", ""),
-				getSwap()?.decimals || 0
-			) + ` ${getSwap()?.symbol}`
+			)
+				.toFixed(getBalance()?.decimals || 0)
+				.replaceAll(".", ""),
+			getBalance()?.decimals || 0
 		);
 	};
 
@@ -264,10 +288,15 @@ function Swap() {
 				/>
 
 				<FormControl>
-					<FormLabel>{context.getTranslation("amount")}</FormLabel>
+					<FormLabel>
+						{context.getTranslation("From (swap)")} ({getBalance()?.symbol})
+					</FormLabel>
 					<AmountInput
 						value={amountString}
-						onChange={setAmountString}
+						onChange={e => {
+							setAmountString(e);
+							setReceiveString(formatRecieve(e));
+						}}
 						maxValue={getMaxValue()}
 					/>
 
@@ -310,20 +339,17 @@ function Swap() {
 				</FormControl>
 
 				<FormControl>
-					<FormLabel>{context.getTranslation("you_receive")}</FormLabel>
-					<Input
-						borderColor={"transparent"}
-						bgColor={getTelegram().themeParams.bg_color}
-						_hover={{
-							borderColor: getTelegram().themeParams.hint_color,
+					<FormLabel>
+						{context.getTranslation("To (swap)")} ({getSwap()?.symbol})
+					</FormLabel>
+					<AmountInput
+						value={receiveString}
+						onChange={e => {
+							setReceiveString(e);
+							setAmountString(formatSend(e));
 						}}
-						_focus={{
-							borderColor: getTelegram().themeParams.accent_text_color,
-							boxShadow: "none",
-						}}
-						isReadOnly
-						value={amountString ? formatRecieve() : ""}
-					></Input>
+						maxValue={formatRecieve(getMaxValue())}
+					></AmountInput>
 				</FormControl>
 			</Stack>
 		</>
