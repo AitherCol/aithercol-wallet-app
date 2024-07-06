@@ -1,7 +1,7 @@
-import { Heading, Stack, Text } from "@chakra-ui/react";
-import React from "react";
-import "../css/text.css";
-import { getColorMap, getTelegram } from "../utils";
+import { Heading, Stack, Text } from "@chakra-ui/react"
+import React from "react"
+import "../css/text.css"
+import { getColorMap, getTelegram } from "../utils"
 
 export interface CellProps {
 	icon?: React.ReactElement;
@@ -55,7 +55,7 @@ function Cell({ icon, title, subTitle, additional, onClick }: CellProps) {
 				</Stack>
 			</Stack>
 			{additional && (
-				<Stack alignItems={"end"} direction={"column"} spacing={0}>
+				<Stack alignItems={"end"} textAlign={'end'} direction={"column"} spacing={0}>
 					<Heading size={"sm"}>{additional.title}</Heading>
 					{additional.subTitle && (
 						<Text
