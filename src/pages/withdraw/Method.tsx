@@ -2,8 +2,10 @@ import { Center, Heading, Stack } from "@chakra-ui/react";
 import { useContext } from "react";
 import { FaMoneyBillWave, FaWallet } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
+import api from "../../api/api";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
+import config from "../../config";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
@@ -24,6 +26,31 @@ function Method() {
 				{context.getTranslation("choose_method")}
 			</Heading>
 
+			<Cell
+				icon={
+					<Center
+						w={"40px"}
+						h="40px"
+						borderRadius={"999px"}
+						overflow={"hidden"}
+						bgColor={getTelegram().themeParams.accent_text_color}
+						color={getTelegram().themeParams.button_text_color}
+					>
+						<FaMoneyBillWave size={"20px"} />
+					</Center>
+				}
+				title={context.getTranslation("By Telegram")}
+				subTitle={context.getTranslation("Send coins to any Telegram user")}
+				onClick={async () => {
+					await api.custom.post(
+						"wallet/balances/transfer/select_telegram_user",
+						context.props.auth?.token,
+						{ contract: params.contract }
+					);
+					getTelegram().openTelegramLink(`https://t.me/${config.username}`);
+					getTelegram().close();
+				}}
+			/>
 			<Cell
 				icon={
 					<Center

@@ -222,6 +222,12 @@ const ruTranslation = {
 	"To (swap)": "Получаете",
 	"Find QR that contains wallet address":
 		"Наведите на QR-код с адресом кошелька",
+	"Transfer from %user%": "Перевод от %user%",
+	"Transfer to %user%": "Перевод %user%",
+	"By Telegram": "Пользователю Telegram",
+	"Send coins to any Telegram user": "Отправьте монеты любому пользователю",
+	User: "Пользователь",
+	"Change user": "Изменить пользователя",
 };
 
 export default ruTranslation;

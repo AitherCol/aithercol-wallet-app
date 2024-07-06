@@ -37,6 +37,7 @@ import Offers from "./pages/market/offers/Offers";
 import WithdrawToken from "./pages/withdraw";
 import WithdrawContract from "./pages/withdraw/Contract";
 import Method from "./pages/withdraw/Method";
+import WithdrawTelegram from "./pages/withdraw/Telegram";
 import AdminProvider from "./providers/AdminProvider";
 import AuthProvider from "./providers/AuthProvider";
 import BaseProvider from "./providers/BaseProvider";
@@ -135,6 +136,14 @@ function App() {
 						element={
 							<AuthProvider>
 								<CreateCheck />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={`/withdraw/:contract/telegram/:telegram_id`}
+						element={
+							<AuthProvider>
+								<WithdrawTelegram />
 							</AuthProvider>
 						}
 					/>

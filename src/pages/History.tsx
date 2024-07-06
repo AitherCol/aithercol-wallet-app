@@ -26,8 +26,6 @@ import errorHandler, { formatBigint } from "../utils/utils";
 function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const context = useContext(AppContext);
 	const toast = useToast();
-	const router = useContext(HistoryContext);
-	const navigate = router.push;
 	const params = useParams();
 	const [loading, setLoading] = useBoolean();
 	const { 1: notificationOccurred } = useHapticFeedback();
@@ -85,59 +83,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 			</Heading>
 
 			{transactions.map((e, key) => (
-				<Cell
-					key={key}
-					icon={
-						<Center
-							w={"40px"}
-							h="40px"
-							borderRadius={"999px"}
-							overflow={"hidden"}
-							bgColor={
-								e.type === "increase"
-									? getTelegram().themeParams.accent_text_color
-									: getTelegram().themeParams.secondary_bg_color
-							}
-							color={
-								e.type === "increase"
-									? getTelegram().themeParams.button_text_color
-									: getTelegram().themeParams.text_color
-							}
-						>
-							{e.type === "increase" ? (
-								<FaArrowDown size={"20px"} />
-							) : (
-								<FaArrowUp size={"20px"} />
-							)}
-						</Center>
-					}
-					title={
-						e.description
-							? context.getTranslation(e.description.toLowerCase())
-							: e.type === "increase"
-							? context.getTranslation("received")
-							: context.getTranslation("sent")
-					}
-					subTitle={
-						e.status === "ok"
-							? moment(e.updated_at).format("DD MMMM HH:mm")
-							: e.status === "error"
-							? context.getTranslation("error")
-							: context.getTranslation("in_progress")
-					}
-					additional={{
-						title: `${e.type === "increase" ? "+" : "–"}${Number(
-							formatBigint(e.amount, getBalance(e.balance_id)?.decimals || 1)
-						).toFixed(2)} ${getBalance(e.balance_id)?.symbol}`,
-						subTitle: `$${(
-							(getBalance(e.balance_id)?.rate?.price || 0) *
-							Number(
-								formatBigint(e.amount, getBalance(e.balance_id)?.decimals || 1)
-							)
-						).toFixed(2)}`,
-					}}
-					onClick={() => navigate(`/transaction/${e.id}`)}
-				/>
+				<TransactionComponent e={e} key={key} />
 			))}
 
 			{meta && (
@@ -194,6 +140,102 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 				</>
 			)}
 		</Stack>
+	);
+}
+
+export function TransactionComponent({ e }: { e: Transaction }) {
+	const context = useContext(AppContext);
+	const router = useContext(HistoryContext);
+	const navigate = router.push;
+	const getBalance = (id: number) => {
+		const balance = context.balances.find(e => e.id === id);
+		if (!balance) {
+			return null;
+		}
+		const rate = context.rates.find(e => e.contract === balance.contract);
+		return { ...balance, rate };
+	};
+
+	const [user, setUser] = useState<any>();
+	const toast = useToast();
+	const { 1: notificationOccurred } = useHapticFeedback();
+
+	useEffect(() => {
+		(async () => {
+			if (e.description === "Transfer") {
+				try {
+					const data = await api.custom.get(
+						`get_telegram_profile?id=${e.to || e.from}`,
+						context.props.auth?.token
+					);
+					setUser(data.profile);
+				} catch (error) {
+					notificationOccurred("error");
+					errorHandler(error, toast);
+				}
+			}
+		})();
+	}, []);
+
+	return (
+		<Cell
+			icon={
+				<Center
+					w={"40px"}
+					h="40px"
+					borderRadius={"999px"}
+					overflow={"hidden"}
+					bgColor={
+						e.type === "increase"
+							? getTelegram().themeParams.accent_text_color
+							: getTelegram().themeParams.secondary_bg_color
+					}
+					color={
+						e.type === "increase"
+							? getTelegram().themeParams.button_text_color
+							: getTelegram().themeParams.text_color
+					}
+				>
+					{e.type === "increase" ? (
+						<FaArrowDown size={"20px"} />
+					) : (
+						<FaArrowUp size={"20px"} />
+					)}
+				</Center>
+			}
+			title={
+				e.description
+					? e.description === "Transfer"
+						? context
+								.getTranslation(
+									`Transfer ${e.type === "increase" ? "from" : "to"} %user%`
+								)
+								.replaceAll("%user%", user ? user.first_name : "...")
+						: context.getTranslation(e.description.toLowerCase())
+					: e.type === "increase"
+					? context.getTranslation("received")
+					: context.getTranslation("sent")
+			}
+			subTitle={
+				e.status === "ok"
+					? moment(e.updated_at).format("DD MMMM HH:mm")
+					: e.status === "error"
+					? context.getTranslation("error")
+					: context.getTranslation("in_progress")
+			}
+			additional={{
+				title: `${e.type === "increase" ? "+" : "–"}${Number(
+					formatBigint(e.amount, getBalance(e.balance_id)?.decimals || 1)
+				).toFixed(2)} ${getBalance(e.balance_id)?.symbol}`,
+				subTitle: `$${(
+					(getBalance(e.balance_id)?.rate?.price || 0) *
+					Number(
+						formatBigint(e.amount, getBalance(e.balance_id)?.decimals || 1)
+					)
+				).toFixed(2)}`,
+			}}
+			onClick={() => navigate(`/transaction/${e.id}`)}
+		/>
 	);
 }
 

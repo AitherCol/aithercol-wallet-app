@@ -36,6 +36,7 @@ function Transaction() {
 	const navigate = router.push;
 	const context = useContext(AppContext);
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();
+	const [user, setUser] = useState<any>();
 
 	const [data, setData] = useState<
 		BasicResponse & {
@@ -53,6 +54,21 @@ function Transaction() {
 					context.props.auth?.token || ""
 				);
 				setData(data);
+
+				if (data.transaction.description === "Transfer") {
+					try {
+						const res = await api.custom.get(
+							`get_telegram_profile?id=${
+								data.transaction.to || data.transaction.from
+							}`,
+							context.props.auth?.token
+						);
+						setUser(res.profile);
+					} catch (error) {
+						notificationOccurred("error");
+						errorHandler(error, toast);
+					}
+				}
 			} catch (error) {
 				errorHandler(error, toast);
 				notificationOccurred("error");
@@ -145,15 +161,24 @@ function Transaction() {
 								value={
 									data.transaction.is_address
 										? reduceString(data.transaction.to, 20)
+										: user
+										? user.first_name || "Unknown"
 										: data.transaction.to
 								}
-								isLink={data.transaction.is_address}
+								isLink={data.transaction.is_address || user?.username}
 								onClick={
-									data.transaction.is_address
-										? () =>
-												getTelegram().openLink(
-													`${getTonViewer(context)}/${data.transaction.to}`
-												)
+									data.transaction.is_address || user?.username
+										? () => {
+												if (!user) {
+													getTelegram().openLink(
+														`${getTonViewer(context)}/${data.transaction.to}`
+													);
+													return;
+												}
+												getTelegram().openTelegramLink(
+													`https://t.me/${user.username}`
+												);
+										  }
 										: undefined
 								}
 							/>
@@ -176,15 +201,24 @@ function Transaction() {
 								value={
 									data.transaction.is_address
 										? reduceString(data.transaction.from, 20)
+										: user
+										? user.first_name || "Unknown"
 										: data.transaction.from
 								}
-								isLink={data.transaction.is_address}
+								isLink={data.transaction.is_address || user?.username}
 								onClick={
-									data.transaction.is_address
-										? () =>
-												getTelegram().openLink(
-													`${getTonViewer(context)}/${data.transaction.from}`
-												)
+									data.transaction.is_address || user?.username
+										? () => {
+												if (!user) {
+													getTelegram().openLink(
+														`${getTonViewer(context)}/${data.transaction.from}`
+													);
+													return;
+												}
+												getTelegram().openTelegramLink(
+													`https://t.me/${user.username}`
+												);
+										  }
 										: undefined
 								}
 							/>
