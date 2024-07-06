@@ -81,6 +81,8 @@ const enTranslation = {
 	"ref reward": "Referral Reward",
 	"From (swap)": "From",
 	"To (swap)": "To",
+	"Transfer from %user%": "Received from %user%",
+	"Transfer to %user%": "Sent to %user%",
 };
 
 export default enTranslation;
