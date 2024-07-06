@@ -162,7 +162,7 @@ function Transaction() {
 									data.transaction.is_address
 										? reduceString(data.transaction.to, 20)
 										: user
-										? user.first_name || "Unknown"
+										? reduceString(user.first_name || "Unknown", 20)
 										: data.transaction.to
 								}
 								isLink={data.transaction.is_address || user?.username}
@@ -202,7 +202,7 @@ function Transaction() {
 									data.transaction.is_address
 										? reduceString(data.transaction.from, 20)
 										: user
-										? user.first_name || "Unknown"
+										? reduceString(user.first_name || "Unknown", 20)
 										: data.transaction.from
 								}
 								isLink={data.transaction.is_address || user?.username}

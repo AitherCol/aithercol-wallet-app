@@ -51,7 +51,7 @@ export default function InfoRawCell({
 					spacing={1}
 					color={onClick ? getTelegram().themeParams.link_color : undefined}
 				>
-					<Text textAlign={"end"}>{value}</Text>
+					<Text>{value}</Text>
 					{icon}
 				</Stack>
 			</Stack>
