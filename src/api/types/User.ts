@@ -16,4 +16,5 @@ export default interface User {
 	completed_deals: number;
 	ref_invited: number;
 	ref_profit: number;
+	is_anonymous: boolean;
 }

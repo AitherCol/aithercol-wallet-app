@@ -67,11 +67,17 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 								if (initData.start_param === "exchange") {
 									navigate(`/exchange`);
 								}
+								if (initData.start_param === "giveaways") {
+									navigate(`/giveaways`);
+								}
 								if (initData.start_param.startsWith("C")) {
 									navigate(`/check/${initData.start_param.slice(1)}`);
 								}
 								if (initData.start_param.startsWith("O")) {
 									navigate(`/market/offer/${initData.start_param.slice(1)}`);
+								}
+								if (initData.start_param.startsWith("G")) {
+									navigate(`/giveaway/${initData.start_param.slice(1)}`);
 								}
 							}
 						}

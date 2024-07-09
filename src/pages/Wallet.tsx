@@ -12,6 +12,7 @@ import {
 	FaArrowDown,
 	FaArrowRightArrowLeft,
 	FaArrowUp,
+	FaGift,
 	FaMoneyBillTransfer,
 	FaMoneyBills,
 	FaStore,
@@ -205,7 +206,7 @@ function Wallet() {
 				))}
 			</Stack>
 
-			<Box mt={4}>
+			<Stack direction={"column"} spacing={4} mt={4}>
 				<Cell
 					icon={
 						<Center
@@ -222,7 +223,23 @@ function Wallet() {
 					title={context.getTranslation("history")}
 					onClick={() => navigate("/history/all")}
 				/>
-			</Box>
+				<Cell
+					icon={
+						<Center
+							w={"40px"}
+							h="40px"
+							borderRadius={"999px"}
+							overflow={"hidden"}
+							bgColor={getTelegram().themeParams.accent_text_color}
+							color={getTelegram().themeParams.button_text_color}
+						>
+							<FaGift size={"20px"} />
+						</Center>
+					}
+					title={context.getTranslation("Giveaways")}
+					onClick={() => navigate("/giveaways")}
+				/>
+			</Stack>
 
 			{context.wallet && (
 				<DepositModal

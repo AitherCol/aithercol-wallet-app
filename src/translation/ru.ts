@@ -228,6 +228,51 @@ const ruTranslation = {
 	"Send coins to any Telegram user": "Отправьте монеты любому пользователю",
 	User: "Пользователь",
 	"Change user": "Изменить пользователя",
+	Giveaways: "Розыгрыши",
+	"Start a giveaway to promote your channels and get new followers by gifting coins to subscribers.":
+		"Запустите розыгрыш, чтобы продвигать свои каналы и получать новых подписчиков, даря подписчикам криптовалюту.",
+	"Create Giveaway": "Создать розыгрыш",
+	"Create %symbol% Giveaway": "Создать розыгрыш %symbol%",
+	Winners: "Победители",
+	"Each winner will receive %amount%": "Каждый победитель получит по %amount%",
+	"Show Winners": "Показать победителей",
+	"Giveaway Ends": "Итоги розыгрыша",
+	"Connected Channels": "Подключенные каналы",
+	"Add New Channel": "Добавить новый канал",
+	"Choose channel": "Выберите канал",
+	"Edit %method%": "Редактировать %method%",
+	Loading: "Загрузка",
+	"Giveaway finished": "Розыгрыш завершен",
+	"You are giveaway creator": "Вы создатель розыгрыша",
+	"You are already participating": "Вы уже участвуете",
+	"You are giveaway winner!": "Вы победитель!",
+	"Giveaway canceled": "Розыгрыш отменен",
+	"You are participating": "Вы участвуете",
+	"On %date% AitherCol Wallet will randomly choose winners.":
+		"%date% AitherCol Wallet случайным образом выберет победителей.",
+	"On %date% AitherCol Wallet will randomly choose winner.":
+		"%date% AitherCol Wallet случайным образом выберет победителя.",
+	Close: "Закрыть",
+	"Checking subscriptions": "Проверяем подписки",
+	"The result will be sent to": "Результат будет отправлен в",
+	"Giveaway results": "Результаты розыгрыша",
+	"AitherCol Wallet selected <b>%winners_count% winners</b> and sent <b>%amount%</b>.":
+		"AitherCol Wallet выбрал <b>%winners_count% победитлей</b> и отправил <b>%amount%</b>.",
+	Anonymous: "Анонимный пользователь",
+	Giveaway: "Розыгрыш",
+	"<b>%winners_count% winners</b> will receive <b>%amount%</b> each.":
+		"<b>%winners_count% победителей</b> получат по <b>%amount%</b>.",
+	"<b>1 winner</b> will receive <b>%amount%</b>.":
+		"<b>1 победитель</b> получит <b>%amount%</b>.",
+	"To take part in this giveaway, <b>join 1 channel</b> and <b>click the button below</b>":
+		"Чтобы принять участие в этом розыгрыше, <b>подпишитесь на 1 канал</b> и <b>нажмите кнопку внизу</b>",
+	"To take part in this giveaway, <b>join %channels% channels</b> and <b>click the button below</b>":
+		"Чтобы принять участие в этом розыгрыше, <b>подпишитесь на %channels% каналов</b> и <b>нажмите кнопку внизу</b>",
+	"Join Giveaway": "Принять участие",
+	"Open Winners": "Открыть победителей",
+	"Connect Channel": "Подключить канал",
+	giveaway: "Розыгрыш",
+	"Hide Profile": "Скрыть профиль",
 };
 
 export default ruTranslation;

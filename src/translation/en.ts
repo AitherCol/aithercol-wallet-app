@@ -83,6 +83,7 @@ const enTranslation = {
 	"To (swap)": "To",
 	"Transfer from %user%": "Received from %user%",
 	"Transfer to %user%": "Sent to %user%",
+	giveaway: "Giveaway",
 };
 
 export default enTranslation;

@@ -23,6 +23,9 @@ import BalancesToExchange from "./pages/exchange/Balances";
 import DepositToPool from "./pages/exchange/DepositToPool";
 import PoolList from "./pages/exchange/Pool";
 import Swap from "./pages/exchange/Swap";
+import Giveaways from "./pages/giveaways";
+import CreateGiveaway from "./pages/giveaways/CreateGiveaway";
+import GiveawayPage from "./pages/giveaways/page";
 import MarketMain from "./pages/market";
 import MarketCurrency from "./pages/market/Currency";
 import Profile from "./pages/market/Profile";
@@ -336,6 +339,31 @@ function App() {
 						element={
 							<AuthProvider>
 								<Ref />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/giveaways"}
+						element={
+							<AuthProvider>
+								<Giveaways />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/giveaways/create"}
+						element={
+							<AuthProvider>
+								<CreateGiveaway />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/giveaway/:key"}
+						element={
+							<AuthProvider>
+								<GiveawayPage />
 							</AuthProvider>
 						}
 					/>
