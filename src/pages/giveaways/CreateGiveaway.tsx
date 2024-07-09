@@ -113,7 +113,7 @@ export default function CreateGiveaway() {
 							getTelegram().close();
 							return;
 						}
-						setChannelsRow([Number(e), ...channelsRow]);
+						setChannelsRow([...channelsRow, Number(e)]);
 					}}
 					onClose={connectChannel.onClose}
 				/>
