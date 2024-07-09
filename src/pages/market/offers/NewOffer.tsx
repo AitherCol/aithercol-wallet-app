@@ -17,7 +17,6 @@ import {
 	MainButton,
 	useHapticFeedback,
 } from "@vkruglikov/react-telegram-web-app";
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { BsChevronExpand } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
@@ -68,8 +67,11 @@ export default function NewOffer() {
 
 	const updateRate = async () => {
 		try {
-			const { data } = await axios.get("https://cache.aithercol.com/rate.json");
-			setFiat(data);
+			const data = await api.custom.get(
+				"wallet/fiat_rates",
+				context.props.auth?.token
+			);
+			setFiat(data.rates);
 			if (!contract) {
 				return;
 			}
