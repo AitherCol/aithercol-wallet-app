@@ -15,6 +15,7 @@ import {
 	FaArrowUp,
 	FaCommentDots,
 	FaEarthEurope,
+	FaKey,
 	FaQuestion,
 } from "react-icons/fa6";
 import { IoMegaphone, IoPeople } from "react-icons/io5";
@@ -104,6 +105,23 @@ function Settings() {
 					</MenuItem>
 				</MenuList>
 			</Menu>
+
+			<CellButton
+				icon={
+					<Center
+						w={"24px"}
+						h="24px"
+						borderRadius={"999px"}
+						overflow={"hidden"}
+						bgColor={getTelegram().themeParams.accent_text_color}
+						color={getTelegram().themeParams.button_text_color}
+					>
+						<FaKey size={"14px"} />
+					</Center>
+				}
+				title={context.getTranslation("Backup")}
+				onClick={() => router.push("/settings/recovery")}
+			/>
 
 			<CellButton
 				icon={

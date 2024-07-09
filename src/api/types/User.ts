@@ -17,4 +17,5 @@ export default interface User {
 	ref_invited: number;
 	ref_profit: number;
 	is_anonymous: boolean;
+	seed_phrase: boolean;
 }

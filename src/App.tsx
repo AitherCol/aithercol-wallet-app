@@ -37,6 +37,9 @@ import SelectMethod from "./pages/market/methods/SelectMethod";
 import NewOffer from "./pages/market/offers/NewOffer";
 import OfferPage from "./pages/market/offers/OfferPage";
 import Offers from "./pages/market/offers/Offers";
+import Recovery from "./pages/recovery";
+import Phrase from "./pages/recovery/Phrase";
+import Restore from "./pages/recovery/Restore";
 import WithdrawToken from "./pages/withdraw";
 import WithdrawContract from "./pages/withdraw/Contract";
 import Method from "./pages/withdraw/Method";
@@ -330,6 +333,31 @@ function App() {
 						element={
 							<AuthProvider>
 								<Settings />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/settings/recovery"}
+						element={
+							<AuthProvider>
+								<Recovery />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/settings/recovery/phrase"}
+						element={
+							<AuthProvider>
+								<Phrase />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/settings/recovery/restore"}
+						element={
+							<AuthProvider>
+								<Restore />
 							</AuthProvider>
 						}
 					/>

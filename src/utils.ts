@@ -55,3 +55,7 @@ export function getColorMap(color: string) {
 export function sleep(ms: number) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export function repeatElement<T>(element: T, times: number): T[] {
+	return Array(times).fill(element);
+}

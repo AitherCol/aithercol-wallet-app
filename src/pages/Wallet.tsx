@@ -7,12 +7,14 @@ import {
 	Stack,
 	useDisclosure,
 } from "@chakra-ui/react";
+import { useShowPopup } from "@vkruglikov/react-telegram-web-app";
 import { useContext } from "react";
 import {
 	FaArrowDown,
 	FaArrowRightArrowLeft,
 	FaArrowUp,
 	FaGift,
+	FaKey,
 	FaMoneyBillTransfer,
 	FaMoneyBills,
 	FaStore,
@@ -20,6 +22,7 @@ import {
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Rate from "../api/types/Rate";
 import Cell from "../components/Cell";
+import CellButton from "../components/CellButton";
 import Loader from "../components/Loader";
 import DepositModal from "../components/modals/DepositModal";
 import config from "../config";
@@ -60,6 +63,7 @@ function Wallet() {
 	};
 
 	const depositModal = useDisclosure();
+	const showPopup = useShowPopup();
 
 	return !context.balances ? (
 		<Loader />
@@ -157,6 +161,46 @@ function Wallet() {
 					</Stack>
 				</Stack>
 			</Center>
+
+			{!context.props.auth?.profile.seed_phrase && (
+				<Box mb={4}>
+					<CellButton
+						icon={
+							<Center
+								w={"24px"}
+								h="24px"
+								borderRadius={"999px"}
+								overflow={"hidden"}
+								bgColor={getTelegram().themeParams.accent_text_color}
+								color={getTelegram().themeParams.button_text_color}
+							>
+								<FaKey size={"14px"} />
+							</Center>
+						}
+						title={context.getTranslation("Back up the wallet recovery phrase")}
+						onClick={async () => {
+							const button = await showPopup({
+								title: context.getTranslation("Attention"),
+								message: context.getTranslation(
+									"Never enter or share this phrase with anyone. This phrase is only needed if you have lost access to your Telegram account."
+								),
+								buttons: [
+									{
+										id: "confirm",
+										type: "default",
+										text: context.getTranslation("Continue"),
+									},
+									{ type: "cancel" },
+								],
+							});
+
+							if (button === "confirm") {
+								router.push("/settings/recovery/phrase");
+							}
+						}}
+					/>
+				</Box>
+			)}
 
 			{context.checks.length !== 0 && (
 				<Box mb={4}>

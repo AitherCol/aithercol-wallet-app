@@ -273,6 +273,22 @@ const ruTranslation = {
 	"Connect Channel": "Подключить канал",
 	giveaway: "Розыгрыш",
 	"Hide Profile": "Скрыть профиль",
+	"The entire wallet balance has been transferred to the current wallet.":
+		"Весь баланс кошелька был переведен на текущий кошелек.",
+	"Enter your recovery phrase": "Введите фразу восстановления",
+	"To restore access to your wallet, enter the 24 secret recovery words given to you when you created your wallet.":
+		"Чтобы восстановить доступ к вашему кошельку, введите 24 секретных слова восстановления, данные вам при создании кошелька.",
+	Restore: "Восстановить",
+	"Recovery Phrase": "Фраза восстановления",
+	"Write down these words with their numbers and store them in a safe place.":
+		"Запишите эти слова с их номерами и сохраните их в надежном месте.",
+	Copy: "Скопировать",
+	Backup: "Резервная копия",
+	"Show Recovery Phrase": "Показать фразу восстановления",
+	Attention: "Внимание",
+	"Never enter or share this phrase with anyone. This phrase is only needed if you have lost access to your Telegram account.":
+		"Никогда не вводите и не делитесь этой фразой с кем-либо. Эта фраза нужна только в том случае, если вы потеряли доступ к своему аккаунту в Telegram.",
+	"Back up the wallet recovery phrase": "Сохраните фразу восстановления",
 };
 
 export default ruTranslation;
