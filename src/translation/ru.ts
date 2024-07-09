@@ -289,6 +289,7 @@ const ruTranslation = {
 	"Never enter or share this phrase with anyone. This phrase is only needed if you have lost access to your Telegram account.":
 		"Никогда не вводите и не делитесь этой фразой с кем-либо. Эта фраза нужна только в том случае, если вы потеряли доступ к своему аккаунту в Telegram.",
 	"Back up the wallet recovery phrase": "Сохраните фразу восстановления",
+	"Giveaway created!": "Розыгрыш создан!",
 };
 
 export default ruTranslation;

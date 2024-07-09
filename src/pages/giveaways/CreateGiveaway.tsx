@@ -146,6 +146,10 @@ export default function CreateGiveaway() {
 				}
 			);
 			notificationOccurred("success");
+			toast({
+				title: context.getTranslation("success"),
+				description: context.getTranslation("Giveaway created!"),
+			});
 			router.back();
 		} catch (error) {
 			notificationOccurred("error");
