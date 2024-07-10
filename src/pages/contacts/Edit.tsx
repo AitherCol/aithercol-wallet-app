@@ -62,10 +62,6 @@ export default function EditContact() {
 				title,
 			});
 			notificationOccurred("success");
-			toast({
-				title: context.getTranslation("success"),
-				description: context.getTranslation("Address saved"),
-			});
 
 			router.back();
 		} catch (error) {

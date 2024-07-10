@@ -47,11 +47,11 @@ export default function AddContact() {
 				title,
 			});
 			notificationOccurred("success");
-			toast({
-				title: context.getTranslation("success"),
-				description: context.getTranslation("Address saved"),
-			});
 			if (params.address) {
+				toast({
+					title: context.getTranslation("success"),
+					description: context.getTranslation("Address saved"),
+				});
 				router.push("/");
 			} else {
 				router.back();
