@@ -43,10 +43,10 @@ import Offers from "./pages/market/offers/Offers";
 import Recovery from "./pages/recovery";
 import Phrase from "./pages/recovery/Phrase";
 import Restore from "./pages/recovery/Restore";
-import WithdrawToken from "./pages/withdraw";
-import WithdrawContract from "./pages/withdraw/Contract";
-import Method from "./pages/withdraw/Method";
-import WithdrawTelegram from "./pages/withdraw/Telegram";
+import WithdrawToken from "./pages/send";
+import WithdrawContract from "./pages/send/Address";
+import Method from "./pages/send/Method";
+import WithdrawTelegram from "./pages/send/Telegram";
 import AdminProvider from "./providers/AdminProvider";
 import AuthProvider from "./providers/AuthProvider";
 import BaseProvider from "./providers/BaseProvider";
@@ -133,7 +133,7 @@ function App() {
 						}
 					/>
 					<Route
-						path={`/withdraw/:contract/address`}
+						path={`/withdraw/:contract/address/:address`}
 						element={
 							<AuthProvider>
 								<WithdrawContract />

@@ -22,7 +22,6 @@ import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
 import TransactionScreen from "../../components/TransactionScreen";
-import config from "../../config";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
@@ -167,15 +166,7 @@ function WithdrawTelegram() {
 							title={user.first_name || "unknown"}
 							subTitle={context.getTranslation("Change user")}
 							onClick={async () => {
-								await api.custom.post(
-									"wallet/balances/transfer/select_telegram_user",
-									context.props.auth?.token,
-									{ contract: params.contract }
-								);
-								getTelegram().openTelegramLink(
-									`https://t.me/${config.username}`
-								);
-								getTelegram().close();
+								router.back();
 							}}
 						/>
 					)}

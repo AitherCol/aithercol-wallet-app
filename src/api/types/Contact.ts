@@ -3,3 +3,8 @@ export default interface Contact {
 	title: string;
 	address: string;
 }
+
+export interface TelegramContact {
+	id: number;
+	telegram_id: string;
+}

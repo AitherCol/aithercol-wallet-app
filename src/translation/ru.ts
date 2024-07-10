@@ -301,6 +301,14 @@ const ruTranslation = {
 		"Монеты будут отправлены на %to% в ближайшее время",
 	"Coins were successfully sent to %to%": "Монеты успешно отправлены на %to%",
 	"Save Address": "Сохранить адрес",
+	"Create Check": "Создать чек",
+	"Create %symbol% check": "Создать %symbol% чек",
+	"Send by Telegram": "Отправить на Telegram",
+	"Send by address": "Отправить на адрес",
+	"Enter name, @username or ID": "Введите имя, @username или ID",
+	Chats: "Чаты",
+	"Enter name or address": "Введите имя или адрес",
+	"Select from chats": "Выбрать из чатов",
 };
 
 export default ruTranslation;

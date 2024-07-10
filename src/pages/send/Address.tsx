@@ -3,20 +3,15 @@ import {
 	FormHelperText,
 	FormLabel,
 	Heading,
-	IconButton,
 	Image,
 	Input,
-	InputGroup,
-	InputRightElement,
 	Stack,
 	useToast,
 } from "@chakra-ui/react";
-import { LuScanLine } from "react-icons/lu";
 
 import {
 	MainButton,
 	useHapticFeedback,
-	useScanQrPopup,
 } from "@vkruglikov/react-telegram-web-app";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -37,8 +32,6 @@ import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
 import errorHandler, {
 	formatBalance,
 	formatBigint,
-	getTonViewer,
-	reduceString,
 	withoutDecimals,
 } from "../../utils/utils";
 
@@ -48,11 +41,8 @@ function WithdrawContract() {
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
 	const params = useParams();
-	const [showQrPopup, closeQrPopup] = useScanQrPopup();
-	const { contacts } = useContacts();
-	const [search, setSearch] = useState<string>("");
 
-	const [address, setAddress] = useState<string>("");
+	const [address, setAddress] = useState<string>(params.address || "");
 	const [amountString, setAmountString] = useState<string>("");
 	const [comment, setComment] = useState<string>("");
 	const [impactOccurred, notificationOccurred, selectionChanged] =
@@ -142,6 +132,8 @@ function WithdrawContract() {
 		return amount.toString();
 	};
 
+	const { getAddressName } = useContacts();
+
 	const isOk = amountString.trim() !== "" && address.trim() !== "";
 
 	if (transaction) {
@@ -161,7 +153,7 @@ function WithdrawContract() {
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					{context.getTranslation("send")} {getBalance()?.symbol}
+					{context.getTranslation("Send")} {getBalance()?.symbol}
 				</Heading>
 
 				<Cell
@@ -186,45 +178,22 @@ function WithdrawContract() {
 
 				<FormControl>
 					<FormLabel>{context.getTranslation("address")}</FormLabel>
-					<InputGroup>
-						<Input
-							borderColor={"transparent"}
-							bgColor={getTelegram().themeParams.bg_color}
-							_hover={{
-								borderColor: getTelegram().themeParams.hint_color,
-							}}
-							_focus={{
-								borderColor: getTelegram().themeParams.accent_text_color,
-								boxShadow: "none",
-							}}
-							value={address}
-							onChange={e => setAddress(e.currentTarget.value)}
-							inputMode="text"
-						></Input>
-						<InputRightElement width="3rem">
-							<IconButton
-								variant={"ghost"}
-								colorScheme="button"
-								color="button.500"
-								size={"sm"}
-								aria-label="scan"
-								icon={<LuScanLine size={"20px"} />}
-								onClick={() => {
-									showQrPopup(
-										{
-											text: context.getTranslation(
-												"Find QR that contains wallet address"
-											),
-										},
-										text => {
-											closeQrPopup();
-											setAddress(text);
-										}
-									);
-								}}
-							/>
-						</InputRightElement>
-					</InputGroup>
+
+					<Input
+						borderColor={"transparent"}
+						bgColor={getTelegram().themeParams.bg_color}
+						_hover={{
+							borderColor: getTelegram().themeParams.hint_color,
+						}}
+						_focus={{
+							borderColor: getTelegram().themeParams.accent_text_color,
+							boxShadow: "none",
+						}}
+						value={getAddressName(address)}
+						onChange={e => setAddress(e.currentTarget.value)}
+						inputMode="text"
+						isReadOnly
+					></Input>
 				</FormControl>
 				<FormControl>
 					<FormLabel>{context.getTranslation("amount")}</FormLabel>
@@ -269,53 +238,6 @@ function WithdrawContract() {
 						inputMode="text"
 					></Input>
 				</FormControl>
-
-				{contacts &&
-					contacts.filter(e => e.address !== address).length !== 0 && (
-						<>
-							<Heading
-								size={"sm"}
-								color={getTelegram().themeParams.hint_color}
-								textTransform={"uppercase"}
-							>
-								{context.getTranslation("Saved Addreses")}
-							</Heading>
-							<Input
-								borderColor={"transparent"}
-								bgColor={getTelegram().themeParams.bg_color}
-								_hover={{
-									borderColor: getTelegram().themeParams.hint_color,
-								}}
-								_focus={{
-									borderColor: getTelegram().themeParams.accent_text_color,
-									boxShadow: "none",
-								}}
-								_placeholder={{
-									color: getTelegram().themeParams.hint_color,
-								}}
-								placeholder={`${context.getTranslation("search")}...`}
-								value={search}
-								onChange={e => setSearch(e.currentTarget.value)}
-							/>
-							{contacts
-								.filter(
-									e =>
-										e.address !== address &&
-										(search.trim() === "" ||
-											e.title
-												.toLowerCase()
-												.includes(search.trim().toLowerCase()))
-								)
-								.map(contact => (
-									<Cell
-										title={contact.title}
-										subTitle={reduceString(contact.address, 20)}
-										subTitleLink={`${getTonViewer(context)}/${contact.address}`}
-										onClick={() => setAddress(contact.address)}
-									/>
-								))}
-						</>
-					)}
 			</Stack>
 		</>
 	) : (

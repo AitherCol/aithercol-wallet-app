@@ -117,7 +117,9 @@ function CreateCheck() {
 					color={getTelegram().themeParams.hint_color}
 					textTransform={"uppercase"}
 				>
-					{context.getTranslation("send")} {getBalance()?.symbol}
+					{context
+						.getTranslation("Create %symbol% check")
+						.replaceAll("%symbol%", getBalance()?.symbol || "")}
 				</Heading>
 
 				<Cell

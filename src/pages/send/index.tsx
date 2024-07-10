@@ -1,5 +1,4 @@
-import { Heading, Stack, useToast } from "@chakra-ui/react";
-import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
+import { Heading, Stack } from "@chakra-ui/react";
 import { useContext } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Cell from "../../components/Cell";
@@ -10,11 +9,8 @@ import { getTelegram } from "../../utils";
 
 function WithdrawToken() {
 	const context = useContext(AppContext);
-	const toast = useToast();
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
-	const [impactOccurred, notificationOccurred, selectionChanged] =
-		useHapticFeedback();
 
 	return (
 		<Stack direction={"column"} spacing={2}>
