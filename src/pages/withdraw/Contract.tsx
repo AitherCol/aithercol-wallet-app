@@ -50,6 +50,7 @@ function WithdrawContract() {
 	const params = useParams();
 	const [showQrPopup, closeQrPopup] = useScanQrPopup();
 	const { contacts } = useContacts();
+	const [search, setSearch] = useState<string>("");
 
 	const [address, setAddress] = useState<string>("");
 	const [amountString, setAmountString] = useState<string>("");
@@ -279,8 +280,32 @@ function WithdrawContract() {
 							>
 								{context.getTranslation("Saved Addreses")}
 							</Heading>
+							<Input
+								borderColor={"transparent"}
+								bgColor={getTelegram().themeParams.bg_color}
+								_hover={{
+									borderColor: getTelegram().themeParams.hint_color,
+								}}
+								_focus={{
+									borderColor: getTelegram().themeParams.accent_text_color,
+									boxShadow: "none",
+								}}
+								_placeholder={{
+									color: getTelegram().themeParams.hint_color,
+								}}
+								placeholder={`${context.getTranslation("search")}...`}
+								value={search}
+								onChange={e => setSearch(e.currentTarget.value)}
+							/>
 							{contacts
-								.filter(e => e.address !== address)
+								.filter(
+									e =>
+										e.address !== address &&
+										(search.trim() === "" ||
+											e.title
+												.toLowerCase()
+												.includes(search.trim().toLowerCase()))
+								)
 								.map(contact => (
 									<Cell
 										title={contact.title}
