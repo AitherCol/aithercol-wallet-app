@@ -142,23 +142,6 @@ function Method() {
 				{context.getTranslation("send")} {getBalance()?.symbol}
 			</Heading>
 
-			<CellButton
-				icon={
-					<Center
-						w={"24px"}
-						h="24px"
-						borderRadius={"999px"}
-						overflow={"hidden"}
-						bgColor={getTelegram().themeParams.accent_text_color}
-						color={getTelegram().themeParams.button_text_color}
-					>
-						<FaMoneyBillWave size={"14px"} />
-					</Center>
-				}
-				title={context.getTranslation("Create Check")}
-				onClick={() => router.push(`/withdraw/${params.contract}/check`)}
-			/>
-
 			<Stack
 				direction={"column"}
 				spacing={2}
@@ -258,48 +241,21 @@ function Method() {
 					</Heading>
 				</Box>
 				<Box w="full" paddingInlineStart={3} paddingInlineEnd={3}>
-					<InputGroup>
-						<Input
-							borderColor={getTelegram().themeParams.hint_color + "10"}
-							bgColor={getTelegram().themeParams.bg_color}
-							_hover={{
-								borderColor: getTelegram().themeParams.hint_color,
-							}}
-							_focus={{
-								borderColor: getTelegram().themeParams.accent_text_color,
-								boxShadow: "none",
-							}}
-							_placeholder={{ color: getTelegram().themeParams.hint_color }}
-							placeholder={context.getTranslation("Enter name or address")}
-							isReadOnly
-							onClick={addressSearch.onOpen}
-						></Input>
-						<InputRightElement width="3rem">
-							<IconButton
-								variant={"ghost"}
-								colorScheme="button"
-								color="button.500"
-								size={"sm"}
-								aria-label="scan"
-								icon={<LuScanLine size={"20px"} />}
-								onClick={() => {
-									showQrPopup(
-										{
-											text: context.getTranslation(
-												"Find QR that contains wallet address"
-											),
-										},
-										text => {
-											closeQrPopup();
-											router.push(
-												`/withdraw/${params.contract}/address/${text}`
-											);
-										}
-									);
-								}}
-							/>
-						</InputRightElement>
-					</InputGroup>
+					<Input
+						borderColor={getTelegram().themeParams.hint_color + "10"}
+						bgColor={getTelegram().themeParams.bg_color}
+						_hover={{
+							borderColor: getTelegram().themeParams.hint_color,
+						}}
+						_focus={{
+							borderColor: getTelegram().themeParams.accent_text_color,
+							boxShadow: "none",
+						}}
+						_placeholder={{ color: getTelegram().themeParams.hint_color }}
+						placeholder={context.getTranslation("Enter name or address")}
+						isReadOnly
+						onClick={addressSearch.onOpen}
+					></Input>
 				</Box>
 				<Stack
 					className="no-scrollbar"
@@ -321,6 +277,23 @@ function Method() {
 					<Box minW={"calc(var(--aithercol-sizes-3) - 6px)"} />
 				</Stack>
 			</Stack>
+
+			<CellButton
+				icon={
+					<Center
+						w={"24px"}
+						h="24px"
+						borderRadius={"999px"}
+						overflow={"hidden"}
+						bgColor={getTelegram().themeParams.accent_text_color}
+						color={getTelegram().themeParams.button_text_color}
+					>
+						<FaMoneyBillWave size={"14px"} />
+					</Center>
+				}
+				title={context.getTranslation("Create Check")}
+				onClick={() => router.push(`/withdraw/${params.contract}/check`)}
+			/>
 		</Stack>
 	);
 }
