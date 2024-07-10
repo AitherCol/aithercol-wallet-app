@@ -19,6 +19,9 @@ import Stats from "./pages/admin/Stats";
 import Activate from "./pages/checks/Activate";
 import CreateCheck from "./pages/checks/Create";
 import CheckList from "./pages/checks/List";
+import Contacts from "./pages/contacts";
+import AddContact from "./pages/contacts/Add";
+import EditContact from "./pages/contacts/Edit";
 import BalancesToExchange from "./pages/exchange/Balances";
 import DepositToPool from "./pages/exchange/DepositToPool";
 import PoolList from "./pages/exchange/Pool";
@@ -327,6 +330,39 @@ function App() {
 							/>
 						</>
 					)}
+
+					<Route
+						path={"/contacts"}
+						element={
+							<AuthProvider>
+								<Contacts />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/contacts/add"}
+						element={
+							<AuthProvider>
+								<AddContact />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/contacts/add/:address"}
+						element={
+							<AuthProvider>
+								<AddContact />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/contacts/edit/:id"}
+						element={
+							<AuthProvider>
+								<EditContact />
+							</AuthProvider>
+						}
+					/>
 
 					<Route
 						path={"/settings"}

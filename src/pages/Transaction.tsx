@@ -20,6 +20,7 @@ import CustomBackButton from "../components/CustomBackButton";
 import InfoCell from "../components/InfoCell";
 import LinkedItem from "../components/LinkedItem";
 import Loader from "../components/Loader";
+import useContacts from "../hooks/useContacts";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
@@ -37,6 +38,7 @@ function Transaction() {
 	const context = useContext(AppContext);
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();
 	const [user, setUser] = useState<any>();
+	const { getAddressName } = useContacts();
 
 	const [data, setData] = useState<
 		BasicResponse & {
@@ -160,7 +162,7 @@ function Transaction() {
 								title={context.getTranslation("to")}
 								value={
 									data.transaction.is_address
-										? reduceString(data.transaction.to, 20)
+										? reduceString(getAddressName(data.transaction.to), 20)
 										: user
 										? reduceString(user.first_name || "Unknown", 20)
 										: data.transaction.to
@@ -200,7 +202,7 @@ function Transaction() {
 								title={context.getTranslation("from")}
 								value={
 									data.transaction.is_address
-										? reduceString(data.transaction.from, 20)
+										? reduceString(getAddressName(data.transaction.from), 20)
 										: user
 										? reduceString(user.first_name || "Unknown", 20)
 										: data.transaction.from

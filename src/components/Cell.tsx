@@ -1,7 +1,7 @@
-import { Heading, Stack, Text } from "@chakra-ui/react"
-import React from "react"
-import "../css/text.css"
-import { getColorMap, getTelegram } from "../utils"
+import { Heading, Link, Stack, Text } from "@chakra-ui/react";
+import React from "react";
+import "../css/text.css";
+import { getColorMap, getTelegram } from "../utils";
 
 export interface CellProps {
 	icon?: React.ReactElement;
@@ -9,9 +9,19 @@ export interface CellProps {
 	subTitle?: string;
 	additional?: { title: string; subTitle?: string };
 	onClick?: () => void;
+	subTitleLink?: string;
+	additionalComponent?: React.ReactElement;
 }
 
-function Cell({ icon, title, subTitle, additional, onClick }: CellProps) {
+function Cell({
+	icon,
+	title,
+	subTitle,
+	additional,
+	onClick,
+	subTitleLink,
+	additionalComponent,
+}: CellProps) {
 	const colors = getColorMap(getTelegram().themeParams.bg_color);
 
 	return (
@@ -45,17 +55,41 @@ function Cell({ icon, title, subTitle, additional, onClick }: CellProps) {
 						{title}
 					</Heading>
 					{subTitle && (
-						<Text
-							fontSize={"sm"}
-							color={getTelegram().themeParams.subtitle_text_color}
-						>
-							{subTitle}
-						</Text>
+						<>
+							{!subTitleLink && (
+								<Text
+									fontSize={"sm"}
+									color={getTelegram().themeParams.subtitle_text_color}
+								>
+									{subTitle}
+								</Text>
+							)}
+							{subTitleLink && (
+								<Link
+									fontSize={"sm"}
+									color={getTelegram().themeParams.link_color}
+									onClick={() => {
+										if (subTitleLink.startsWith("https://t.me")) {
+											getTelegram().openTelegramLink(subTitleLink);
+										} else {
+											getTelegram().openLink(subTitleLink);
+										}
+									}}
+								>
+									{subTitle}
+								</Link>
+							)}
+						</>
 					)}
 				</Stack>
 			</Stack>
 			{additional && (
-				<Stack alignItems={"end"} textAlign={'end'} direction={"column"} spacing={0}>
+				<Stack
+					alignItems={"end"}
+					textAlign={"end"}
+					direction={"column"}
+					spacing={0}
+				>
 					<Heading size={"sm"}>{additional.title}</Heading>
 					{additional.subTitle && (
 						<Text
@@ -67,6 +101,7 @@ function Cell({ icon, title, subTitle, additional, onClick }: CellProps) {
 					)}
 				</Stack>
 			)}
+			{additionalComponent && additionalComponent}
 		</Stack>
 	);
 }

@@ -3,7 +3,6 @@ import {
 	Center,
 	Heading,
 	Stack,
-	Text,
 	useBoolean,
 	useToast,
 } from "@chakra-ui/react";
@@ -17,6 +16,7 @@ import { PaginationMeta } from "../api/types/BasicResponse";
 import Transaction from "../api/types/Transaction";
 import Cell from "../components/Cell";
 import CustomBackButton from "../components/CustomBackButton";
+import NotFoundBadge from "../components/NotFoundBadge";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
@@ -89,21 +89,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 			{meta && (
 				<>
 					{transactions.length === 0 && (
-						<Center>
-							<Stack
-								alignItems={"center"}
-								textAlign={"center"}
-								direction={"column"}
-								spacing={2}
-							>
-								<Heading>{context.getTranslation("No History Yet")}</Heading>
-								<Text>
-									{context.getTranslation(
-										"Once you start making transactions, they will appear here"
-									)}
-								</Text>
-							</Stack>
-						</Center>
+						<NotFoundBadge text={context.getTranslation("No History Yet")} />
 					)}
 					{meta?.current_page !== meta?.last_page && (
 						<Button

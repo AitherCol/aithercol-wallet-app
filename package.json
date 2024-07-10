@@ -1,6 +1,6 @@
 {
 	"name": "app",
-	"version": "1.1.0",
+	"version": "1.1.2",
 	"homepage": "https://wallet.aithercol.com",
 	"private": true,
 	"dependencies": {

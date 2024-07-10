@@ -22,10 +22,13 @@ import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import Commission from "../../api/types/Commission";
+import Transaction from "../../api/types/Transaction";
 import AmountInput from "../../components/AmountInput";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
+import TransactionScreen from "../../components/TransactionScreen";
+import useContacts from "../../hooks/useContacts";
 import useInterval from "../../hooks/useInterval";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
@@ -34,6 +37,8 @@ import { getCacheItemJSON, setCacheItem } from "../../utils/cache";
 import errorHandler, {
 	formatBalance,
 	formatBigint,
+	getTonViewer,
+	reduceString,
 	withoutDecimals,
 } from "../../utils/utils";
 
@@ -44,6 +49,7 @@ function WithdrawContract() {
 	const navigate = router.push;
 	const params = useParams();
 	const [showQrPopup, closeQrPopup] = useScanQrPopup();
+	const { contacts } = useContacts();
 
 	const [address, setAddress] = useState<string>("");
 	const [amountString, setAmountString] = useState<string>("");
@@ -76,12 +82,14 @@ function WithdrawContract() {
 		getBalances();
 	}, 10000);
 
+	const [transaction, setTransaction] = useState<Transaction | null>(null);
+
 	const send = async () => {
 		try {
 			getTelegram().MainButton.showProgress();
 			const balance = getBalance();
 			if (balance) {
-				await api.wallet.balances.withdraw(
+				const data = await api.wallet.balances.withdraw(
 					{
 						balance_id: balance.id,
 						amount: withoutDecimals(
@@ -96,14 +104,9 @@ function WithdrawContract() {
 
 				await context.update();
 
-				toast({
-					title: context.getTranslation("success"),
-					description: context.getTranslation("Transaction in progress"),
-				});
 				notificationOccurred("success");
+				setTransaction(data.transaction);
 			}
-
-			navigate("/");
 		} catch (error) {
 			errorHandler(error, toast);
 			notificationOccurred("error");
@@ -140,12 +143,17 @@ function WithdrawContract() {
 
 	const isOk = amountString.trim() !== "" && address.trim() !== "";
 
+	if (transaction) {
+		return <TransactionScreen transaction={transaction} />;
+	}
+
 	return getBalance() !== null ? (
 		<>
 			<CustomBackButton />
 			{isOk && (
 				<MainButton text={context.getTranslation("send")} onClick={send} />
 			)}
+
 			<Stack direction={"column"} spacing={2}>
 				<Heading
 					size={"sm"}
@@ -260,6 +268,29 @@ function WithdrawContract() {
 						inputMode="text"
 					></Input>
 				</FormControl>
+
+				{contacts &&
+					contacts.filter(e => e.address !== address).length !== 0 && (
+						<>
+							<Heading
+								size={"sm"}
+								color={getTelegram().themeParams.hint_color}
+								textTransform={"uppercase"}
+							>
+								{context.getTranslation("Saved Addreses")}
+							</Heading>
+							{contacts
+								.filter(e => e.address !== address)
+								.map(contact => (
+									<Cell
+										title={contact.title}
+										subTitle={reduceString(contact.address, 20)}
+										subTitleLink={`${getTonViewer(context)}/${contact.address}`}
+										onClick={() => setAddress(contact.address)}
+									/>
+								))}
+						</>
+					)}
 			</Stack>
 		</>
 	) : (

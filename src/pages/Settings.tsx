@@ -13,6 +13,7 @@ import {
 import { useContext } from "react";
 import {
 	FaArrowUp,
+	FaBookBookmark,
 	FaCommentDots,
 	FaEarthEurope,
 	FaKey,
@@ -121,6 +122,23 @@ function Settings() {
 				}
 				title={context.getTranslation("Backup")}
 				onClick={() => router.push("/settings/recovery")}
+			/>
+
+			<CellButton
+				icon={
+					<Center
+						w={"24px"}
+						h="24px"
+						borderRadius={"999px"}
+						overflow={"hidden"}
+						bgColor={getTelegram().themeParams.accent_text_color}
+						color={getTelegram().themeParams.button_text_color}
+					>
+						<FaBookBookmark size={"14px"} />
+					</Center>
+				}
+				title={context.getTranslation("Address Book")}
+				onClick={() => router.push("/contacts")}
 			/>
 
 			<CellButton

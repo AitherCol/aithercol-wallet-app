@@ -147,7 +147,7 @@ const ruTranslation = {
 	"It takes around 10 minutes. You can close AitherCol Wallet, we'll notify when your crypto is credited.":
 		"Это займет около 10 минут. Вы можете закрыть AitherCol Wallet, мы сообщим, когда ваша криптовалюта будет зачислена.",
 	Add: "Добавить",
-	Save: "Save",
+	Save: "Сохранить",
 	"Remove Payment Method": "Удалить метод оплаты",
 	"Remove payment method": "Удалить метод оплаты",
 	"Do you confirm the payment method removal?":
@@ -290,6 +290,17 @@ const ruTranslation = {
 		"Никогда не вводите и не делитесь этой фразой с кем-либо. Эта фраза нужна только в том случае, если вы потеряли доступ к своему аккаунту в Telegram.",
 	"Back up the wallet recovery phrase": "Сохраните фразу восстановления",
 	"Giveaway created!": "Розыгрыш создан!",
+	restore: "Восстановление",
+	"Saved Addreses": "Сохраненные адреса",
+	"Address Book": "Адресная книга",
+	"No Saved Addresses yet": "Пока нет сохраненных адресов",
+	"Add Address": "Добавить адрес",
+	"Edit Address": "Редактировать адрес",
+	"Address saved": "Адрес сохранен",
+	"Coins will be sent to %to% shortly":
+		"Монеты будут отправлены на %to% в ближайшее время",
+	"Coins were successfully sent to %to%": "Монеты успешно отправлены на %to%",
+	"Save Address": "Сохранить адрес",
 };
 
 export default ruTranslation;

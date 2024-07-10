@@ -2,6 +2,7 @@ import axios from "axios";
 import config from "../config";
 import Balance from "./types/Balance";
 import { BasicResponse } from "./types/BasicResponse";
+import Transaction from "./types/Transaction";
 
 async function list(
 	token: string
@@ -21,7 +22,7 @@ async function withdraw(
 		comment?: string;
 	},
 	token: string
-): Promise<BasicResponse & { balances: Balance[] }> {
+): Promise<BasicResponse & { transaction: Transaction }> {
 	const { data } = await axios.post(
 		`${config.apiUrl}/wallet/balances/withdraw`,
 		body,

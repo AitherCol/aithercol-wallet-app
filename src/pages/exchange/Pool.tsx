@@ -19,6 +19,7 @@ import Pool from "../../api/types/Pool";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
+import NotFoundBadge from "../../components/NotFoundBadge";
 import useInterval from "../../hooks/useInterval";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
@@ -154,21 +155,7 @@ function PoolList() {
 				</Heading>
 
 				{pools.length === 0 && (
-					<Center>
-						<Stack
-							alignItems={"center"}
-							textAlign={"center"}
-							direction={"column"}
-							spacing={2}
-						>
-							<Heading>{context.getTranslation("No Pools Yet")}</Heading>
-							<Text>
-								{context.getTranslation(
-									"When someone deposits coins into the pool, we will be able to exchange tokens"
-								)}
-							</Text>
-						</Stack>
-					</Center>
+					<NotFoundBadge text={context.getTranslation("No Pools Yet")} />
 				)}
 
 				{pools.length !== 0 && (

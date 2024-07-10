@@ -84,6 +84,7 @@ const enTranslation = {
 	"Transfer from %user%": "Received from %user%",
 	"Transfer to %user%": "Sent to %user%",
 	giveaway: "Giveaway",
+	restore: "Restore",
 };
 
 export default enTranslation;

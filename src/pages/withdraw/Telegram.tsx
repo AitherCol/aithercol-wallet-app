@@ -16,10 +16,12 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
+import Transaction from "../../api/types/Transaction";
 import AmountInput from "../../components/AmountInput";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
 import Loader from "../../components/Loader";
+import TransactionScreen from "../../components/TransactionScreen";
 import config from "../../config";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
@@ -41,6 +43,7 @@ function WithdrawTelegram() {
 	const [comment, setComment] = useState<string>("");
 	const [impactOccurred, notificationOccurred, selectionChanged] =
 		useHapticFeedback();
+	const [transaction, setTransaction] = useState<Transaction | null>(null);
 
 	const [user, setUser] = useState<any | null>(null);
 
@@ -49,7 +52,7 @@ function WithdrawTelegram() {
 			getTelegram().MainButton.showProgress();
 			const balance = getBalance();
 			if (balance) {
-				await api.custom.post(
+				const data = await api.custom.post(
 					"wallet/balances/transfer",
 					context.props.auth?.token,
 					{
@@ -65,14 +68,9 @@ function WithdrawTelegram() {
 
 				await context.update();
 
-				toast({
-					title: context.getTranslation("success"),
-					description: context.getTranslation("Transaction in progress"),
-				});
 				notificationOccurred("success");
+				setTransaction(data.transaction);
 			}
-
-			navigate("/");
 		} catch (error) {
 			errorHandler(error, toast);
 			notificationOccurred("error");
@@ -114,6 +112,9 @@ function WithdrawTelegram() {
 	}, []);
 
 	const isOk = amountString.trim() !== "" && user;
+	if (transaction) {
+		return <TransactionScreen transaction={transaction} />;
+	}
 
 	return getBalance() !== null ? (
 		<>
