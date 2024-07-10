@@ -89,7 +89,7 @@ export default function TransactionScreen(props: { transaction: Transaction }) {
 					/>
 
 					<Heading size={"lg"}>
-						<Stack alignItems={"center"} direction={"row"} spacing={1}>
+						<Stack alignItems={"center"} direction={"row"} spacing={2}>
 							<Image
 								src={getBalance()?.image}
 								borderRadius={"999px"}
