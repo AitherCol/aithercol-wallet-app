@@ -27,6 +27,7 @@ import CellButton from "../../components/CellButton";
 import CustomBackButton from "../../components/CustomBackButton";
 import config from "../../config";
 import useContacts from "../../hooks/useContacts";
+import useFocus from "../../hooks/useFocus";
 import { AppContext } from "../../providers/AppProvider";
 import { HistoryContext } from "../../providers/HistoryProviders";
 import { getTelegram } from "../../utils";
@@ -323,11 +324,13 @@ function ContactSearch({
 	customClick: (value: string) => void;
 }) {
 	const [value, setValue] = useState<string>("");
-
-	const toast = useToast();
+	const [inputRef, setInputFocus] = useFocus();
 	const context = useContext(AppContext);
-
 	const [showQrPopup, closeQrPopup] = useScanQrPopup();
+
+	useEffect(() => {
+		setInputFocus();
+	}, []);
 
 	const Contact = (contact: ContactComponent) => {
 		const toast = useToast();
@@ -476,6 +479,7 @@ function ContactSearch({
 					_hover={{
 						borderColor: getTelegram().themeParams.hint_color,
 					}}
+					ref={inputRef}
 					_focus={{
 						borderColor: getTelegram().themeParams.accent_text_color,
 						boxShadow: "none",
