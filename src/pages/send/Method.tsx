@@ -559,11 +559,7 @@ function Contact({
 		(async () => {
 			if (isTelegram) {
 				try {
-					const res = await api.custom.get(
-						`get_telegram_profile?id=${name}`,
-						context.props.auth?.token
-					);
-					setUser(res.profile);
+					setUser(await context.getTelegramUser(name));
 				} catch (error) {
 					notificationOccurred("error");
 					errorHandler(error, toast);

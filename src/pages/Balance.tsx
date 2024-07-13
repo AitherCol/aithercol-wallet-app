@@ -10,9 +10,16 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
+import moment from "moment";
 import { useContext } from "react";
-import { FaArrowDown, FaArrowRightArrowLeft, FaArrowUp } from "react-icons/fa6";
+import {
+	FaArrowDown,
+	FaArrowRightArrowLeft,
+	FaArrowUp,
+	FaPercent,
+} from "react-icons/fa6";
 import { useParams } from "react-router-dom";
+import Cell from "../components/Cell";
 import CustomBackButton from "../components/CustomBackButton";
 import Loader from "../components/Loader";
 import DepositModal from "../components/modals/DepositModal";
@@ -148,6 +155,36 @@ function Balance() {
 					</Stack>
 				</Stack>
 			</Center>
+
+			<Box mb={6}>
+				<Cell
+					icon={
+						<Center
+							w={"40px"}
+							h="40px"
+							borderRadius={"999px"}
+							overflow={"hidden"}
+							bgColor={getTelegram().themeParams.accent_text_color}
+							color={getTelegram().themeParams.button_text_color}
+						>
+							<FaPercent size={"20px"} />
+						</Center>
+					}
+					title={context.getTranslation("Cashback earned")}
+					subTitle={context
+						.getTranslation(`To be credited on %date%`)
+						.replaceAll(
+							"%date%",
+							moment().add({ months: 1 }).startOf("month").format("D MMMM")
+						)}
+					additional={{
+						title: `${formatBigint(
+							getBalance()?.cashback_amount || "0",
+							getBalance()?.decimals || 1
+						)} ${getBalance()?.symbol}`,
+					}}
+				/>
+			</Box>
 
 			<History hideBackButton />
 

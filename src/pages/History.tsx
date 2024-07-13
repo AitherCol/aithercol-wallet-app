@@ -4,6 +4,7 @@ import {
 	Center,
 	Heading,
 	Stack,
+	Text,
 	useBoolean,
 	useToast,
 } from "@chakra-ui/react";
@@ -35,6 +36,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const [transactions, setTransactions] = useState<Transaction[]>(
 		getCacheItemJSON(`transactions:${params.balance}`) || []
 	);
+	const { getAddressName } = useContacts();
 	const [meta, setMeta] = useState<PaginationMeta>();
 
 	useEffect(() => {
@@ -85,7 +87,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 			</Heading>
 
 			{transactions.map(e => (
-				<TransactionComponent e={e} />
+				<TransactionComponent getAddressName={getAddressName} e={e} />
 			))}
 
 			{meta && (
@@ -131,7 +133,13 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	);
 }
 
-export function TransactionComponent({ e }: { e: Transaction }) {
+export function TransactionComponent({
+	e,
+	getAddressName,
+}: {
+	e: Transaction;
+	getAddressName: any;
+}) {
 	const context = useContext(AppContext);
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
@@ -148,7 +156,6 @@ export function TransactionComponent({ e }: { e: Transaction }) {
 	const [merchant, setMerchant] = useState<any>();
 	const toast = useToast();
 	const { 1: notificationOccurred } = useHapticFeedback();
-	const { getAddressName } = useContacts();
 
 	useEffect(() => {
 		(async () => {
@@ -156,15 +163,13 @@ export function TransactionComponent({ e }: { e: Transaction }) {
 			setMerchant(null);
 			if (e.description === "Pay" || e.description === "Payout") {
 				try {
-					const data = await api.custom.get(
-						`pay/internal/merchants/cached?id=${
+					setMerchant(
+						await context.getMerchant(
 							e.description === "Pay"
 								? JSON.parse(e.to || "{}").merchant
 								: e.from
-						}`,
-						context.props.auth?.token
+						)
 					);
-					setMerchant(data.merchant);
 				} catch (error) {
 					notificationOccurred("error");
 					errorHandler(error, toast);
@@ -172,11 +177,7 @@ export function TransactionComponent({ e }: { e: Transaction }) {
 			}
 			if (e.description === "Transfer") {
 				try {
-					const data = await api.custom.get(
-						`get_telegram_profile?id=${e.to || e.from}`,
-						context.props.auth?.token
-					);
-					setUser(data.profile);
+					setUser(await context.getTelegramUser(e.to || e.from || ""));
 				} catch (error) {
 					notificationOccurred("error");
 					errorHandler(error, toast);
@@ -253,7 +254,25 @@ export function TransactionComponent({ e }: { e: Transaction }) {
 					</Center>
 				)
 			}
-			title={reduceString(getTitle(), 16)}
+			title={
+				<Stack direction={"row"} spacing={1} alignItems={"center"}>
+					<span>{reduceString(getTitle(), 16)}</span>
+					{e.cashback ? (
+						<Text
+							fontSize={"10px"}
+							color={getTelegram().themeParams.accent_text_color}
+						>
+							+
+							{formatBigint(
+								e.cashback,
+								getBalance(e.balance_id)?.decimals || 9
+							)}
+						</Text>
+					) : (
+						<></>
+					)}
+				</Stack>
+			}
 			subTitle={
 				e.status === "ok"
 					? moment(e.updated_at).format("DD MMMM HH:mm")

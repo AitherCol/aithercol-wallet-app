@@ -88,30 +88,36 @@ function Cell({
 					)}
 				</Stack>
 			</Stack>
-			{additional && (
-				<Stack
-					alignItems={"end"}
-					textAlign={"end"}
-					direction={"column"}
-					spacing={0}
-				>
-					<Heading size={"sm"} color={additional.titleColor}>
-						{additional.title}
-					</Heading>
-					{additional.subTitle && (
-						<Text
-							fontSize={"sm"}
-							color={
-								additional.subTitleColor ||
-								getTelegram().themeParams.subtitle_text_color
-							}
+			{additional || additionalComponent ? (
+				<Stack alignItems={"center"} direction={"row"} spacing={2}>
+					{additionalComponent && additionalComponent}
+					{additional && (
+						<Stack
+							alignItems={"end"}
+							textAlign={"end"}
+							direction={"column"}
+							spacing={0}
 						>
-							{additional.subTitle}
-						</Text>
+							<Heading size={"sm"} color={additional.titleColor}>
+								{additional.title}
+							</Heading>
+							{additional.subTitle && (
+								<Text
+									fontSize={"sm"}
+									color={
+										additional.subTitleColor ||
+										getTelegram().themeParams.subtitle_text_color
+									}
+								>
+									{additional.subTitle}
+								</Text>
+							)}
+						</Stack>
 					)}
 				</Stack>
+			) : (
+				<></>
 			)}
-			{additionalComponent && additionalComponent}
 		</Stack>
 	);
 }

@@ -341,6 +341,9 @@ const ruTranslation = {
 	"Pay %amount%": "Оплатить %amount%",
 	"Deposit %symbol%": "Пополнить %symbol%",
 	"Change token": "Изменить токен",
+	"Cashback earned": "Заработано кэшбека",
+	"To be credited on %date%": "Будет начислен %date%",
+	cashback: "Кэшбек",
 };
 
 export default ruTranslation;

@@ -10,7 +10,7 @@ import {
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import { FaArrowDown, FaArrowUp, FaCalendar } from "react-icons/fa6";
+import { FaArrowDown, FaArrowUp, FaCalendar, FaPercent } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import api from "../api/api";
 import Balance from "../api/types/Balance";
@@ -64,15 +64,13 @@ function Transaction() {
 					data.transaction.description === "Payout"
 				) {
 					try {
-						const response = await api.custom.get(
-							`pay/internal/merchants/cached?id=${
+						setMerchant(
+							await context.getMerchant(
 								data.transaction.description === "Pay"
 									? JSON.parse(data.transaction.to || "{}").merchant
 									: data.transaction.from
-							}`,
-							context.props.auth?.token
+							)
 						);
-						setMerchant(response.merchant);
 					} catch (error) {
 						notificationOccurred("error");
 						errorHandler(error, toast);
@@ -81,13 +79,11 @@ function Transaction() {
 
 				if (data.transaction.description === "Transfer") {
 					try {
-						const res = await api.custom.get(
-							`get_telegram_profile?id=${
-								data.transaction.to || data.transaction.from
-							}`,
-							context.props.auth?.token
+						setUser(
+							await context.getTelegramUser(
+								data.transaction.to || data.transaction.from || ""
+							)
 						);
-						setUser(res.profile);
 					} catch (error) {
 						notificationOccurred("error");
 						errorHandler(error, toast);
@@ -388,6 +384,29 @@ function Transaction() {
 									).toFixed(2)})`}
 								/>
 							</>
+						)}
+						{data.transaction.cashback ? (
+							<InfoCell
+								icon={
+									<Center
+										w={"40px"}
+										h="40px"
+										borderRadius={"999px"}
+										overflow={"hidden"}
+										bgColor={getTelegram().themeParams.accent_text_color}
+										color={getTelegram().themeParams.button_text_color}
+									>
+										<FaPercent size={"20px"} />
+									</Center>
+								}
+								title={context.getTranslation("cashback")}
+								value={`${formatBigint(
+									data.transaction.cashback,
+									data.balance.decimals
+								)} ${data.balance.symbol}`}
+							/>
+						) : (
+							<></>
 						)}
 					</Stack>
 				</>

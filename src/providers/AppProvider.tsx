@@ -19,6 +19,7 @@ import Wallet from "../api/types/Wallet";
 import useInterval from "../hooks/useInterval";
 import enTranslation from "../translation/en";
 import ruTranslation from "../translation/ru";
+import { getCacheItemJSON, setCacheItem } from "../utils/cache";
 import errorHandler from "../utils/utils";
 
 export type AppContextType = {
@@ -31,6 +32,8 @@ export type AppContextType = {
 	update: () => void;
 	getTranslation: (key: string, language?: string) => string;
 	updateProfile: () => void;
+	getTelegramUser: (id: string) => any;
+	getMerchant: (id: string) => any;
 };
 
 export type PropsType = {
@@ -55,6 +58,8 @@ const AppContext = createContext<AppContextType>({
 		return key;
 	},
 	updateProfile() {},
+	getMerchant(id) {},
+	getTelegramUser(id) {},
 });
 
 export default function AppProvider({ children }: { children: ReactNode }) {
@@ -169,6 +174,30 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 					}
 
 					return result as string;
+				},
+				getTelegramUser: async (id: string) => {
+					const cache = getCacheItemJSON(`telegram:${id}`);
+					if (cache) {
+						return cache;
+					}
+					const res = await api.custom.get(
+						`get_telegram_profile?id=${id}`,
+						props.auth?.token
+					);
+					await setCacheItem(`telegram:${id}`, JSON.stringify(res.profile));
+					return res.profile;
+				},
+				async getMerchant(id) {
+					const cache = getCacheItemJSON(`merchant:${id}`);
+					if (cache) {
+						return cache;
+					}
+					const res = await api.custom.get(
+						`pay/internal/merchants/cached?id=${id}`,
+						props.auth?.token
+					);
+					await setCacheItem(`merchant:${id}`, JSON.stringify(res.merchant));
+					return res.merchant;
 				},
 			}}
 		>

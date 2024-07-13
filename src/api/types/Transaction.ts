@@ -12,4 +12,5 @@ export default interface Transaction {
 	status: "ok" | "waiting" | "error";
 	updated_at: string;
 	created_at: string;
+	cashback: string | null;
 }
