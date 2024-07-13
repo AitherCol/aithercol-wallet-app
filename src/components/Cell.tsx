@@ -5,9 +5,14 @@ import { getColorMap, getTelegram } from "../utils";
 
 export interface CellProps {
 	icon?: React.ReactElement;
-	title: string;
+	title: string | any;
 	subTitle?: string;
-	additional?: { title: string; subTitle?: string };
+	additional?: {
+		title: string;
+		titleColor?: string;
+		subTitle?: string;
+		subTitleColor?: string;
+	};
 	onClick?: () => void;
 	subTitleLink?: string;
 	additionalComponent?: React.ReactElement;
@@ -90,11 +95,16 @@ function Cell({
 					direction={"column"}
 					spacing={0}
 				>
-					<Heading size={"sm"}>{additional.title}</Heading>
+					<Heading size={"sm"} color={additional.titleColor}>
+						{additional.title}
+					</Heading>
 					{additional.subTitle && (
 						<Text
 							fontSize={"sm"}
-							color={getTelegram().themeParams.subtitle_text_color}
+							color={
+								additional.subTitleColor ||
+								getTelegram().themeParams.subtitle_text_color
+							}
 						>
 							{additional.subTitle}
 						</Text>

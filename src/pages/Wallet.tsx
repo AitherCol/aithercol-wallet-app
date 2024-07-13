@@ -5,6 +5,7 @@ import {
 	Heading,
 	IconButton,
 	Stack,
+	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
 import { useShowPopup } from "@vkruglikov/react-telegram-web-app";
@@ -250,7 +251,7 @@ function Wallet() {
 				))}
 			</Stack>
 
-			<Stack direction={"column"} spacing={4} mt={4}>
+			<Stack direction={"column"} spacing={2} mt={4}>
 				<Cell
 					icon={
 						<Center
@@ -282,6 +283,24 @@ function Wallet() {
 					}
 					title={context.getTranslation("Giveaways")}
 					onClick={() => navigate("/giveaways")}
+				/>
+				<Cell
+					icon={
+						<Center
+							w={"40px"}
+							h="40px"
+							borderRadius={"999px"}
+							overflow={"hidden"}
+							bgColor={getTelegram().themeParams.accent_text_color}
+							color={getTelegram().themeParams.button_text_color}
+						>
+							<Text fontSize={"sm"} fontWeight={"bold"}>
+								Pay
+							</Text>
+						</Center>
+					}
+					title={context.getTranslation("AitherCol Pay")}
+					onClick={() => navigate("/pay")}
 				/>
 			</Stack>
 

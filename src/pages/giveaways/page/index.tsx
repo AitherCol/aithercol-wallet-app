@@ -25,6 +25,7 @@ import Turnstile from "react-turnstile";
 import api from "../../../api/api";
 import Cell from "../../../components/Cell";
 import Loader from "../../../components/Loader";
+import config from "../../../config";
 import useInterval from "../../../hooks/useInterval";
 import { AppContext } from "../../../providers/AppProvider";
 import boomstick from "../../../stickers/boomstick.json";
@@ -33,7 +34,6 @@ import gift from "../../../stickers/gift.json";
 import Comp from "../../../stickers/troph.json";
 import { getColorMap, getTelegram } from "../../../utils";
 import errorHandler, { formatBigint } from "../../../utils/utils";
-import config from "../../../config";
 
 function GiveawayPage() {
 	const context = useContext(AppContext);
@@ -294,7 +294,10 @@ function GiveawayPage() {
 	return !data ? (
 		<Loader />
 	) : (
-		<Center h={"var(--tg-viewport-stable-height)"}>
+		<Center
+			minH={"var(--tg-viewport-stable-height)"}
+			transition={"min-height 0.3s linear"}
+		>
 			<Stack direction={"column"} spacing={4}>
 				<Stack
 					alignItems={"center"}

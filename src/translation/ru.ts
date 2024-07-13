@@ -309,6 +309,38 @@ const ruTranslation = {
 	Chats: "Чаты",
 	"Enter name or address": "Введите имя или адрес",
 	"Select from chats": "Выбрать из чатов",
+	"Checks not found": "Чеки не найдены",
+	"Accept payments and send coins using our API.":
+		"Принимайте платежи и отправляйте криптовалюту используя наше API.",
+	Merchants: "Магазины",
+	"No Merchants Yet": "Магазины не найдены",
+	"Create Merchant": "Создать магазин",
+	Withdraw: "Вывод",
+	"Are you sure you want to withdraw all coins to your wallet?":
+		"Вы уверены, что хотите вывести все монеты на ваш кошелек?",
+	"Withdrawal completed successfully": "Вывод успешно завершен",
+	"API Documentation": "Документация API",
+	"Merchant Settings": "Настройки магазина",
+	Branding: "Брендинг",
+	"API Key": "API Ключ",
+	"Delete Merchant": "Удалить магазин",
+	"Are you sure you want to delete the merchant?":
+		"Вы уверены, что хотите удалить магазин?",
+	"Merchant Branding": "Брендинг магазина",
+	Photo: "Фото",
+	"Click to upload new photo": "Нажмите, чтобы загрузить новое фото",
+	"Choose token": "Выберите токен",
+	Deposit: "Пополнить",
+	"View Item": "Посмотреть предмет",
+	Return: "Вернуться",
+	"Open Channel": "Открыть канал",
+	"Open Bot": "Открыть бота",
+	"You paid the invoice from <b>%merchant%</b>":
+		"Вы оплатили счет от <b>%merchant%</b>",
+	"Invoice from <b>%merchant%</b>": "Счет от <b>%merchant%</b>",
+	"Pay %amount%": "Оплатить %amount%",
+	"Deposit %symbol%": "Пополнить %symbol%",
+	"Change token": "Изменить токен",
 };
 
 export default ruTranslation;

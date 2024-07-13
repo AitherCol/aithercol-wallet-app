@@ -1,4 +1,5 @@
 import {
+	Avatar,
 	Button,
 	Center,
 	Heading,
@@ -17,11 +18,12 @@ import Transaction from "../api/types/Transaction";
 import Cell from "../components/Cell";
 import CustomBackButton from "../components/CustomBackButton";
 import NotFoundBadge from "../components/NotFoundBadge";
+import useContacts from "../hooks/useContacts";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
 import { getCacheItemJSON, setCacheItem } from "../utils/cache";
-import errorHandler, { formatBigint } from "../utils/utils";
+import errorHandler, { formatBigint, reduceString } from "../utils/utils";
 
 function History({ hideBackButton }: { hideBackButton?: boolean }) {
 	const context = useContext(AppContext);
@@ -82,8 +84,8 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 				{context.getTranslation("history")}
 			</Heading>
 
-			{transactions.map((e, key) => (
-				<TransactionComponent e={e} key={key} />
+			{transactions.map(e => (
+				<TransactionComponent e={e} />
 			))}
 
 			{meta && (
@@ -143,11 +145,31 @@ export function TransactionComponent({ e }: { e: Transaction }) {
 	};
 
 	const [user, setUser] = useState<any>();
+	const [merchant, setMerchant] = useState<any>();
 	const toast = useToast();
 	const { 1: notificationOccurred } = useHapticFeedback();
+	const { getAddressName } = useContacts();
 
 	useEffect(() => {
 		(async () => {
+			setUser(null);
+			setMerchant(null);
+			if (e.description === "Pay" || e.description === "Payout") {
+				try {
+					const data = await api.custom.get(
+						`pay/internal/merchants/cached?id=${
+							e.description === "Pay"
+								? JSON.parse(e.to || "{}").merchant
+								: e.from
+						}`,
+						context.props.auth?.token
+					);
+					setMerchant(data.merchant);
+				} catch (error) {
+					notificationOccurred("error");
+					errorHandler(error, toast);
+				}
+			}
 			if (e.description === "Transfer") {
 				try {
 					const data = await api.custom.get(
@@ -161,47 +183,77 @@ export function TransactionComponent({ e }: { e: Transaction }) {
 				}
 			}
 		})();
-	}, []);
+	}, [e]);
+
+	const getTitle = () => {
+		if (e.description) {
+			if (e.description === "Transfer") {
+				return user ? user.first_name : "...";
+			}
+			if (e.description === "Pay") {
+				return merchant?.title || "Pay";
+			}
+			if (e.description === "Payout") {
+				return merchant ? merchant.title : "...";
+			}
+			return context.getTranslation(e.description.toLowerCase());
+		}
+		if (e.from) {
+			return getAddressName(e.from);
+		}
+		if (e.to) {
+			return getAddressName(e.to);
+		}
+		return e.type === "increase"
+			? context.getTranslation("received")
+			: context.getTranslation("sent");
+	};
 
 	return (
 		<Cell
 			icon={
-				<Center
-					w={"40px"}
-					h="40px"
-					borderRadius={"999px"}
-					overflow={"hidden"}
-					bgColor={
-						e.type === "increase"
-							? getTelegram().themeParams.accent_text_color
-							: getTelegram().themeParams.secondary_bg_color
-					}
-					color={
-						e.type === "increase"
-							? getTelegram().themeParams.button_text_color
-							: getTelegram().themeParams.text_color
-					}
-				>
-					{e.type === "increase" ? (
-						<FaArrowDown size={"20px"} />
-					) : (
-						<FaArrowUp size={"20px"} />
-					)}
-				</Center>
+				user ? (
+					<Avatar
+						w={"40px"}
+						h="40px"
+						borderRadius={"999px"}
+						src={user.photo || undefined}
+						name={user.first_name || "unknown"}
+					/>
+				) : merchant ? (
+					<Avatar
+						w={"40px"}
+						h="40px"
+						borderRadius={"999px"}
+						src={merchant.photo || undefined}
+						name={merchant.title || "unknown"}
+					/>
+				) : (
+					<Center
+						w={"40px"}
+						h="40px"
+						borderRadius={"999px"}
+						overflow={"hidden"}
+						bgColor={
+							e.type === "increase"
+								? getTelegram().themeParams.accent_text_color
+								: getTelegram().themeParams.secondary_bg_color
+						}
+						color={
+							e.type === "increase"
+								? getTelegram().themeParams.button_text_color
+								: getTelegram().themeParams.text_color
+						}
+					>
+						{e.type === "increase" ? (
+							<FaArrowDown size={"20px"} />
+						) : (
+							<FaArrowUp size={"20px"} />
+						)}
+					</Center>
+				)
 			}
-			title={
-				e.description
-					? e.description === "Transfer"
-						? context
-								.getTranslation(
-									`Transfer ${e.type === "increase" ? "from" : "to"} %user%`
-								)
-								.replaceAll("%user%", user ? user.first_name : "...")
-						: context.getTranslation(e.description.toLowerCase())
-					: e.type === "increase"
-					? context.getTranslation("received")
-					: context.getTranslation("sent")
-			}
+			title={reduceString(getTitle(), 16)}
 			subTitle={
 				e.status === "ok"
 					? moment(e.updated_at).format("DD MMMM HH:mm")
@@ -213,6 +265,14 @@ export function TransactionComponent({ e }: { e: Transaction }) {
 				title: `${e.type === "increase" ? "+" : "–"}${Number(
 					formatBigint(e.amount, getBalance(e.balance_id)?.decimals || 1)
 				).toFixed(2)} ${getBalance(e.balance_id)?.symbol}`,
+				titleColor:
+					e.status === "error"
+						? getTelegram().themeParams.destructive_text_color
+						: e.status === "waiting"
+						? "yellow.500"
+						: e.type === "increase"
+						? "green.500"
+						: undefined,
 				subTitle: `$${(
 					(getBalance(e.balance_id)?.rate?.price || 0) *
 					Number(

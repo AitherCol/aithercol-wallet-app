@@ -1,4 +1,5 @@
 import {
+	Avatar,
 	Center,
 	Heading,
 	Image,
@@ -9,7 +10,7 @@ import {
 import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import { FaArrowUp, FaCalendar } from "react-icons/fa6";
+import { FaArrowDown, FaArrowUp, FaCalendar } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import api from "../api/api";
 import Balance from "../api/types/Balance";
@@ -38,6 +39,7 @@ function Transaction() {
 	const context = useContext(AppContext);
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();
 	const [user, setUser] = useState<any>();
+	const [merchant, setMerchant] = useState<any>();
 	const { getAddressName } = useContacts();
 
 	const [data, setData] = useState<
@@ -56,6 +58,26 @@ function Transaction() {
 					context.props.auth?.token || ""
 				);
 				setData(data);
+
+				if (
+					data.transaction.description === "Pay" ||
+					data.transaction.description === "Payout"
+				) {
+					try {
+						const response = await api.custom.get(
+							`pay/internal/merchants/cached?id=${
+								data.transaction.description === "Pay"
+									? JSON.parse(data.transaction.to || "{}").merchant
+									: data.transaction.from
+							}`,
+							context.props.auth?.token
+						);
+						setMerchant(response.merchant);
+					} catch (error) {
+						notificationOccurred("error");
+						errorHandler(error, toast);
+					}
+				}
 
 				if (data.transaction.description === "Transfer") {
 					try {
@@ -102,7 +124,18 @@ function Transaction() {
 									h="80px"
 									borderRadius={"999px"}
 								/>
-								<Heading size={"2xl"}>
+								<Heading
+									color={
+										data.transaction.status === "error"
+											? getTelegram().themeParams.destructive_text_color
+											: data.transaction.status === "waiting"
+											? "yellow.500"
+											: data.transaction.type === "increase"
+											? "green.500"
+											: undefined
+									}
+									size={"2xl"}
+								>
 									{data.transaction.type === "increase" ? "+" : "–"}
 									{formatBigint(
 										data.transaction.amount,
@@ -148,16 +181,34 @@ function Transaction() {
 						{data.transaction.to && (
 							<InfoCell
 								icon={
-									<Center
-										w={"40px"}
-										h="40px"
-										borderRadius={"999px"}
-										overflow={"hidden"}
-										bgColor={getTelegram().themeParams.accent_text_color}
-										color={getTelegram().themeParams.button_text_color}
-									>
-										<FaArrowUp size={"20px"} />
-									</Center>
+									user ? (
+										<Avatar
+											w={"40px"}
+											h="40px"
+											borderRadius={"999px"}
+											src={user.photo || undefined}
+											name={user.first_name || "unknown"}
+										/>
+									) : merchant ? (
+										<Avatar
+											w={"40px"}
+											h="40px"
+											borderRadius={"999px"}
+											src={merchant.photo || undefined}
+											name={merchant.title || "unknown"}
+										/>
+									) : (
+										<Center
+											w={"40px"}
+											h="40px"
+											borderRadius={"999px"}
+											overflow={"hidden"}
+											bgColor={getTelegram().themeParams.accent_text_color}
+											color={getTelegram().themeParams.button_text_color}
+										>
+											<FaArrowUp size={"20px"} />
+										</Center>
+									)
 								}
 								title={context.getTranslation("to")}
 								value={
@@ -165,6 +216,15 @@ function Transaction() {
 										? reduceString(getAddressName(data.transaction.to), 20)
 										: user
 										? reduceString(user.first_name || "Unknown", 20)
+										: merchant
+										? `<span>${reduceString(
+												merchant.title || "Unknown",
+												20
+										  )}</span> ${
+												merchant.is_verified
+													? '<i className="verified-icon"></i>'
+													: ""
+										  }`
 										: data.transaction.to
 								}
 								isLink={data.transaction.is_address || user?.username}
@@ -188,16 +248,34 @@ function Transaction() {
 						{data.transaction.from && (
 							<InfoCell
 								icon={
-									<Center
-										w={"40px"}
-										h="40px"
-										borderRadius={"999px"}
-										overflow={"hidden"}
-										bgColor={getTelegram().themeParams.accent_text_color}
-										color={getTelegram().themeParams.button_text_color}
-									>
-										<FaArrowUp size={"20px"} />
-									</Center>
+									user ? (
+										<Avatar
+											w={"40px"}
+											h="40px"
+											borderRadius={"999px"}
+											src={user.photo || undefined}
+											name={user.first_name || "unknown"}
+										/>
+									) : merchant ? (
+										<Avatar
+											w={"40px"}
+											h="40px"
+											borderRadius={"999px"}
+											src={merchant.photo || undefined}
+											name={merchant.title || "unknown"}
+										/>
+									) : (
+										<Center
+											w={"40px"}
+											h="40px"
+											borderRadius={"999px"}
+											overflow={"hidden"}
+											bgColor={getTelegram().themeParams.accent_text_color}
+											color={getTelegram().themeParams.button_text_color}
+										>
+											<FaArrowDown size={"20px"} />
+										</Center>
+									)
 								}
 								title={context.getTranslation("from")}
 								value={
@@ -205,6 +283,15 @@ function Transaction() {
 										? reduceString(getAddressName(data.transaction.from), 20)
 										: user
 										? reduceString(user.first_name || "Unknown", 20)
+										: merchant
+										? `<span>${reduceString(
+												merchant.title || "Unknown",
+												20
+										  )}</span> ${
+												merchant.is_verified
+													? '<i className="verified-icon"></i>'
+													: ""
+										  }`
 										: data.transaction.from
 								}
 								isLink={data.transaction.is_address || user?.username}
@@ -227,6 +314,7 @@ function Transaction() {
 						)}
 						{data.transaction.comment && (
 							<InfoCell
+								alignItems="start"
 								icon={<LinkedItem />}
 								title={context.getTranslation("comment")}
 								value={data.transaction.comment}

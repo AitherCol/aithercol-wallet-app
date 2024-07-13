@@ -19,6 +19,7 @@ import { FaLock, FaMoneyBillWave } from "react-icons/fa6";
 import api from "../../api/api";
 import Cell from "../../components/Cell";
 import CustomBackButton from "../../components/CustomBackButton";
+import NotFoundBadge from "../../components/NotFoundBadge";
 import config from "../../config";
 import { AppContext } from "../../providers/AppProvider";
 import { getTelegram } from "../../utils";
@@ -51,6 +52,10 @@ function CheckList() {
 			>
 				{context.getTranslation("checks")}
 			</Heading>
+
+			{context.checks.length === 0 && (
+				<NotFoundBadge text={context.getTranslation("Checks not found")} />
+			)}
 
 			{context.checks.map((e, key) => {
 				return (

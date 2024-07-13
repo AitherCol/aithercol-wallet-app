@@ -40,6 +40,10 @@ import SelectMethod from "./pages/market/methods/SelectMethod";
 import NewOffer from "./pages/market/offers/NewOffer";
 import OfferPage from "./pages/market/offers/OfferPage";
 import Offers from "./pages/market/offers/Offers";
+import PayMerchants from "./pages/pay";
+import NewMerchant from "./pages/pay/NewMerchant";
+import Invoice from "./pages/pay/invoice/Invoice";
+import MerchantPage from "./pages/pay/merchant/Merchant";
 import Recovery from "./pages/recovery";
 import Phrase from "./pages/recovery/Phrase";
 import Restore from "./pages/recovery/Restore";
@@ -428,6 +432,40 @@ function App() {
 						element={
 							<AuthProvider>
 								<GiveawayPage />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/pay"}
+						element={
+							<AuthProvider>
+								<PayMerchants />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/pay/new"}
+						element={
+							<AuthProvider>
+								<NewMerchant />
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/pay/merchants/:id"}
+						element={
+							<AuthProvider>
+								<MerchantPage />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/pay/invoice/:key"}
+						element={
+							<AuthProvider>
+								<Invoice />
 							</AuthProvider>
 						}
 					/>

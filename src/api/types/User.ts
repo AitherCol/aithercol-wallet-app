@@ -18,4 +18,5 @@ export default interface User {
 	ref_profit: number;
 	is_anonymous: boolean;
 	seed_phrase: boolean;
+	is_allowed_to_create_merchants: boolean;
 }
