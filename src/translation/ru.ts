@@ -342,7 +342,7 @@ const ruTranslation = {
 	"Deposit %symbol%": "Пополнить %symbol%",
 	"Change token": "Изменить токен",
 	"Cashback earned": "Заработано кэшбека",
-	"To be credited on %date%": "Будет начислен %date%",
+	"To be credited on %date%": "Будет зачислен %date%",
 	cashback: "Кэшбек",
 	Transactions: "Транзакции",
 	"%amount% spent in %month%": "%amount% потрачено за %month%",
