@@ -18,7 +18,7 @@ const enTranslation = {
 	reward: "Reward",
 	fee: "Fee",
 	show_more: "Show more",
-	"No History Yet": "No History Yet",
+	"No History Yet": "No Transactions Yet",
 	"Once you start making transactions, they will appear here":
 		"Once you start making transactions, they will appear here.",
 	from: "From",
@@ -86,6 +86,17 @@ const enTranslation = {
 	giveaway: "Giveaway",
 	restore: "Restore",
 	cashback: "Cashback",
+	"stats.market": "Market",
+	"stats.blockchain": "Blockchain",
+	"stats.cashback": "Cashback",
+	"stats.fee": "Fees",
+	"stats.transfers": "Transfers",
+	"stats.purchases": "Purchases",
+	"stats.checks": "Checks",
+	"stats.rewards": "Rewards",
+	"stats.swaps": "Swaps",
+	"stats.giveaways": "Giveaways",
+	"stats.restores": "Restores",
 };
 
 export default enTranslation;

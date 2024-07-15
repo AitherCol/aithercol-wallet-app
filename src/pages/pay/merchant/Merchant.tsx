@@ -168,7 +168,7 @@ export default function MerchantPage() {
 									buttons: [
 										{
 											id: "confirm",
-											type: "destructive",
+											type: "default",
 											text: context.getTranslation("Confirm"),
 										},
 										{ type: "cancel" },

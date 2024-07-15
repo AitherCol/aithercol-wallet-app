@@ -14,6 +14,7 @@ import api from "../api/api";
 import Balance from "../api/types/Balance";
 import Check from "../api/types/Check";
 import Rate from "../api/types/Rate";
+import TransactionStats from "../api/types/Stats";
 import User from "../api/types/User";
 import Wallet from "../api/types/Wallet";
 import useInterval from "../hooks/useInterval";
@@ -29,6 +30,7 @@ export type AppContextType = {
 	balances: Balance[];
 	rates: Rate[];
 	checks: Check[];
+	decreaseStats: TransactionStats;
 	update: () => void;
 	getTranslation: (key: string, language?: string) => string;
 	updateProfile: () => void;
@@ -54,6 +56,7 @@ const AppContext = createContext<AppContextType>({
 	wallet: undefined,
 	checks: [],
 	update() {},
+	decreaseStats: undefined as any,
 	getTranslation(key) {
 		return key;
 	},
@@ -71,6 +74,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 	const [balances, setBalances] = useState<Balance[]>();
 	const [rates, setRates] = useState<Rate[]>();
 	const [checks, setChecks] = useState<Check[]>();
+	const [decreaseStats, setDecreaseStats] = useState<TransactionStats>();
 	const [impactOccurred, notificationOccurred] = useHapticFeedback();
 	const toast = useToast();
 
@@ -115,6 +119,19 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 			}
 
 			try {
+				const data = await api.custom.get(
+					`wallet/stats?type=decrease&month=${
+						new Date().getMonth() + 1
+					}&year=${new Date().getFullYear()}`,
+					props.auth.token
+				);
+				setDecreaseStats(data.stats);
+			} catch (error) {
+				errorHandler(error, toast);
+				notificationOccurred("error");
+			}
+
+			try {
 				const checks = await api.wallet.checks.list(props.auth?.token || "");
 				setChecks(checks.checks);
 			} catch (error) {
@@ -142,6 +159,7 @@ export default function AppProvider({ children }: { children: ReactNode }) {
 				props,
 				setProps,
 				wallet,
+				decreaseStats: decreaseStats as any,
 				balances: balances as any,
 				rates: rates as any,
 				update,

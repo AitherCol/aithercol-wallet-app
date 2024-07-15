@@ -7,17 +7,18 @@ import {
 	Text,
 	useToast,
 } from "@chakra-ui/react";
-import { useHapticFeedback } from "@vkruglikov/react-telegram-web-app";
+import {
+	BackButton,
+	useHapticFeedback,
+} from "@vkruglikov/react-telegram-web-app";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaCalendar, FaPercent } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
 import api from "../api/api";
 import Balance from "../api/types/Balance";
 import { BasicResponse } from "../api/types/BasicResponse";
 import Rate from "../api/types/Rate";
 import TransactionType from "../api/types/Transaction";
-import CustomBackButton from "../components/CustomBackButton";
 import InfoCell from "../components/InfoCell";
 import LinkedItem from "../components/LinkedItem";
 import Loader from "../components/Loader";
@@ -31,8 +32,7 @@ import errorHandler, {
 	reduceString,
 } from "../utils/utils";
 
-function Transaction() {
-	const params = useParams();
+function TransactionPage(params: { id: number; onClose: () => void }) {
 	const toast = useToast();
 	const router = useContext(HistoryContext);
 	const navigate = router.push;
@@ -72,8 +72,7 @@ function Transaction() {
 							)
 						);
 					} catch (error) {
-						notificationOccurred("error");
-						errorHandler(error, toast);
+						setMerchant({ title: "Unknown Merchant" });
 					}
 				}
 
@@ -101,7 +100,7 @@ function Transaction() {
 
 	return (
 		<>
-			<CustomBackButton />
+			<BackButton onClick={params.onClose} />
 			{!data ? (
 				<Loader />
 			) : (
@@ -415,4 +414,4 @@ function Transaction() {
 	);
 }
 
-export default Transaction;
+export default TransactionPage;

@@ -4,11 +4,13 @@ import {
 	Center,
 	Heading,
 	IconButton,
+	SimpleGrid,
 	Stack,
 	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
 import { useShowPopup } from "@vkruglikov/react-telegram-web-app";
+import moment from "moment";
 import { useContext } from "react";
 import {
 	FaArrowDown,
@@ -16,21 +18,22 @@ import {
 	FaArrowUp,
 	FaGift,
 	FaKey,
-	FaMoneyBillTransfer,
 	FaMoneyBills,
 	FaStore,
 } from "react-icons/fa6";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Rate from "../api/types/Rate";
+import BoxCell from "../components/BoxCell";
 import Cell from "../components/Cell";
 import CellButton from "../components/CellButton";
+import LineBar from "../components/LineBar";
 import Loader from "../components/Loader";
 import DepositModal from "../components/modals/DepositModal";
 import config from "../config";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
 import { getTelegram } from "../utils";
-import { formatBalance, formatBigint } from "../utils/utils";
+import { formatBalance, formatBigint, getCategoryColor } from "../utils/utils";
 
 function Wallet() {
 	const context = useContext(AppContext);
@@ -203,6 +206,34 @@ function Wallet() {
 				</Box>
 			)}
 
+			<SimpleGrid columns={1} spacing={2} mb={4}>
+				<BoxCell
+					title={context.getTranslation("Transactions")}
+					description={context
+						.getTranslation("%amount% spent in %month%")
+						.replaceAll(
+							"%amount%",
+							"$" +
+								Number(
+									formatBigint(
+										context.decreaseStats.total,
+										context.decreaseStats.decimals
+									)
+								).toFixed(2)
+						)
+						.replaceAll("%month%", moment().format("MMMM"))}
+					onClick={() => router.push("/history/all")}
+					spacing={"auto"}
+					customComponent={
+						<LineBar
+							data={context.decreaseStats.categories.map(e => {
+								return { percent: e.percent, color: getCategoryColor(e.type) };
+							})}
+						/>
+					}
+				/>
+			</SimpleGrid>
+
 			{context.checks.length !== 0 && (
 				<Box mb={4}>
 					<Cell
@@ -252,22 +283,6 @@ function Wallet() {
 			</Stack>
 
 			<Stack direction={"column"} spacing={2} mt={4}>
-				<Cell
-					icon={
-						<Center
-							w={"40px"}
-							h="40px"
-							borderRadius={"999px"}
-							overflow={"hidden"}
-							bgColor={getTelegram().themeParams.accent_text_color}
-							color={getTelegram().themeParams.button_text_color}
-						>
-							<FaMoneyBillTransfer size={"20px"} />
-						</Center>
-					}
-					title={context.getTranslation("history")}
-					onClick={() => navigate("/history/all")}
-				/>
 				<Cell
 					icon={
 						<Center

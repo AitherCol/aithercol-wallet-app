@@ -45,3 +45,7 @@ body::-webkit-scrollbar {
 	vertical-align: -2px;
 	margin-left: 2px;
 }
+
+.chart-no-outline:focus {
+	outline: transparent;
+}

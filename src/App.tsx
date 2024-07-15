@@ -9,7 +9,6 @@ import History from "./pages/History";
 import NotFound from "./pages/NotFound";
 import Ref from "./pages/Ref";
 import Settings from "./pages/Settings";
-import Transaction from "./pages/Transaction";
 import Wallet from "./pages/Wallet";
 import AdminPanel from "./pages/admin";
 import AdminAddMethod from "./pages/admin/AddMethod";
@@ -165,14 +164,6 @@ function App() {
 						element={
 							<AuthProvider>
 								<History />
-							</AuthProvider>
-						}
-					/>
-					<Route
-						path={`/transaction/:id`}
-						element={
-							<AuthProvider>
-								<Transaction />
 							</AuthProvider>
 						}
 					/>

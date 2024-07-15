@@ -56,7 +56,15 @@ async function getCommission(
 }
 
 async function getTransactions(
-	body: { balance_id?: number; limit: number; page: number },
+	body: {
+		balance_id?: number;
+		limit: number;
+		page: number;
+		type?: "increase" | "decrease";
+		category?: string;
+		month?: number;
+		year?: number;
+	},
 	token: string
 ): Promise<
 	BasicResponse & {

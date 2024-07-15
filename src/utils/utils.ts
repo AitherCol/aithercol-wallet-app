@@ -1,6 +1,7 @@
 import Balance from "../api/types/Balance";
 import MarketMethod from "../api/types/MarketMethod";
 import { AppContextType } from "../providers/AppProvider";
+import { getTelegram } from "../utils";
 
 export function toDecimals(amount: number, decimals: number): number {
 	const factor = Math.pow(10, decimals);
@@ -78,6 +79,12 @@ export function getTonViewer(context: AppContextType) {
 		: "https://tonviewer.com";
 }
 
+export function getTonApi(context: AppContextType) {
+	return context.props.network === "testnet"
+		? "https://testnet.tonapi.io"
+		: "https://tonapi.io";
+}
+
 export function formatBalance(balance?: Balance) {
 	if (!balance) {
 		return "0";
@@ -100,4 +107,37 @@ export function getMethodName(method: MarketMethod, context: AppContextType) {
 	return context.props.auth?.profile.language === "ru"
 		? method.name_ru || method.name_en
 		: method.name_en;
+}
+
+export function getCSSVariable(variable: string) {
+	return getComputedStyle(document.body).getPropertyValue(variable);
+}
+
+export function getAvailableCategories() {
+	return [
+		{ type: "market", color: getCSSVariable("--aithercol-colors-yellow-500") },
+		{
+			type: "blockchain",
+			color: getCSSVariable("--aithercol-colors-pink-500"),
+		},
+		{ type: "cashback", color: getCSSVariable("--aithercol-colors-green-300") },
+		{ type: "fee", color: getCSSVariable("--aithercol-colors-red-300") },
+		{ type: "transfers", color: getTelegram().themeParams.accent_text_color },
+		{ type: "purchases", color: getCSSVariable("--aithercol-colors-red-300") },
+		{ type: "checks", color: getCSSVariable("--aithercol-colors-orange-500") },
+		{ type: "rewards", color: getCSSVariable("--aithercol-colors-green-500") },
+		{ type: "swaps", color: getCSSVariable("--aithercol-colors-yellow-300") },
+		{
+			type: "giveaways",
+			color: getCSSVariable("--aithercol-colors-purple-500"),
+		},
+		{ type: "restores", color: getCSSVariable("--aithercol-colors-pink-300") },
+	];
+}
+
+export function getCategoryColor(category: string) {
+	return (
+		getAvailableCategories().find(e => e.type === category)?.color ||
+		getTelegram().themeParams.secondary_bg_color
+	);
 }
