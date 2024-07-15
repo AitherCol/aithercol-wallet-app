@@ -302,7 +302,6 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 			<TransactionPage
 				id={transaction.id}
 				onClose={() => {
-					window.scrollTo(0, 0);
 					setTransaction(null);
 				}}
 			/>
