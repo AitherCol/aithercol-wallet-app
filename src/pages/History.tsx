@@ -144,7 +144,6 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 				errorHandler(error, toast);
 				notificationOccurred("error");
 			}
-			window.scrollTo(0, 0);
 		};
 
 		getBalances();
@@ -314,6 +313,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 			<BackButton
 				onClick={() => {
 					if (type) {
+						window.scrollTo(0, 0);
 						if (category) {
 							setCategory(undefined);
 							return;
