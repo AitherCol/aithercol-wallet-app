@@ -301,7 +301,10 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 		return (
 			<TransactionPage
 				id={transaction.id}
-				onClose={() => setTransaction(null)}
+				onClose={() => {
+					window.scrollTo(0, 0);
+					setTransaction(null);
+				}}
 			/>
 		);
 	}
@@ -311,6 +314,7 @@ function History({ hideBackButton }: { hideBackButton?: boolean }) {
 			<BackButton
 				onClick={() => {
 					if (type) {
+						window.scrollTo(0, 0);
 						if (category) {
 							setCategory(undefined);
 							return;
