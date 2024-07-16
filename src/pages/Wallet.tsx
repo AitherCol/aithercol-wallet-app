@@ -16,6 +16,7 @@ import {
 	FaArrowDown,
 	FaArrowRightArrowLeft,
 	FaArrowUp,
+	FaCoins,
 	FaGift,
 	FaKey,
 	FaMoneyBills,
@@ -232,10 +233,7 @@ function Wallet() {
 						/>
 					}
 				/>
-			</SimpleGrid>
-
-			{context.checks.length !== 0 && (
-				<Box mb={4}>
+				{context.props.network === "mainnet" && (
 					<Cell
 						icon={
 							<Center
@@ -246,14 +244,14 @@ function Wallet() {
 								bgColor={getTelegram().themeParams.accent_text_color}
 								color={getTelegram().themeParams.button_text_color}
 							>
-								<FaMoneyBills size={"20px"} />
+								<FaCoins size={"20px"} />
 							</Center>
 						}
-						title={context.getTranslation("checks")}
-						onClick={() => navigate("/checks")}
+						title={context.getTranslation("Cashback and Bonuses")}
+						onClick={() => navigate("/bonuses")}
 					/>
-				</Box>
-			)}
+				)}
+			</SimpleGrid>
 
 			<Stack direction={"column"} spacing={2}>
 				{context.balances.map((e, key) => (
@@ -283,6 +281,27 @@ function Wallet() {
 			</Stack>
 
 			<Stack direction={"column"} spacing={2} mt={4}>
+				{context.checks.length !== 0 && (
+					<Cell
+						icon={
+							<Center
+								w={"40px"}
+								h="40px"
+								borderRadius={"999px"}
+								overflow={"hidden"}
+								bgColor={getTelegram().themeParams.accent_text_color}
+								color={getTelegram().themeParams.button_text_color}
+							>
+								<FaMoneyBills size={"20px"} />
+							</Center>
+						}
+						title={context.getTranslation("checks")}
+						subTitle={context
+							.getTranslation("%count% active checks")
+							.replaceAll("%count%", context.checks.length.toString())}
+						onClick={() => navigate("/checks")}
+					/>
+				)}
 				<Cell
 					icon={
 						<Center

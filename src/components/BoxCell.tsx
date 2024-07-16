@@ -39,12 +39,20 @@ export default function BoxCell({
 		>
 			<Heading size={"md"}>{title}</Heading>
 			{description && (
-				<Text mt={spacing} fontSize={"md"}>
+				<Text
+					pt={spacing === "auto" ? "4px" : undefined}
+					mt={spacing}
+					fontSize={"md"}
+				>
 					{description}
 				</Text>
 			)}
 
-			{customComponent && <Box mt={spacing}>{customComponent}</Box>}
+			{customComponent && (
+				<Box pt={spacing === "auto" ? "4px" : undefined} mt={spacing}>
+					{customComponent}
+				</Box>
+			)}
 		</Stack>
 	);
 }

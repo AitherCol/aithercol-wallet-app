@@ -30,9 +30,17 @@ export default function errorHandler(err: any, toast: any) {
 	}
 }
 
-export function reduceString(text: string, to: number): string {
+export function reduceString(
+	text: string,
+	to: number,
+	elipses?: boolean
+): string {
 	if (text.length <= to) {
 		return text;
+	}
+
+	if (elipses) {
+		return text.substring(0, to).trim() + "...";
 	}
 
 	const partLength = Math.floor((to - 3) / 2);

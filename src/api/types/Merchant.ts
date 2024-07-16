@@ -9,4 +9,5 @@ export default interface Merchant {
 	is_banned: boolean;
 	created_at: string;
 	updated_at: string;
+	is_on_moderation: boolean;
 }

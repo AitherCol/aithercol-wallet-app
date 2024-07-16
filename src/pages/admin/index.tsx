@@ -28,6 +28,14 @@ export default function AdminPanel() {
 				title={"Add Method to Market"}
 				onClick={() => router.push("/admin/add_method")}
 			/>
+			<CellButton
+				title={"Bonuses"}
+				onClick={() => router.push("/admin/bonuses")}
+			/>
+			<CellButton
+				title={"Review Merchant"}
+				onClick={() => router.push("/admin/review_merchant")}
+			/>
 		</Stack>
 	);
 }

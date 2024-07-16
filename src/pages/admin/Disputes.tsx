@@ -17,7 +17,6 @@ export default function Disputes() {
 	const toast = useToast();
 	const { 1: notificationOccurred } = useHapticFeedback();
 
-	const [id, setId] = useState<string>("");
 	const [loading, setLoading] = useBoolean();
 
 	const [deals, setDeals] = useState<Deal[]>([]);

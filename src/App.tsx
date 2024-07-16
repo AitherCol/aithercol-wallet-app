@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import config from "./config";
 import Balance from "./pages/Balance";
+import Bonuses from "./pages/Bonuses";
 import Error from "./pages/Error";
 import History from "./pages/History";
 import NotFound from "./pages/NotFound";
@@ -14,7 +15,10 @@ import AdminPanel from "./pages/admin";
 import AdminAddMethod from "./pages/admin/AddMethod";
 import Dispute from "./pages/admin/Dispute";
 import Disputes from "./pages/admin/Disputes";
+import ReviewMerchant from "./pages/admin/ReviewMerchant";
 import Stats from "./pages/admin/Stats";
+import AdminBonuses from "./pages/admin/bonuses";
+import AddBonus from "./pages/admin/bonuses/AddBonus";
 import Activate from "./pages/checks/Activate";
 import CreateCheck from "./pages/checks/Create";
 import CheckList from "./pages/checks/List";
@@ -497,6 +501,37 @@ function App() {
 					/>
 
 					<Route
+						path={"/admin/bonuses"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<AdminBonuses />
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/admin/bonuses/add"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<AddBonus />
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/admin/review_merchant"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<ReviewMerchant />
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+
+					<Route
 						path={"/admin/add_method"}
 						element={
 							<AuthProvider>
@@ -515,6 +550,15 @@ function App() {
 								<AdminProvider>
 									<Stats />
 								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+
+					<Route
+						path={"/bonuses"}
+						element={
+							<AuthProvider>
+								<Bonuses />
 							</AuthProvider>
 						}
 					/>

@@ -11,7 +11,14 @@ import {
 	useShowPopup,
 } from "@vkruglikov/react-telegram-web-app";
 import { useContext } from "react";
-import { FaArrowUp, FaBook, FaKey, FaPalette, FaTrash } from "react-icons/fa6";
+import {
+	FaArrowUp,
+	FaBook,
+	FaCheck,
+	FaKey,
+	FaPalette,
+	FaTrash,
+} from "react-icons/fa6";
 import api from "../../../api/api";
 import CellButton from "../../../components/CellButton";
 import { AppContext } from "../../../providers/AppProvider";
@@ -109,6 +116,57 @@ export default function MerchantSettings(props: MerchantPageProps) {
 					/>
 				}
 			/>
+
+			{!props.merchant.is_verified && !props.merchant.is_on_moderation ? (
+				<CellButton
+					hideRight
+					icon={
+						<Center
+							w={"24px"}
+							h="24px"
+							borderRadius={"999px"}
+							overflow={"hidden"}
+							bgColor={getTelegram().themeParams.button_color}
+							color={getTelegram().themeParams.button_text_color}
+						>
+							<FaCheck size={"14px"} />
+						</Center>
+					}
+					title={context.getTranslation("Verify Merchant")}
+					onClick={async () => {
+						const button = await showPopup({
+							title: context.getTranslation("Verify Merchant"),
+							message: context.getTranslation(
+								"Are you sure you want to submit your merchant for review?"
+							),
+							buttons: [
+								{
+									id: "confirm",
+									type: "default",
+									text: context.getTranslation("Confirm"),
+								},
+								{ type: "cancel" },
+							],
+						});
+						if (button === "confirm") {
+							try {
+								await api.custom.post(
+									"pay/internal/merchants/verify",
+									context.props.auth?.token,
+									{ id: props.merchant.id }
+								);
+								notificationOccurred("success");
+								toast({ title: context.getTranslation("success") });
+							} catch (error) {
+								notificationOccurred("error");
+								errorHandler(error, toast);
+							}
+						}
+					}}
+				/>
+			) : (
+				<></>
+			)}
 
 			{props.getTotalBalance() === 0 && (
 				<CellButton

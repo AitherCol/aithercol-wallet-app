@@ -25,6 +25,9 @@ export default function MerchantBranding(props: MerchantPageProps) {
 	const { 1: notificationOccurred } = useHapticFeedback();
 
 	const [title, setTitle] = useState<string>(props.merchant.title);
+	const [description, setDescription] = useState<string>(
+		props.merchant.description || ""
+	);
 	const [url, setUrl] = useState<string>(props.merchant.url || "");
 	const [newPhoto, setNewPhoto] = useState<File>();
 
@@ -36,7 +39,7 @@ export default function MerchantBranding(props: MerchantPageProps) {
 			await api.custom.postForm(
 				"pay/internal/merchants/edit",
 				context.props.auth?.token,
-				{ id: props.merchant.id, new_photo: newPhoto, url, title }
+				{ id: props.merchant.id, new_photo: newPhoto, url, title, description }
 			);
 			await props.update();
 			notificationOccurred("success");
@@ -95,6 +98,23 @@ export default function MerchantBranding(props: MerchantPageProps) {
 					}}
 					value={title}
 					onChange={e => setTitle(e.currentTarget.value)}
+				/>
+			</FormControl>
+
+			<FormControl>
+				<FormLabel>{context.getTranslation("Description")}</FormLabel>
+				<Input
+					borderColor={"transparent"}
+					bgColor={getTelegram().themeParams.bg_color}
+					_hover={{
+						borderColor: getTelegram().themeParams.hint_color,
+					}}
+					_focus={{
+						borderColor: getTelegram().themeParams.accent_text_color,
+						boxShadow: "none",
+					}}
+					value={description}
+					onChange={e => setDescription(e.currentTarget.value)}
 				/>
 			</FormControl>
 

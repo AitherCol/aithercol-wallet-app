@@ -365,6 +365,17 @@ const ruTranslation = {
 	Month: "Месяц",
 	"6 Months": "6 месяцев",
 	Year: "Год",
+	"%count% active checks": "%count% активных чека",
+	"Shopping with cashback": "Покупайте с кэшбеком",
+	Games: "Игры",
+	Utilities: "Утилиты",
+	Management: "Менеджмент",
+	Casino: "Казино",
+	"Cashback and Bonuses": "Кэшбек и бонусы",
+	"Nothing Found": "Ничего не найдено",
+	"Verify Merchant": "Верифицировать магазин",
+	"Are you sure you want to submit your merchant for review?":
+		"Вы уверены, что хотите отправить ваш магазин на проверку?",
 };
 
 export default ruTranslation;

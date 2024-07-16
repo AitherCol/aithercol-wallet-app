@@ -73,6 +73,12 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 								if (initData.start_param === "pay") {
 									navigate(`/pay`);
 								}
+								if (initData.start_param === "bonuses") {
+									navigate(`/bonuses`);
+								}
+								if (initData.start_param === "admin-merchants") {
+									navigate(`/admin/review_merchant`);
+								}
 								if (initData.start_param.startsWith("C")) {
 									navigate(`/check/${initData.start_param.slice(1)}`);
 								}
