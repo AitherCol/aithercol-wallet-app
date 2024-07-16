@@ -146,7 +146,7 @@ export default function Stake(
 									moment(props.token.bonus_expires_at).format("LL")
 								)}`
 						: ``}
-					{amountString.trim() !== "" && (
+					{amountString.trim() !== "" && Number(amountString) > 0 ? (
 						<>
 							<br />
 							{context.getTranslation("Income per month")}:{" "}
@@ -173,6 +173,8 @@ export default function Stake(
 							)}{" "}
 							{props.token.symbol}
 						</>
+					) : (
+						<></>
 					)}
 				</FormHelperText>
 			</FormControl>
