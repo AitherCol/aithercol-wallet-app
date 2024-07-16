@@ -159,7 +159,7 @@ export default function Staking() {
 												.getTranslation("until %date%")
 												.replaceAll(
 													"%date%",
-													moment(e.bonus_expires_at).format("LL")
+													moment(e.bonus_expires_at).format("DD MMMM")
 												)}
 										</Text>
 									)}
