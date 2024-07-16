@@ -130,7 +130,10 @@ function GiveawayPage() {
 
 	if (data && checking && data.status === "member") {
 		return (
-			<Center h={"var(--tg-viewport-stable-height)"}>
+			<Center
+				minH={"var(--tg-viewport-stable-height)"}
+				transition={"min-height 0.3s linear"}
+			>
 				<Stack alignItems={"center"} direction={"column"} spacing={2}>
 					<Lottie
 						style={{ width: 120, height: 120 }}
@@ -163,7 +166,10 @@ function GiveawayPage() {
 
 	if (data && checking && data.status !== "member") {
 		return (
-			<Center h={"var(--tg-viewport-stable-height)"}>
+			<Center
+				minH={"var(--tg-viewport-stable-height)"}
+				transition={"min-height 0.3s linear"}
+			>
 				<Stack alignItems={"center"} direction={"column"} spacing={2}>
 					<Lottie
 						style={{ width: 120, height: 120 }}
@@ -208,7 +214,10 @@ function GiveawayPage() {
 		winnersOpened
 	) {
 		return (
-			<Center h={"var(--tg-viewport-stable-height)"}>
+			<Center
+				minH={"var(--tg-viewport-stable-height)"}
+				transition={"min-height 0.3s linear"}
+			>
 				<Stack direction={"column"} spacing={4}>
 					<Stack
 						alignItems={"center"}
