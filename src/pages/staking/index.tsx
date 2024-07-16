@@ -258,6 +258,7 @@ export default function Staking() {
 														}
 													);
 													await context.update();
+													await update();
 													notificationOccurred("success");
 													setTransaction(data.transaction);
 												} catch (error) {

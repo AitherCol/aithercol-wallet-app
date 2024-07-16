@@ -69,6 +69,7 @@ export default function Stake(
 				}
 			);
 			await context.update();
+			await props.update();
 			notificationOccurred("success");
 			setTransaction(data.transaction);
 		} catch (error) {
