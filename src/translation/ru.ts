@@ -380,8 +380,8 @@ const ruTranslation = {
 	Staking: "Стейкинг",
 	"Earn by storing coins in AitherCol Wallet.":
 		"Зарабатывайте храня монеты в AitherCol Wallet.",
-	"%percent% APY": "%percent%% годовых",
-	"APY: %percent%": "%percent%% годовых",
+	"%percent%% APY": "%percent%% годовых",
+	"APY: %percent%%": "%percent%% годовых",
 	"until %date%": "до %date%",
 	Stake: "Внести",
 	"In staking": "В стейкинге",

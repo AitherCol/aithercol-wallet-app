@@ -137,7 +137,7 @@ export default function Staking() {
 											fontSize={"sm"}
 										>
 											{context
-												.getTranslation("%percent% APY")
+												.getTranslation("%percent%% APY")
 												.replaceAll("%percent%", e.percent.toString())}
 										</Text>
 									) : (
@@ -152,7 +152,7 @@ export default function Staking() {
 												}}
 											>
 												{context
-													.getTranslation("%percent% APY")
+													.getTranslation("%percent%% APY")
 													.replaceAll("%percent%", e.bonus_percent.toString())}
 											</span>{" "}
 											{context
