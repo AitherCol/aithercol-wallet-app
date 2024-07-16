@@ -376,6 +376,32 @@ const ruTranslation = {
 	"Verify Merchant": "Верифицировать магазин",
 	"Are you sure you want to submit your merchant for review?":
 		"Вы уверены, что хотите отправить ваш магазин на проверку?",
+	"Withdraw (action)": "Вывести",
+	Staking: "Стейкинг",
+	"Earn by storing coins in AitherCol Wallet.":
+		"Зарабатывайте храня монеты в AitherCol Wallet.",
+	"%percent% APY": "%percent%% годовых",
+	"APY: %percent%": "%percent%% годовых",
+	"until %date%": "до %date%",
+	Stake: "Внести",
+	"In staking": "В стейкинге",
+	Reward: "Награда",
+	"Will be unlocked": "Будет разблокировано",
+	"Withdraw %symbol% ​​from staking": "Вывести %symbol% из стейкинга",
+	"Are you sure you want to withdraw all coins from staking? You will receive %amount%.":
+		"Вы уверены, что хотите вывести все монеты из стейкинга? Вы получите %amount%.",
+	"%symbol% Staking": "Стейкинг %symbol%",
+	"Income per month": "Доход в месяц",
+	"Income per year": "Доход в год",
+	"Stake %symbol%": "Внести %symbol%",
+	"Are you sure you want to stake %amount%? Your staked coins will be frozen until %date%.":
+		"Вы уверены, что хотите внести %amount% в стейкинг? Ваши монеты будут заморожены до %date%.",
+	"Coins were successfully withdrawn from staking":
+		"Монеты успешно выведены из стейкинга",
+	"Coins were successfully staked": "Монеты успешно внесены в стейкинг",
+	"Open Staking": "Открыть стейкинг",
+	staking: "Стейкинг",
+	"stats.staking": "Стейкинг",
 };
 
 export default ruTranslation;

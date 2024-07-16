@@ -21,10 +21,14 @@ import Transaction from "../api/types/Transaction";
 import useContacts from "../hooks/useContacts";
 import { AppContext } from "../providers/AppProvider";
 import { HistoryContext } from "../providers/HistoryProviders";
+import boomstick from "../stickers/boomstick.json";
 import loopmoney from "../stickers/loopmoney.json";
 import errorHandler, { formatBigint, reduceString } from "../utils/utils";
 
-export default function TransactionScreen(props: { transaction: Transaction }) {
+export default function TransactionScreen(props: {
+	transaction: Transaction;
+	onClose?: () => void;
+}) {
 	const [transaction, setTransaction] = useState<Transaction>(
 		props.transaction
 	);
@@ -74,7 +78,15 @@ export default function TransactionScreen(props: { transaction: Transaction }) {
 			h={"var(--tg-viewport-stable-height)"}
 			transition={"height 0.3s linear"}
 		>
-			<BackButton onClick={() => router.push("/")} />
+			<BackButton
+				onClick={() => {
+					if (props.onClose) {
+						props.onClose();
+					} else {
+						router.push("/");
+					}
+				}}
+			/>
 			<Stack
 				direction={"column"}
 				spacing={4}
@@ -82,11 +94,19 @@ export default function TransactionScreen(props: { transaction: Transaction }) {
 				textAlign={"center"}
 			>
 				<Stack direction="column" spacing={2} alignItems={"center"}>
-					<Lottie
-						animationData={loopmoney}
-						loop
-						style={{ width: 100, height: 100 }}
-					/>
+					{transaction.description === "Staking" ? (
+						<Lottie
+							animationData={boomstick}
+							loop
+							style={{ width: 100, height: 100 }}
+						/>
+					) : (
+						<Lottie
+							animationData={loopmoney}
+							loop
+							style={{ width: 100, height: 100 }}
+						/>
+					)}
 
 					<Heading size={"lg"}>
 						<Stack alignItems={"center"} direction={"row"} spacing={2}>
@@ -105,24 +125,39 @@ export default function TransactionScreen(props: { transaction: Transaction }) {
 							</span>
 						</Stack>
 					</Heading>
-
-					<Text fontSize={"md"}>
-						{context
-							.getTranslation(
-								transaction.status === "waiting"
-									? "Coins will be sent to %to% shortly"
-									: "Coins were successfully sent to %to%"
-							)
-							.replaceAll(
-								"%to%",
-								reduceString(
-									transaction.is_address
-										? getAddressName(transaction.to || "")
-										: user?.first_name || "...",
-									16
-								)
+					{transaction.description === "Staking" ? (
+						<>
+							{transaction.type === "increase" ? (
+								<Text fontSize={"md"}>
+									{context.getTranslation(
+										"Coins were successfully withdrawn from staking"
+									)}
+								</Text>
+							) : (
+								<Text fontSize={"md"}>
+									{context.getTranslation("Coins were successfully staked")}
+								</Text>
 							)}
-					</Text>
+						</>
+					) : (
+						<Text fontSize={"md"}>
+							{context
+								.getTranslation(
+									transaction.status === "waiting"
+										? "Coins will be sent to %to% shortly"
+										: "Coins were successfully sent to %to%"
+								)
+								.replaceAll(
+									"%to%",
+									reduceString(
+										transaction.is_address
+											? getAddressName(transaction.to || "")
+											: user?.first_name || "...",
+										16
+									)
+								)}
+						</Text>
+					)}
 				</Stack>
 
 				{transaction.is_address &&
@@ -140,8 +175,19 @@ export default function TransactionScreen(props: { transaction: Transaction }) {
 			</Stack>
 
 			<MainButton
-				text={context.getTranslation("Open Wallet")}
-				onClick={() => router.push("/")}
+				text={
+					transaction.description === "Staking" &&
+					transaction.type === "decrease"
+						? context.getTranslation("Open Staking")
+						: context.getTranslation("Open Wallet")
+				}
+				onClick={() => {
+					if (props.onClose) {
+						props.onClose();
+					} else {
+						router.push("/");
+					}
+				}}
 			/>
 		</Center>
 	);

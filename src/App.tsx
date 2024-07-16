@@ -13,10 +13,12 @@ import Settings from "./pages/Settings";
 import Wallet from "./pages/Wallet";
 import AdminPanel from "./pages/admin";
 import AdminAddMethod from "./pages/admin/AddMethod";
+import AdminAddStakingToken from "./pages/admin/AddStakingToken";
 import Dispute from "./pages/admin/Dispute";
 import Disputes from "./pages/admin/Disputes";
 import ReviewMerchant from "./pages/admin/ReviewMerchant";
 import Stats from "./pages/admin/Stats";
+import StuckTransactions from "./pages/admin/StuckTransactions";
 import AdminBonuses from "./pages/admin/bonuses";
 import AddBonus from "./pages/admin/bonuses/AddBonus";
 import Activate from "./pages/checks/Activate";
@@ -54,6 +56,7 @@ import WithdrawToken from "./pages/send";
 import WithdrawContract from "./pages/send/Address";
 import Method from "./pages/send/Method";
 import WithdrawTelegram from "./pages/send/Telegram";
+import Staking from "./pages/staking";
 import AdminProvider from "./providers/AdminProvider";
 import AuthProvider from "./providers/AuthProvider";
 import BaseProvider from "./providers/BaseProvider";
@@ -466,6 +469,15 @@ function App() {
 					/>
 
 					<Route
+						path={"/staking"}
+						element={
+							<AuthProvider>
+								<Staking />
+							</AuthProvider>
+						}
+					/>
+
+					<Route
 						path={"/admin"}
 						element={
 							<AuthProvider>
@@ -516,6 +528,26 @@ function App() {
 							<AuthProvider>
 								<AdminProvider>
 									<AddBonus />
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/admin/stuck_transactions"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<StuckTransactions />
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/admin/add_staking_token"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<AdminAddStakingToken />
 								</AdminProvider>
 							</AuthProvider>
 						}

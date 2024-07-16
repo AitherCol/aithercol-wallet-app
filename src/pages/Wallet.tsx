@@ -15,6 +15,7 @@ import { useContext } from "react";
 import {
 	FaArrowDown,
 	FaArrowRightArrowLeft,
+	FaArrowTrendUp,
 	FaArrowUp,
 	FaCoins,
 	FaGift,
@@ -300,6 +301,24 @@ function Wallet() {
 							.getTranslation("%count% active checks")
 							.replaceAll("%count%", context.checks.length.toString())}
 						onClick={() => navigate("/checks")}
+					/>
+				)}
+				{context.props.network === "mainnet" && (
+					<Cell
+						icon={
+							<Center
+								w={"40px"}
+								h="40px"
+								borderRadius={"999px"}
+								overflow={"hidden"}
+								bgColor={getTelegram().themeParams.accent_text_color}
+								color={getTelegram().themeParams.button_text_color}
+							>
+								<FaArrowTrendUp size={"20px"} />
+							</Center>
+						}
+						title={context.getTranslation("Staking")}
+						onClick={() => navigate("/staking")}
 					/>
 				)}
 				<Cell

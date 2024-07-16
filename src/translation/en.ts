@@ -97,6 +97,9 @@ const enTranslation = {
 	"stats.swaps": "Swaps",
 	"stats.giveaways": "Giveaways",
 	"stats.restores": "Restores",
+	"Withdraw (action)": "Withdraw",
+	staking: "Staking",
+	"stats.staking": "Staking",
 };
 
 export default enTranslation;

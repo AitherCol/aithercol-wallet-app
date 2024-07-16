@@ -36,6 +36,14 @@ export default function AdminPanel() {
 				title={"Review Merchant"}
 				onClick={() => router.push("/admin/review_merchant")}
 			/>
+			<CellButton
+				title={"Stuck Transactions"}
+				onClick={() => router.push("/admin/stuck_transactions")}
+			/>
+			<CellButton
+				title={"Add Staking Token"}
+				onClick={() => router.push("/admin/add_staking_token")}
+			/>
 		</Stack>
 	);
 }

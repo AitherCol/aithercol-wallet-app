@@ -140,6 +140,7 @@ export function getAvailableCategories() {
 			color: getCSSVariable("--aithercol-colors-purple-500"),
 		},
 		{ type: "restores", color: getCSSVariable("--aithercol-colors-pink-300") },
+		{ type: "staking", color: getCSSVariable("--aithercol-colors-gray-500") },
 	];
 }
 
