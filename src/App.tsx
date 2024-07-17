@@ -27,6 +27,7 @@ import CheckList from "./pages/checks/List";
 import Contacts from "./pages/contacts";
 import AddContact from "./pages/contacts/Add";
 import EditContact from "./pages/contacts/Edit";
+import Credits from "./pages/credits";
 import BalancesToExchange from "./pages/exchange/Balances";
 import DepositToPool from "./pages/exchange/DepositToPool";
 import PoolList from "./pages/exchange/Pool";
@@ -581,6 +582,16 @@ function App() {
 							<AuthProvider>
 								<AdminProvider>
 									<Stats />
+								</AdminProvider>
+							</AuthProvider>
+						}
+					/>
+					<Route
+						path={"/admin/credits"}
+						element={
+							<AuthProvider>
+								<AdminProvider>
+									<Credits />
 								</AdminProvider>
 							</AuthProvider>
 						}

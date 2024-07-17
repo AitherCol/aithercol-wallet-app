@@ -100,6 +100,7 @@ const enTranslation = {
 	"Withdraw (action)": "Withdraw",
 	staking: "Staking",
 	"stats.staking": "Staking",
+	"Return (action)": "Return",
 };
 
 export default enTranslation;

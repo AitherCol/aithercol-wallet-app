@@ -44,6 +44,10 @@ export default function AdminPanel() {
 				title={"Add Staking Token"}
 				onClick={() => router.push("/admin/add_staking_token")}
 			/>
+			<CellButton
+				title={"Credits"}
+				onClick={() => router.push("/admin/credits")}
+			/>
 		</Stack>
 	);
 }

@@ -402,6 +402,7 @@ const ruTranslation = {
 	"Open Staking": "Открыть стейкинг",
 	staking: "Стейкинг",
 	"stats.staking": "Стейкинг",
+	"Return (action)": "Погасить",
 };
 
 export default ruTranslation;

@@ -129,7 +129,7 @@ export function getAvailableCategories() {
 			color: getCSSVariable("--aithercol-colors-pink-500"),
 		},
 		{ type: "cashback", color: getCSSVariable("--aithercol-colors-green-300") },
-		{ type: "fee", color: getCSSVariable("--aithercol-colors-red-300") },
+		{ type: "fee", color: getCSSVariable("--aithercol-colors-red-700") },
 		{ type: "transfers", color: getTelegram().themeParams.accent_text_color },
 		{ type: "purchases", color: getCSSVariable("--aithercol-colors-red-300") },
 		{ type: "checks", color: getCSSVariable("--aithercol-colors-orange-500") },
@@ -141,6 +141,7 @@ export function getAvailableCategories() {
 		},
 		{ type: "restores", color: getCSSVariable("--aithercol-colors-pink-300") },
 		{ type: "staking", color: getCSSVariable("--aithercol-colors-gray-500") },
+		{ type: "credits", color: getCSSVariable("--aithercol-colors-orange-300") },
 	];
 }
 
