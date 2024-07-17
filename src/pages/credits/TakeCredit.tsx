@@ -68,6 +68,7 @@ export default function TakeCredit(props: CreditPageProps) {
 				).toString(),
 			});
 			await props.update();
+			await context.update();
 			notificationOccurred("success");
 			props.onClose();
 		} catch (error) {
