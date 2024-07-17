@@ -403,6 +403,8 @@ const ruTranslation = {
 	staking: "Стейкинг",
 	"stats.staking": "Стейкинг",
 	"Return (action)": "Погасить",
+	credit: "Кредит",
+	"stats.credits": "Кредиты",
 };
 
 export default ruTranslation;

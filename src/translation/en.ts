@@ -101,6 +101,8 @@ const enTranslation = {
 	staking: "Staking",
 	"stats.staking": "Staking",
 	"Return (action)": "Return",
+	credit: "Loan",
+	"stats.credits": "Loans",
 };
 
 export default enTranslation;
